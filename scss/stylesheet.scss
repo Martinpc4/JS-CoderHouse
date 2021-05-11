@@ -1,0 +1,134 @@
+@import "colors.scss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 20vw 80vw;
+}
+
+main {
+    // grid son (from body)
+    grid-column: 2 / 3;
+    background-color: blue;
+}
+aside {
+    background-color: rgb(214, 214, 214);
+    // grid son (from body)
+    grid-column: 1 / 1;
+    //grid father
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 8vh 87vh 5vh;
+    justify-items: center;
+    grid-gap: 5px;
+
+}
+
+// !ASIDE
+.logo {
+    background-color: wheat;
+    width: 100%;
+    &--aside {
+        // grid son
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+    }
+}
+.social-media {
+    // box model
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &--aside {
+        border-top: #{$border-design};
+        // grid son
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+        &__icons {
+            &__icon {
+                a {
+                    color: black ;
+                    font-size: 25px;
+                }
+            }
+            // box model
+            padding: 0;
+            margin: 0;
+            // grid father
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 5px;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+.menu {
+    background-color: pink;
+    height: 100%;
+    width: 100%;
+    // flex box
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+    &--aside {
+
+    }
+}
+
+.group {
+    border: black 1px solid;
+    margin-left: 10px;
+    // flexbox
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: center;
+    // title
+    &__title {
+        border: black 1px solid;
+        margin: 0;
+    }
+    // dropdowns
+    &__dropdown {
+        &__checkbox {
+            display: none;
+            &:checked ~ .group__dropdown__icon--closed {
+                display: none;
+            }
+            &:checked ~ .group__dropdown__icon--opened {
+                display: block;
+            }
+        }
+        &__icon {
+            margin-left: 3px;
+            cursor: pointer;
+            &--closed {
+                display: inline;
+            }
+            &--opened {
+                display: none;
+            }
+        }
+    }
+    // projects inside group
+    &__project {
+        border: yellowgreen 1px solid;
+        display: none;
+    }
+}

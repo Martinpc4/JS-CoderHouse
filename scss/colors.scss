@@ -1,0 +1,67 @@
+// !General Styles
+// *Colour-Levels
+$primary-colour: #FFDDD2;
+$secondary-colour: #E29578;
+// *Backgrounds
+$body-background: #E7D8C9;
+$container-background: #F1E9E1;
+// *Borders
+$border-design: "1px solid rgb(0, 0, 0, 0.1)";
+// *Default Colours
+$link-general-hover-background: #F1E9E1;
+
+
+
+// !Links
+$links-font-colour: rgb(55, 53, 47);
+$links-hover-background-colour: rgb(248,244,240);
+
+// !Forms
+$colour_forms_background-1: white;
+
+// ! Primary and Secondary Colours
+// * Primary
+//background-default
+$colour_primary-1: #fcc866;
+//background-hover
+$colour_primary-2: #fbbb43;
+//border
+$colour_primary-3: #fcb126;
+
+// * Secondary
+$colour_secondary-1: #ffc29e;
+$colour_secondary-2: #FFC7A6;
+$colour_secondary-3: #FFE8DA;
+
+// !Semantic Colours
+// *Warning
+//background-default
+$colour_warning-1: #e16259;
+//background-hover
+$colour_warning-2: #de554b;
+//border
+$colour_warning-3: #be5643;
+
+// *Success
+//background-default
+$colour_success-1: #00c48c;
+//background-hover
+$colour_success-2: #00ba85;
+//border
+$colour_success-3: #009c70;
+
+// *Information
+//background-default
+$colour_information-1: #006ecf;
+//background-hover
+$colour_information-2: #0068c4;
+//border
+$colour_information-3: #0057a5;
+
+// *Other
+//background-default
+$colour_other-1: #253df4;
+//background-hover
+$colour_other-2: #1731f3;
+//border
+$colour_other-3: #0a22d6;
