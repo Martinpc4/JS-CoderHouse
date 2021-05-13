@@ -64,30 +64,42 @@ class task {
     }
 }
 
-console.log(userTasks);
+function createGroup (groupName, groupDescription) {
+    let newGroup = document.createElement(`div.${groupName}`);
 
-const newTask = new task(randomId(), String(prompt("Ingrese el nombre de la tarea")), String(prompt("Ingrese la fecha de terminación (dd/mm/yyyy):")), String(prompt("Ingrese la descripción:")));
-const newTask2 = new task(randomId(), "Hola2", "11/12/21", "Sample Text1");
-
-userTasks.push(newTask);
-console.log(userTasks);
-
-userTasks.push(newTask2);
-console.log(userTasks);
-
-userTasks.sort(x => x.id);
-
-let realizado = String(prompt("Termino la tarea? (si/no):"));
-
-if ((realizado.toLowerCase()) == "si") {
-    userTasks[0].finished();
+    newGroup.innerHTML = `
+    <div class="group-container">
+        <p class="group-container__title">UCEMA</p>
+        <input class="group-container__dropdown__checkbox" type="checkbox" id="checkbox-${groupName}">
+        <label for="checkbox-${groupName}" class="group-container__dropdown__icon group-container__dropdown__icon--closed">
+            <i class="bi bi-chevron-up"></i>
+        </label>
+        <label for="checkbox-${groupName}" class="group-container__dropdown__icon group-container__dropdown__icon--opened">
+            <i class="bi bi-chevron-down"></i>
+        </label>
+    </div>
+    `;
+    const asideContainer = document.getElementById("aside-group-conatiner");
+    // ! ME QUEDE ACA appendChild(newGroup);
 }
 
-console.log(userTasks);
+function createTask (taskName, taskDueDate, taskDescription) {
+    let taskId = randomId();
 
-let eliminar = String(prompt("Quiere eliminar la primera tarea? (si/no):"));
-if ((eliminar.toLowerCase()) == "si") {
-    deleteTask(userTasks[0].id);
+    const taskcreated = new task(taskId, taskName, taskDueDate, taskDescription);
+
+    let newTask = document.createElement("div");
+
+    newTask.innerHTML = `
+        <p class="">${taskName}</p>
+        <p class="">${taskDescription}</p>
+        <p class="">${taskDueDate}</p>
+    `;
+
+    const task_container = document.getElementById("");
+    
 }
 
-console.log(userTasks);
+createGroup("NuevoGrupo", "Hola como esta");
+
+console.log();
