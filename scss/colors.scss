@@ -14,59 +14,25 @@ $link-general-hover-background: #F1E9E1;
 $font-color-primary: rgb(198,204,210);
 $font-color-secondary: grey;
 
-// !Aside Colors
-$background-color-primary: #bee3db;
+// !COLORS
+$color-primary: #6D71F9;
+$color-secondary: #54C1FB;
+$color-tertiary: #272848;
+
 
 // !Links
 $links-font-color: rgb(55, 53, 47);
 $links-hover-background-color: rgb(248,244,240);
 
-// !Forms
-$colour_forms_background-1: white;
+// ! Semantic colors
+$semantic-color-primary: #6D71F9;
+$semantic-color-secondary: #54C1FB;
 
-// ! Primary and Secondary Colours
-// * Primary
-//background-default
-$color_primary-1: #fcc866;
-//background-hover
-$color_primary-2: #fbbb43;
-//border
-$color_primary-3: #fcb126;
+// ! Background colors
+$background-color-primary: #faedcd;
+$background-color-secondary: #fefae0;
+$background-color-tertiary: #e9edc9;
 
-// * Secondary
-$color_secondary-1: #ffc29e;
-$color_secondary-2: #FFC7A6;
-$color_secondary-3: #FFE8DA;
-
-// !Semantic Colours
-// *Warning
-//background-default
-$color_warning-1: #e16259;
-//background-hover
-$color_warning-2: #de554b;
-//border
-$color_warning-3: #be5643;
-
-// *Success
-//background-default
-$color_success-1: #00c48c;
-//background-hover
-$color_success-2: #00ba85;
-//border
-$color_success-3: #009c70;
-
-// *Information
-//background-default
-$color_information-1: #006ecf;
-//background-hover
-$color_information-2: #0068c4;
-//border
-$color_information-3: #0057a5;
-
-// *Other
-//background-default
-$color_other-1: #253df4;
-//background-hover
-$color_other-2: #1731f3;
-//border
-$color_other-3: #0a22d6;
+// ! Borders 
+$goals-borders: "2px solid rgb(0, 0, 0, 0.1)";
+$aside-borders: "2px solid rgb(0, 0, 0, 0.3)";

@@ -1,5 +1,7 @@
 let userTasks = [];
+let userGoals = [];
 
+// !FUNCTIONS
 function deleteTask(taskId) {
     if (userTasks.find(task => task.id == taskId) != undefined) {
         let i = 0;
@@ -11,23 +13,22 @@ function deleteTask(taskId) {
         }
     }
 }
-
-function randomId() {
+function randomId(array) {
     let id = 0;
     let i = 0;
     let state = true;
-    if (userTasks.length == 0) {
+    if (array.length == 0) {
         id = Math.floor(Math.random() * (100000 - 1) + 1);
     }
     else {
         while (state === true) {
             id = Math.floor(Math.random() * (100000 - 1) + 1);
-            for (task of userTasks) {
+            for (task of array) {
                 if (task.id == id) {
                     break;
                 }
                 else if (task.id != id) {
-                    if (userTasks.length = i) {
+                    if (array.length = i) {
                         continue;
                     }
                     else {
@@ -41,14 +42,57 @@ function randomId() {
     }
     return id;
 }
+function createTask (taskName, taskDueDate, taskDescription) {
+    const taskcreated = new task(taskName, taskDueDate, taskDescription);
+    userTasks.push(taskcreated);
+    // create DOM
+    let newTask = document.createElement("div");
+    newTask.className = "task"
 
+    newTask.innerHTML = `
+        <p class="task__title">${taskName}</p>
+        <p class="task__dueDate">${taskDueDate}</p>
+        <p class="task__description">${taskDescription}</p>
+        <div class="task__actions">
+            <i class="bi bi-check2"></i>
+            <i class="bi bi-trash"></i>
+        </div>
+    `;
+
+    const task_container = document.getElementById("tasks-container");
+    task_container.appendChild(newTask);
+    // save task in storage
+    const objectInJSON = JSON.stringify(newTask);
+    sessionStorage.setItem("task",objectInJSON);
+}
+function createGoal (goalName) {
+    const goalCreated = new goal(goalName);
+    userGoals.push(goalCreated);
+    // create DOM
+    let newGoal = document.createElement("div");
+    newGoal.className = "goal"
+
+    newGoal.innerHTML = `
+        <i class="bi bi-circle"></i>
+        <p class="goal__title">${goalName}</p>
+    `;
+
+    const goal_container = document.getElementById("goal-container");
+    goal_container.appendChild(newGoal);
+    // save goal in storage
+    const objectInJSON = JSON.stringify(newGoal);
+    sessionStorage.setItem("goal",objectInJSON);
+}
+
+// !Classes
 class task {
-    constructor(id, name, dueDate, description) {
-        this.id = id;
+    constructor(name, dueDate, description) {
+        this.id = randomId(userTasks);
         this.name = name;
         this.dueDate = dueDate;
         this.description = description;
         this.doneState = false;
+        this.type= "task";
     }
     changeName (newName) {
         this.name = newName;
@@ -63,43 +107,20 @@ class task {
         this.doneState = true;
     }
 }
-
-function createGroup (groupName, groupDescription) {
-    let newGroup = document.createElement(`div.${groupName}`);
-
-    newGroup.innerHTML = `
-    <div class="group-container">
-        <p class="group-container__title">UCEMA</p>
-        <input class="group-container__dropdown__checkbox" type="checkbox" id="checkbox-${groupName}">
-        <label for="checkbox-${groupName}" class="group-container__dropdown__icon group-container__dropdown__icon--closed">
-            <i class="bi bi-chevron-up"></i>
-        </label>
-        <label for="checkbox-${groupName}" class="group-container__dropdown__icon group-container__dropdown__icon--opened">
-            <i class="bi bi-chevron-down"></i>
-        </label>
-    </div>
-    `;
-    const asideContainer = document.getElementById("aside-group-conatiner");
-    // ! ME QUEDE ACA appendChild(newGroup);
+class goal {
+    constructor(name) {
+        this.id = randomId(userGoals);
+        this.name = name;
+        this.doneState = false;
+        this.type= "goal";
+    }
+    changeName (newName) {
+        this.name = newName;
+    }
+    finished() {
+        this.doneState = true;
+    }
 }
 
-function createTask (taskName, taskDueDate, taskDescription) {
-    let taskId = randomId();
-
-    const taskcreated = new task(taskId, taskName, taskDueDate, taskDescription);
-
-    let newTask = document.createElement("div");
-
-    newTask.innerHTML = `
-        <p class="">${taskName}</p>
-        <p class="">${taskDescription}</p>
-        <p class="">${taskDueDate}</p>
-    `;
-
-    const task_container = document.getElementById("");
-    
-}
-
-createGroup("NuevoGrupo", "Hola como esta");
-
-console.log();
+createTask(String(prompt("Ingrese el nombre de la tarea")), String(prompt("Ingrese la fecha limite de la tarea (dd/mm/yyyy)")), String(prompt("Ingrese la descripción de la tarea")));
+createGoal(String(prompt("Ingrese el nombre de la goal")));
