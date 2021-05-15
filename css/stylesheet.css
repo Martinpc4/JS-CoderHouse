@@ -16,8 +16,10 @@ body {
 }
 
 aside {
-  background-color: #faedcd;
+  background-color: #2e333c;
   border-right: 2px solid rgb(0, 0, 0, 0.3);
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
   -ms-grid-column: 1;
   grid-column: 1 / 1;
   display: -ms-grid;
@@ -206,20 +208,21 @@ main {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
-  background-color: #fefae0;
+  background-color: white;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: .8fr 1.2fr;
-      grid-template-columns: .8fr 1.2fr;
-  -ms-grid-rows: 10vh 85vh;
-      grid-template-rows: 10vh 85vh;
-  row-gap: 5vh;
-  -webkit-column-gap: 5vw;
-          column-gap: 5vw;
+  -ms-grid-columns: .5fr 1fr;
+      grid-template-columns: .5fr 1fr;
+  -ms-grid-rows: 5vh 1fr 1fr;
+      grid-template-rows: 5vh 1fr 1fr;
+  row-gap: 3vh;
+  -webkit-column-gap: 4vw;
+          column-gap: 4vw;
+  padding: 10px;
 }
 
 .project-info {
-  border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+  border: black 2px solid;
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-column: 1 / 3;
@@ -282,9 +285,7 @@ main {
   font-size: 1.25rem;
 }
 
-.projectGoals {
-  background-color: #e9edc9;
-  border-top-right-radius: 10px;
+.goals {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
@@ -295,11 +296,11 @@ main {
   display: grid;
   -ms-grid-columns: (1fr)[2];
       grid-template-columns: repeat(2, 1fr);
-  -ms-grid-rows: 8% 92%;
-      grid-template-rows: 8% 92%;
+  -ms-grid-rows: 30px 1fr;
+      grid-template-rows: 30px 1fr;
 }
 
-.projectGoals__info {
+.goals__info {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
@@ -319,23 +320,22 @@ main {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 15px;
 }
 
-.projectGoals__info p {
+.goals__info p {
   margin: 0;
   padding: 0;
   font-size: 1.25rem;
 }
 
-.projectGoals__actions {
+.goals__actions {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
-  padding: 15px;
+  padding: 0 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -351,12 +351,12 @@ main {
           align-items: center;
 }
 
-.projectGoals__actions i {
+.goals__actions i {
   font-size: 1rem;
   margin-left: 10px;
 }
 
-.projectGoals__goals {
+.goals__container {
   border-top: 1px solid rgb(0, 0, 0, 0.1);
   padding: 10px;
   -ms-grid-column: 1;
@@ -374,7 +374,7 @@ main {
           flex-flow: column nowrap;
 }
 
-.projectGoals__goals .goal {
+.goals__container .goal {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -386,33 +386,31 @@ main {
   margin-bottom: 10px;
 }
 
-.projectGoals__goals .goal i {
+.goals__container .goal i {
   margin-right: 5px;
 }
 
-.projectGoals__goals .goal p {
+.goals__container .goal p {
   padding: 0;
   margin: 0;
 }
 
-.goalsTasks {
-  border-top-left-radius: 10px;
-  background-color: #e9edc9;
+.tasks {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
   -ms-grid-row: 2;
-  -ms-grid-row-span: 1;
-  grid-row: 2 / 3;
+  -ms-grid-row-span: 2;
+  grid-row: 2 / 4;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[2];
       grid-template-columns: repeat(2, 1fr);
-  -ms-grid-rows: 8% 92%;
-      grid-template-rows: 8% 92%;
+  -ms-grid-rows: 30px 1fr;
+      grid-template-rows: 30px 1fr;
 }
 
-.goalsTasks__info {
+.tasks__info {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
@@ -432,23 +430,22 @@ main {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 15px;
 }
 
-.goalsTasks__info p {
+.tasks__info p {
   margin: 0;
   padding: 0;
   font-size: 1.25rem;
 }
 
-.goalsTasks__actions {
+.tasks__actions {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
-  padding: 15px;
+  padding: 0 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -464,12 +461,12 @@ main {
           align-items: center;
 }
 
-.goalsTasks__actions i {
+.tasks__actions i {
   font-size: 1rem;
   margin-left: 10px;
 }
 
-.goalsTasks__tasks {
+.tasks__container {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-column: 1 / 3;
@@ -487,7 +484,7 @@ main {
   border-top: 1px solid rgb(0, 0, 0, 0.1);
 }
 
-.goalsTasks__tasks .task {
+.tasks__container .task {
   background-color: #e9edc9;
   border-radius: 5px;
   border: indigo 2px solid;
@@ -504,7 +501,13 @@ main {
   margin-bottom: 10px;
 }
 
-.goalsTasks__tasks .task__title {
+.tasks__container .task:hover .task__actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tasks__container .task__title {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-column: 1 / 3;
@@ -515,19 +518,19 @@ main {
   font-size: 1.15rem;
 }
 
-.goalsTasks__tasks .task__dueDate {
+.tasks__container .task__dueDate {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
   -ms-grid-row: 2;
   -ms-grid-row-span: 1;
   grid-row: 2 / 3;
-  font-size: 1rem;
   padding: 0;
   margin: 0;
+  font-size: 1rem;
 }
 
-.goalsTasks__tasks .task__description {
+.tasks__container .task__description {
   -ms-grid-column: 1;
   -ms-grid-column-span: 3;
   grid-column: 1 / 4;
@@ -536,18 +539,17 @@ main {
   grid-row: 3 / 4;
   margin: 0;
   padding: 0;
+  font-size: .9rem;
 }
 
-.goalsTasks__tasks .task__actions {
+.tasks__container .task__actions {
   -ms-grid-column: 3;
   -ms-grid-column-span: 1;
   grid-column: 3 / 4;
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: none;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
       -ms-flex-flow: row nowrap;
@@ -560,6 +562,130 @@ main {
           align-items: center;
 }
 
-.goalsTasks__tasks .task__actions i {
+.tasks__container .task__actions i {
   margin-left: 10px;
+}
+
+.reminders {
+  -ms-grid-row: 3;
+  -ms-grid-row-span: 1;
+  grid-row: 3 / 4;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
+  -ms-grid-rows: 30px 1fr;
+      grid-template-rows: 30px 1fr;
+}
+
+.reminders__info {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.reminders__info p {
+  margin: 0;
+  padding: 0;
+  font-size: 1.25rem;
+}
+
+.reminders__actions {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  padding: 0 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.reminders__container {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / 3;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  grid-row: 2 / 3;
+  border-top: 1px solid rgb(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.reminders__container .reminders {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 90%;
+      grid-template-columns: 10% 90%;
+  -ms-grid-rows: 1fr .2fr;
+      grid-template-rows: 1fr .2fr;
+}
+
+.reminders__container .reminders__icon {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.reminders__container .reminders__title {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.reminders__container .reminders__dueDate {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 1;
+  grid-row: 2 / 3;
+  padding: 0;
+  margin: 0;
+  font-size: .8rem;
 }

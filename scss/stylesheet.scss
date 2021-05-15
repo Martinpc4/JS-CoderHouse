@@ -18,6 +18,8 @@ body {
 aside {
     background-color: #{$background-color-primary};
     border-right: #{$aside-borders};
+    border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
     // grid son (from body)
     grid-column: 1 / 1;
     //grid father
@@ -151,14 +153,16 @@ main {
     background-color: #{$background-color-secondary};
     // grid father
     display: grid;
-    grid-template-columns: .8fr 1.2fr;
-    grid-template-rows: 10vh 85vh;
-    row-gap: 5vh;
-    column-gap: 5vw;
+    grid-template-columns: .5fr 1fr;
+    grid-template-rows: 5vh 1fr 1fr;
+    row-gap: 3vh;
+    column-gap: 4vw;
+    // box modeling
+    padding: 10px;
 
 }
 .project-info {
-    border-bottom: #{$border-design};
+    border: black 2px solid;
     // grid son
     grid-column: 1 / 3;
     grid-row: 1 / 2;
@@ -197,17 +201,14 @@ main {
         }
     }
 }
-.projectGoals {
-    // box modeling
-    background-color: #{$background-color-tertiary};
-    border-top-right-radius: 10px;
+.goals {
     // grid son
     grid-column: 1 / 2;
     grid-row: 2 / 3;
     // grid father
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 8% 92%;
+    grid-template-rows: 30px 1fr;
     &__info {
         // grid son
         grid-column: 1 / 2;
@@ -217,8 +218,6 @@ main {
         flex-flow: row nowrap;
         justify-content: flex-start;
         align-items: center;
-        // box modeling
-        padding: 15px;
         p {
             margin: 0;
             padding: 0;
@@ -230,7 +229,7 @@ main {
         grid-column: 2 / 3;
         grid-row: 1 / 2;
         // box modeling
-        padding: 15px;
+        padding: 0 10px;
         // flex box
         display: flex;
         flex-flow: row nowrap;
@@ -241,7 +240,7 @@ main {
             margin-left: 10px;
         }
     }
-    &__goals {
+    &__container {
         border-top: #{$border-design};
         padding: 10px;
         // grid son
@@ -265,17 +264,14 @@ main {
         }
     }
 }
-.goalsTasks {
-    // box modeling
-    border-top-left-radius: 10px;
-    background-color: #{$background-color-tertiary};
+.tasks {
     // grid son
     grid-column: 2 / 3;
-    grid-row: 2 / 3;
+    grid-row: 2 / 4;
     // grid father
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 8% 92%;
+    grid-template-rows: 30px 1fr;
     &__info {
         // grid son
         grid-column: 1 / 2;
@@ -285,8 +281,6 @@ main {
         flex-flow: row nowrap;
         justify-content: flex-start;
         align-items: center;
-        // box modeling
-        padding: 15px;
         p {
             margin: 0;
             padding: 0;
@@ -298,7 +292,7 @@ main {
         grid-column: 2 / 3;
         grid-row: 1 / 2;
         // box modeling
-        padding: 15px;
+        padding: 0 10px;
         // flex box
         display: flex;
         flex-flow: row nowrap;
@@ -309,7 +303,7 @@ main {
             margin-left: 10px;
         }
     }
-    &__tasks {
+    &__container {
         // grid son
         grid-column: 1 / 3;
         grid-row: 2 / 3;
@@ -333,6 +327,9 @@ main {
             // box modeling
             padding: 10px;
             margin-bottom: 10px;
+            &:hover .task__actions {
+                display: flex;
+            }
             &__title {
                 // grid son
                 grid-column: 1 / 3;
@@ -346,11 +343,11 @@ main {
                 // grid son
                 grid-column: 1 / 2;
                 grid-row: 2 / 3;
-                // font
-                font-size: 1rem;
                 // box modeling
                 padding: 0;
                 margin: 0;
+                // font
+                font-size: 1rem;
             }
             &__description {
                 // grid son
@@ -359,19 +356,99 @@ main {
                 // box modeling
                 margin: 0;
                 padding: 0;
+                // font
+                font-size: .9rem;
             }
             &__actions {
                 // grid son
                 grid-column: 3 / 4;
                 grid-row: 1 / 2;
-                // flex box
-                display: flex;
+                // flex
+                display: none;
                 flex-flow: row nowrap;
                 justify-content: flex-end;
                 align-items: center;
                 i {
                     margin-left: 10px;
                 }
+            }
+        }
+    }
+}
+.reminders {
+    // grid son
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+    // grid father
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 30px 1fr;
+    &__info {
+        // grid son
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        // flex box
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        p {
+            margin: 0;
+            padding: 0;
+            font-size: 1.25rem;
+        }
+    }
+    &__actions {
+        // grid son
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        // box modeling
+        padding: 0 10px;
+        // flex box
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    &__container {
+        // grid son
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
+        // box modeling
+        border-top: #{$border-design};
+        padding: 10px;
+        .reminders {
+            // grid father
+            display: grid;
+            grid-template-columns: 10% 90%;
+            grid-template-rows: 1fr .2fr;
+            &__icon {
+                // grid son
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+                // flex box
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: center;
+                align-items: center;
+            }
+            &__title {
+                // grid son
+                grid-column: 2 / 3;
+                grid-row: 1 / 2;
+                // box moding
+                padding: 0;
+                margin: 0;
+                // font
+                font-size: 1rem;
+            }
+            &__dueDate {
+                // grid son
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+                // box moding
+                padding: 0;
+                margin: 0;
+                // font
+                font-size: .8rem;
             }
         }
     }
