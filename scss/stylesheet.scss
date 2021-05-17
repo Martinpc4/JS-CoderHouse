@@ -365,6 +365,8 @@ main {
         border-top: #{$border-design};
         padding: 10px;
         .reminders {
+            // box modeling
+            margin-bottom: 10px;
             // grid father
             display: grid;
             grid-template-columns: 15px 5px 90%;
@@ -380,9 +382,6 @@ main {
                 border-radius: 2px;
                 &--overdue {
                     background-color: red;
-                }
-                &--thisWeek {
-                    background-color: orange;
                 }
                 &--onTime {
                     background-color: green;

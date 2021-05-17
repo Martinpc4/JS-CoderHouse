@@ -574,6 +574,7 @@ main {
 }
 
 .reminders__container .reminders {
+  margin-bottom: 10px;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 15px 5px 90%;
@@ -598,10 +599,6 @@ main {
 
 .reminders__container .reminders__status--overdue {
   background-color: red;
-}
-
-.reminders__container .reminders__status--thisWeek {
-  background-color: orange;
 }
 
 .reminders__container .reminders__status--onTime {
