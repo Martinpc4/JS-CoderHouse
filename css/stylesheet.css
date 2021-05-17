@@ -11,10 +11,13 @@
 body {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 20vw 80vw;
-      grid-template-columns: 20vw 80vw;
-  height: 100vh;
-  padding: 10px;
+  -ms-grid-columns: 20% 80%;
+      grid-template-columns: 20% 80%;
+  -webkit-column-gap: 10px;
+          column-gap: 10px;
+  padding: 1vh 1vw;
+  width: 99vw;
+  height: 99vh;
 }
 
 aside {
@@ -111,12 +114,11 @@ main {
   display: grid;
   -ms-grid-columns: 1fr;
       grid-template-columns: 1fr;
-  -ms-grid-rows: 5vh 1fr;
-      grid-template-rows: 5vh 1fr;
+  -ms-grid-rows: 8vh 1fr;
+      grid-template-rows: 8vh 1fr;
   row-gap: 3vh;
   -webkit-column-gap: 4vw;
           column-gap: 4vw;
-  padding: 10px;
 }
 
 .main-container {
@@ -158,6 +160,8 @@ main {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  border-bottom: #ecec00 5px solid;
+  border-radius: 3px;
 }
 
 .project-info__info-container {
@@ -180,17 +184,20 @@ main {
 }
 
 .project-info__actions-container {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-rows: 1fr;
-      grid-template-rows: 1fr;
-  -ms-grid-columns: (1fr)[3];
-      grid-template-columns: repeat(3, 1fr);
-  -webkit-column-gap: 20px;
-          column-gap: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 
 .project-info__actions-container i {
+  margin-left: 10px;
   font-size: 1.25rem;
 }
 
@@ -394,9 +401,28 @@ main {
 }
 
 .tasks__container .task {
-  background-color: #e9edc9;
-  border-radius: 5px;
-  border: indigo 2px solid;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 6px 1fr;
+      grid-template-columns: 6px 1fr;
+  margin-bottom: 10px;
+}
+
+.tasks__container .task__bar {
+  height: 100%;
+  width: 100%;
+  background-color: #ecec00;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.tasks__container .task__container {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[3];
@@ -407,7 +433,10 @@ main {
   -webkit-column-gap: 10px;
           column-gap: 10px;
   padding: 10px;
-  margin-bottom: 10px;
+  height: 100%;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #f7f7f7;
 }
 
 .tasks__container .task:hover .task__actions {
@@ -547,10 +576,36 @@ main {
 .reminders__container .reminders {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 10% 90%;
-      grid-template-columns: 10% 90%;
+  -ms-grid-columns: 15px 5px 90%;
+      grid-template-columns: 15px 5px 90%;
   -ms-grid-rows: 1fr .2fr;
       grid-template-rows: 1fr .2fr;
+  -webkit-column-gap: 5px;
+          column-gap: 5px;
+}
+
+.reminders__container .reminders__status {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 2;
+  grid-row: 1 / 3;
+  height: 100%;
+  width: 100%;
+  border-radius: 2px;
+}
+
+.reminders__container .reminders__status--overdue {
+  background-color: red;
+}
+
+.reminders__container .reminders__status--thisWeek {
+  background-color: orange;
+}
+
+.reminders__container .reminders__status--onTime {
+  background-color: green;
 }
 
 .reminders__container .reminders__icon {
@@ -576,9 +631,9 @@ main {
 }
 
 .reminders__container .reminders__title {
-  -ms-grid-column: 2;
+  -ms-grid-column: 3;
   -ms-grid-column-span: 1;
-  grid-column: 2 / 3;
+  grid-column: 3 / 4;
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
@@ -588,9 +643,9 @@ main {
 }
 
 .reminders__container .reminders__dueDate {
-  -ms-grid-column: 2;
+  -ms-grid-column: 3;
   -ms-grid-column-span: 1;
-  grid-column: 2 / 3;
+  grid-column: 3 / 4;
   -ms-grid-row: 2;
   -ms-grid-row-span: 1;
   grid-row: 2 / 3;
