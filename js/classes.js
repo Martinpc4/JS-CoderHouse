@@ -1,11 +1,10 @@
 class task {
-    constructor(name, dueDate, description) {
-        this.id = randomId(userTasks);
-        this.name = name;
-        this.dueDate = dueDate;
-        this.description = description;
+    constructor(taskProperties) {
+        this.id = taskProperties.id === undefined ? randomId(userTasks) : taskProperties.id;
+        this.name = taskProperties.name;
+        this.dueDate = parseDate(taskProperties.dueDate);
+        this.description = taskProperties.description;
         this.doneState = false;
-        this.type= "task";
     }
     changeName (newName) {
         this.name = newName;
@@ -21,11 +20,10 @@ class task {
     }
 }
 class goal {
-    constructor(name) {
-        this.id = randomId(userGoals);
-        this.name = name;
+    constructor(goalProperties) {
+        this.id = goalProperties.id === undefined ? randomId(userGoals) : goalProperties.id;
+        this.name = goalProperties.name;
         this.doneState = false;
-        this.type= "goal";
     }
     changeName (newName) {
         this.name = newName;
@@ -35,10 +33,10 @@ class goal {
     }
 }
 class reminder {
-    constructor(reminderName, reminderDueDate) {
-        this.id = randomId(userGoals);
-        this.name = reminderName;
-        this.dueDate = parseDate(reminderDueDate);
+    constructor(reminderProperties) {
+        this.id = reminderProperties.id === undefined ? randomId(userGoals) : reminderProperties.id;
+        this.name = reminderProperties.name;
+        this.dueDate = parseDate(reminderProperties.dueDate);
         this.doneState = false;
     }
     changeName (newName) {

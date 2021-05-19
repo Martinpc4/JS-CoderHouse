@@ -1,7 +1,3 @@
-let userTasks = [];
-let userGoals = [];
-let userReminders = [];
-
 // !FUNCTIONS
 function randomId(array) {
     let id = 0;
@@ -36,7 +32,7 @@ function parseDate(date) {
     date = String(date);
     date = date.replaceAll(" ", "");
     let dateArray = date.split("/");
-    let newDate = new Date(dateArray[2], dateArray[1], dateArray[0])
+    let newDate = new Date(dateArray[2], (dateArray[1] - 1), dateArray[0])
     return newDate;
 }
 function onTime(date) {
@@ -54,13 +50,13 @@ function onTime(date) {
         return false;
     }
     else if (todayYear == Number(date.getFullYear())) {
-        if (todayMonth < date.getMonth()) {
+        if (todayMonth < Number((date.getMonth() + 1))) {
             return true;
         }
-        else if (todayMonth > Number(date.getMonth())) {
+        else if (todayMonth > Number((date.getMonth() + 1))) {
             return false;
         }
-        else if (todayMonth == Number(date.getMonth())) {
+        else if (todayMonth == Number((date.getMonth() + 1))) {
             if (todayDay < Number(date.getDate())) {
                 return true
             }
@@ -72,12 +68,4 @@ function onTime(date) {
             }
         }
     }
-    else {
-        console.log("Error");
-    }
 }
-
-// createTask(String(prompt("Ingrese el nombre de la tarea")), String(prompt("Ingrese la fecha limite de la tarea (dd/mm/yyyy)")), String(prompt("Ingrese la descripción de la tarea")));
-// createGoal(String(prompt("Ingrese el nombre de la goal")));
-
-createReminder("Copiar clases de Zoom", "01/10/2021");
