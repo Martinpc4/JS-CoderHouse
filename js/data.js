@@ -3,34 +3,47 @@ let userGoals = [];
 let userReminders = [];
 
 // ! STORAGE FUNCTIONS
+function start() {
+    const retirevedData = retrieveStorage();
+    userTasks = retirevedData[0];
+    userGoals = retirevedData[1];
+    userReminders = retirevedData[2];
+
+    userTasks.forEach(task => {
+        createTaskDom(task);
+    });
+    userGoals.forEach(goal => {
+        createGoalDom(goal);
+    });
+    userReminders.forEach(reminder => {
+        createReminderDom(reminder);
+    });
+}
 function retrieveStorage() {
     // * Retrieve Tasks
-    let newArray = []
+    let tasksArray = []
     let tasks = JSON.parse(localStorage.getItem("userTasks"));
     tasks.forEach(taskProperties => {
         const newTask = new task(taskProperties);
-        newArray.push(newTask);
+        tasksArray.push(newTask);
     });
-    userTasks = newArray;
 
     // * Retrieve Goals
-    newArray = [];
+    let goalsArray = [];
     const goals = JSON.parse(localStorage.getItem("userGoals"));
     goals.forEach(goalProperties => {
         const newGoal = new goal(goalProperties);
-        newArray.push(newGoal);
-        console.log(newArray);
+        goalsArray.push(newGoal);
     });
-    userGoals = newArray;
 
     // * Retrieve Reminders
-    newArray = [];
+    let remindersArray = [];
     let reminders = JSON.parse(localStorage.getItem("userReminders"));
     reminders.forEach(reminderProperties => {
         const newReminder = new reminder(reminderProperties);
-        newArray.push(newReminder);
+        remindersArray.push(newReminder);
     });
-    userReminders = newArray;
+    return ([tasksArray, goalsArray, remindersArray])
 }
 function saveStorage() {
     localStorage.setItem("userTasks", JSON.stringify(userTasks));
@@ -38,10 +51,9 @@ function saveStorage() {
     localStorage.setItem("userReminders", JSON.stringify(userReminders));
     location.reload();
 }
-
 // localStorage.clear();
 
-retrieveStorage();
+start();
 
 console.log(userTasks);
 console.log(userGoals);

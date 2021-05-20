@@ -35,32 +35,7 @@
                 <i class="bi bi-trash"></i>
             </div>
         </div>
-        <div class="main-container">
-            <div class="alert">
-                <div class="alert__container">
-                    <div class="alert__info">
-                        <p>Crear Tarea</p>
-                        <i class="bi bi-x-lg"></i>
-                    </div>
-                    <form class="alert__form" action="">
-                        <div class="alert__form__input">
-                            <label for="name">Nombre</label>
-                            <input class="input" type="text" name="name">
-                        </div>
-                        <div class="alert__form__input">
-                            <label for="dueDate">Due date</label>
-                            <input class="input" type="text" name="dueDate">
-                        </div>
-                        <div class="alert__form__input--description">
-                            <label for="description">Descripción</label>
-                            <textarea class="textarea" name="description" id=""></textarea>
-                        </div>
-                        <div class="alert__form__buttons">
-                            <input class="btn" type="submit">
-                        </div>
-                    </form>
-                </div>
-            </div>
+        <div id="mainContainer" class="main-container">
             <div class="goals">
                 <div class="goals__info">
                     <p>Goals</p>
@@ -68,7 +43,7 @@
                 <div class="goals__actions">
                     <i class="bi bi-plus-lg"></i>
                 </div>
-                <div id="goal-container" class="goals__container">
+                <div id="goalsContainer" class="goals__container">
                 </div>
             </div>
             <div class="tasks">
@@ -76,9 +51,9 @@
                     <p>Tasks</p>
                 </div>
                 <div class="tasks__actions">
-                    <i class="bi bi-plus-lg"></i>
+                    <i id="taskBtnCreate" class="bi bi-plus-lg"></i>
                 </div>
-                <div id="tasks-container" class="tasks__container">
+                <div id="tasksContainer" class="tasks__container">
                 </div>
             </div>
             <div class="reminders">
@@ -88,7 +63,7 @@
                 <div class="reminders__actions">
                     <i class="bi bi-plus-lg"></i>
                 </div>
-                <div id="reminders-container" class="reminders__container">
+                <div id="remindersContainer" class="reminders__container">
                 </div>
             </div>
         </div>
@@ -97,7 +72,6 @@
     <script src="js/main.js"></script>
     <script src="js/create_functions.js"></script>
     <script src="js/data.js"></script>
-
     <script src="js/events.js"></script>
 </body>
 

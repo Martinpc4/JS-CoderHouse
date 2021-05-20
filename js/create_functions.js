@@ -1,10 +1,5 @@
 // !TASK
-function createTask(taskProperties) {
-    // * Class
-    const newTask = new task(taskProperties);
-    userTasks.push(newTask);
-    
-    // * Create DOM
+function createTaskDom (newTask) {
     let domTask = document.createElement("div");
     domTask.className = "task"
     domTask.id = `${newTask.id}`;
@@ -20,35 +15,25 @@ function createTask(taskProperties) {
             </div>
         </div>
     `;
-    const domTaskContainer = document.getElementById("tasks-container");
+    const domTaskContainer = document.getElementById("tasksContainer");
     domTaskContainer.appendChild(domTask);
 }
 // !GOAL
-function createGoal(goalProperties) {
-    // * Class
-    const newGoal = new goal(goalProperties);
-    userGoals.push(newGoal);
-
-    // * Create DOM
+function createGoalDom (newGoal) {
     let domGoal = document.createElement("div");
     domGoal.className = "goal";
     domGoal.innerHTML = `
         <i class="bi bi-circle"></i>
-        <p class="goal__title">${goalProperties.name}</p>
+        <p class="goal__title">${newGoal.name}</p>
     `;
-    const goal_container = document.getElementById("goal-container");
+    const goal_container = document.getElementById("goalsContainer");
     goal_container.appendChild(domGoal);
 }
 // !CREATE REMINDER
-function createReminder(reminderProperties) {
-    // * Class
-    const newReminder = new reminder(reminderProperties);
-    userReminders.push(newReminder);
-
-    // * Create DOM
+function createReminderDom (newReminder) {
     let domReminder = document.createElement("div");
     domReminder.className = "reminders";
-    if (onTime(reminderProperties.dueDate) === true) {
+    if (onTime(newReminder.dueDate) === true) {
         domReminder.innerHTML = `
             <i class="reminders__icon bi bi-square"></i>
             <p class="reminders__title">${newReminder.name}</p>
@@ -56,7 +41,7 @@ function createReminder(reminderProperties) {
             <div class="reminders__status reminders__status--onTime"></div>
         `;
     }
-    else if (onTime(reminderProperties.dueDate) === false) {
+    else if (onTime(newReminder.dueDate) === false) {
         domReminder.innerHTML = `
             <i class="reminders__icon bi bi-square"></i>
             <p class="reminders__title">${newReminder.name}</p>
@@ -65,6 +50,6 @@ function createReminder(reminderProperties) {
         `;
     }
     
-    const reminders_container = document.getElementById("reminders-container");
+    const reminders_container = document.getElementById("remindersContainer");
     reminders_container.appendChild(domReminder);
 }

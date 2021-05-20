@@ -41,8 +41,6 @@ function onTime(date) {
     const todayDay = Number(todayDate.getDate());
     const todayYear = Number(todayDate.getFullYear());
 
-    date = parseDate(date);
-
     if (todayYear < Number(date.getFullYear())) {
         return true;
     }
