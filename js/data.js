@@ -19,6 +19,7 @@ function retrieveStorage() {
     goals.forEach(goalProperties => {
         const newGoal = new goal(goalProperties);
         newArray.push(newGoal);
+        console.log(newArray);
     });
     userGoals = newArray;
 
@@ -39,10 +40,6 @@ function saveStorage() {
 }
 
 // localStorage.clear();
-
-console.log(userTasks);
-console.log(userGoals);
-console.log(userReminders);
 
 retrieveStorage();
 

@@ -17,25 +17,22 @@ $font-color-secondary: grey;
 $font-color-aside: rgb(216, 216, 216);
 $font-color-aside-dark: rgb(198,204,210);
 
-// !COLORS
-$color-primary: #6D71F9;
-$color-secondary: #54C1FB;
-$color-tertiary: #272848;
-
 
 // !Links
 $links-font-color: rgb(55, 53, 47);
 $links-hover-background-color: rgb(248,244,240);
 
-// ! Semantic colors
+// ! Form Colors
+$btn-background-color: rgb(236, 236, 0);
+
+
+// ! Structural Colors
+
+// ? Semantic colors
 $semantic-color-primary: #6D71F9;
 $semantic-color-secondary: #54C1FB;
 
-// ! Background colors
+// ? Background colors
 $background-color-primary: rgb(61,71,84);
 $background-color-secondary: white;
 $background-color-tertiary: #e9edc9;
-
-// ! Borders 
-$goals-borders: "2px solid rgb(0, 0, 0, 0.1)";
-$aside-borders: "2px solid rgb(0, 0, 0, 0.3)";
