@@ -1,4 +1,36 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap");
+.input {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+  outline: none;
+  height: 30px;
+  width: 100%;
+  padding: 5px 5px;
+  font-size: 1rem;
+}
+
+.btn {
+  width: 70px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: #ecec00;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.textarea {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+  height: 75px;
+  width: 100%;
+  padding: 5px 5px;
+  font-size: 1rem;
+  outline: none;
+  resize: none;
+  overflow: auto;
+}
+
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -162,6 +194,8 @@ main {
           align-items: center;
   -ms-flex-line-pack: center;
       align-content: center;
+  position: relative;
+  background-color: white;
 }
 
 .alert__container {
@@ -252,38 +286,6 @@ main {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-column: 1 / 3;
-}
-
-.input {
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 1px;
-  outline: none;
-  height: 30px;
-  width: 100%;
-  padding: 5px 5px;
-  font-size: 1rem;
-}
-
-.btn {
-  width: 70px;
-  height: 30px;
-  cursor: pointer;
-  font-size: 1rem;
-  background-color: #ecec00;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-}
-
-.textarea {
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 1px;
-  height: 75px;
-  width: 100%;
-  padding: 5px 5px;
-  font-size: 1rem;
-  outline: none;
-  resize: none;
-  overflow: auto;
 }
 
 .project-info {
@@ -416,6 +418,7 @@ main {
 .goals__actions i {
   font-size: 1rem;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .goals__container {
@@ -526,6 +529,7 @@ main {
 .tasks__actions i {
   font-size: 1rem;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .tasks__container {
@@ -648,6 +652,7 @@ main {
 
 .tasks__container .task__actions i {
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .reminders {
@@ -706,6 +711,12 @@ main {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.reminders__actions i {
+  font-size: 1rem;
+  margin-left: 10px;
+  cursor: pointer;
 }
 
 .reminders__container {

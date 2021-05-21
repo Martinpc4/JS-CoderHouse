@@ -2,7 +2,7 @@ class task {
     constructor(taskProperties) {
         this.id = taskProperties.id === undefined ? randomId(userTasks) : taskProperties.id;
         this.name = taskProperties.name;
-        this.dueDate = parseDate(taskProperties.dueDate);
+        this.dueDate = taskProperties.dueDate;
         this.description = taskProperties.description;
         this.doneState = false;
     }
@@ -36,7 +36,7 @@ class reminder {
     constructor(reminderProperties) {
         this.id = reminderProperties.id === undefined ? randomId(userGoals) : reminderProperties.id;
         this.name = reminderProperties.name;
-        this.dueDate = parseDate(reminderProperties.dueDate);
+        this.dueDate = reminderProperties.dueDate;
         this.doneState = false;
     }
     changeName (newName) {

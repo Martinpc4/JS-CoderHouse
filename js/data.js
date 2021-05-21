@@ -3,7 +3,7 @@ let userGoals = [];
 let userReminders = [];
 
 // ! STORAGE FUNCTIONS
-function start() {
+function startSecuence() {
     const retirevedData = retrieveStorage();
     userTasks = retirevedData[0];
     userGoals = retirevedData[1];
@@ -24,6 +24,7 @@ function retrieveStorage() {
     let tasksArray = []
     let tasks = JSON.parse(localStorage.getItem("userTasks"));
     tasks.forEach(taskProperties => {
+        taskProperties.dueDate = new Date(taskProperties.dueDate);;
         const newTask = new task(taskProperties);
         tasksArray.push(newTask);
     });
@@ -40,6 +41,7 @@ function retrieveStorage() {
     let remindersArray = [];
     let reminders = JSON.parse(localStorage.getItem("userReminders"));
     reminders.forEach(reminderProperties => {
+        reminderProperties.dueDate = new Date(reminderProperties.dueDate);
         const newReminder = new reminder(reminderProperties);
         remindersArray.push(newReminder);
     });
@@ -53,18 +55,22 @@ function saveStorage() {
 }
 // localStorage.clear();
 
-start();
-
+startSecuence();
 console.log(userTasks);
 console.log(userGoals);
 console.log(userReminders);
 
+// console.log(userTasks);
+// console.log(userGoals);
+// console.log(userReminders);
+
 // localStorage.setItem("userTasks", JSON.stringify([
-//     {name : "Tarea2", dueDate : "09/07/2021", description : "Hay que hacer la tarea de Fundamentos 2"},
-//     {name : "Tarea1", dueDate : "03/12/2021", description : "Hay que hacer la tarea de Fundamentos 2"}
+//     {name : "Tarea2", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)", description : "Hay que hacer la tarea de Fundamentos 2"},
+//     {name : "Tarea1", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)", description : "Hay que hacer la tarea de Fundamentos 2"}
 // ]));
 // localStorage.setItem("userReminders", JSON.stringify([
-//     {name : "Remember Task", dueDate : "10/12/2021"}, {name : "Remember Reminder", dueDate : "01/12/2021"}
+//     {name : "Remember Task", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)"},
+//     {name : "Remember Reminder", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)"}
 // ]));
 // localStorage.setItem("userGoals", JSON.stringify([
 //     {name : "Remember Task"}, {name : "Remember Reminder"}
