@@ -1,33 +1,3 @@
-// !FUNCTIONS
-function randomId(array) {
-    let id = 0;
-    let i = 0;
-    let state = true;
-    if (array.length == 0) {
-        id = Math.floor(Math.random() * (100000 - 1) + 1);
-    }
-    else {
-        while (state === true) {
-            id = Math.floor(Math.random() * (100000 - 1) + 1);
-            for (task of array) {
-                if (task.id == id) {
-                    break;
-                }
-                else if (task.id != id) {
-                    if (array.length = i) {
-                        continue;
-                    }
-                    else {
-                        state = false;
-                        break;
-                    }
-                }
-                i++;
-            }
-        }
-    }
-    return id;
-}
 function parseDate(date) {
     date = String(date);
     date = date.replaceAll(" ", "");

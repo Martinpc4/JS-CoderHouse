@@ -1,3 +1,4 @@
+ // ! Contructors
 class task {
     constructor(taskProperties) {
         this.id = taskProperties.id === undefined ? randomId(userTasks) : taskProperties.id;
@@ -6,18 +7,6 @@ class task {
         this.description = taskProperties.description;
         this.doneState = false;
     }
-    changeName (newName) {
-        this.name = newName;
-    }
-    changeDueDate(newDueDate) {
-        this.dueDate = newDueDate;
-    }
-    changeDescription (newDescription) {
-        this.description = newDescription;
-    }
-    finished() {
-        this.doneState = true;
-    }
 }
 class goal {
     constructor(goalProperties) {
@@ -25,27 +14,42 @@ class goal {
         this.name = goalProperties.name;
         this.doneState = false;
     }
-    changeName (newName) {
-        this.name = newName;
-    }
-    finished() {
-        this.doneState = true;
-    }
 }
 class reminder {
     constructor(reminderProperties) {
-        this.id = reminderProperties.id === undefined ? randomId(userGoals) : reminderProperties.id;
+        this.id = reminderProperties.id === undefined ? randomId(userReminders) : reminderProperties.id;
         this.name = reminderProperties.name;
         this.dueDate = reminderProperties.dueDate;
         this.doneState = false;
     }
-    changeName (newName) {
-        this.name = newName;
+}
+
+// ! Class Functions
+function randomId(array) {
+    let i = 0;
+    let state = true;
+    if (array.length == 0) {
+        id = Math.floor(Math.random() * (100000 - 1) + 1);
     }
-    changeDueDate (newDueDate) {
-        this.dueDate = newDueDate;
+    else {
+        while (state === true) {
+            id = Math.floor(Math.random() * (100000 - 1) + 1);
+            for (object of array) {
+                if (object.id == id) {
+                    break;
+                }
+                else if (object.id != id) {
+                    if (array.length == i) {
+                        continue;
+                    }
+                    else {
+                        state = false;
+                        break;
+                    }
+                }
+                i++;
+            }
+        }
     }
-    finished () {
-        this.doneState = true;
-    }
+    return id;
 }

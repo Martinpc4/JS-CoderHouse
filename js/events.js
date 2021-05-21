@@ -12,21 +12,21 @@ document.getElementById("taskBtnCreate").addEventListener("click", () => {
                 <p>Create Task</p>
                 <i id="alertBtnClose" class="bi bi-x-lg"></i>
             </div>
-            <form class="alert__form" action="">
+            <form id="alertForm" class="alert__form" action="">
                 <div class="alert__form__input">
                     <label for="name">Name</label>
-                    <input class="input" type="text" name="name">
+                    <input id="alertTaskName" class="input" type="text" name="name">
                 </div>
                 <div class="alert__form__input">
                     <label for="dueDate">Due date</label>
-                    <input class="input" type="text" name="dueDate">
+                    <input id="alertTaskDueDate" class="input" type="" name="date" placeholder="dd/mm/yyyy">
                 </div>
                 <div class="alert__form__input--description">
                     <label for="description">Description</label>
-                    <textarea class="textarea" name="description" id=""></textarea>
+                    <textarea id="alertTaskDescription" class="textarea" name="description" id=""></textarea>
                 </div>
                 <div class="alert__form__buttons">
-                    <input id="alertBtnSubmit" class="btn" type="submit">
+                    <input class="btn" type="submit">
                 </div>
             </form>
         </div>
@@ -35,25 +35,32 @@ document.getElementById("taskBtnCreate").addEventListener("click", () => {
     mainContainer.appendChild(alertDom);
 
     // Close alert
-    document.getElementById("alertBtnClose").addEventListener("click", (event) => {
-        const eventTarget = event.target;
+    document.getElementById("alertBtnClose").addEventListener("click", () => {
         mainContainer.removeChild(alertDom);
     });
 
     // Capture data
-    document.getElementById("alertBtnSubmit").addEventListener("submit", (event) => {
+    document.getElementById("alertForm").addEventListener("submit", (event) => {
         event.preventDefault();
-        const eventTarget = event.target;
-        console.log(eventTarget);
+        let taskName = String(document.getElementById("alertTaskName").value);
+        let taskDueDate = String(document.getElementById("alertTaskDueDate").value);
+        let taskDescription = String(document.getElementById("alertTaskDescription").value);
+
+        let newTask = {"name": taskName, "dueDate": parseDate(taskDueDate), "description": taskDescription};
+        newTask = new task(newTask);
+        userTasks.push(newTask);
+
+        saveStorage();
     });
+    console.log(userTasks);
 });
+
 // - Delete a Task
 let btnTaskDelete = document.getElementsByClassName("task__actions__delete");
 for (const task of btnTaskDelete) {
     task.addEventListener("click", deleteTask);
 }
 function deleteTask(event) {
-    const eventTarget = event.target;
     const taskContainer = event.target.parentNode.parentNode.parentNode;
 
     let i = 0;
@@ -99,8 +106,7 @@ document.getElementById("goalBtnCreate").addEventListener("click", () => {
 
     // Close alert
     let alertBtnClose = document.getElementById("alertBtnClose");
-    alertBtnClose.addEventListener("click", (event) => {
-        const eventTarget = event.target;
+    alertBtnClose.addEventListener("click", () => {
         mainContainer.removeChild(alertDom);
     });
 });
@@ -139,8 +145,7 @@ document.getElementById("reminderBtnCreate").addEventListener("click", () => {
 
     // Close alert
     let alertBtnClose = document.getElementById("alertBtnClose");
-    alertBtnClose.addEventListener("click", (event) => {
-        const eventTarget = event.target;
+    alertBtnClose.addEventListener("click", () => {
         mainContainer.removeChild(alertDom);
     });
 });
