@@ -4,42 +4,38 @@ let userReminders = [];
 
 // ! START SEQUENCE
 function startSequence() {
-    retrieveStorage();
-    createDoms();
-}
-function retrieveStorage() {
     // * Retrieve Tasks
     let tasks = JSON.parse(localStorage.getItem("userTasks"));
     tasks.forEach(taskProperties => {
-        userTasks.push(taskProperties);
+        taskProperties.dueDate = new Date(taskProperties.dueDate);
+        let newTask = new task(taskProperties);
+        userTasks.push(newTask);
     });
 
     // * Retrieve Goals
     const goals = JSON.parse(localStorage.getItem("userGoals"));
     goals.forEach(goalProperties => {
-        userGoals.push(goalProperties);
+        let newGoal = new goal(goalProperties);
+        userGoals.push(newGoal);
     });
 
     // * Retrieve Reminders
     let reminders = JSON.parse(localStorage.getItem("userReminders"));
     reminders.forEach(reminderProperties => {
-        userReminders.push(reminderProperties);
+        reminderProperties.dueDate = new Date(reminderProperties.dueDate);
+        let newReminder = new reminder(reminderProperties);
+        userReminders.push(newReminder);
     });
-}
-function createDoms () {
+
+    // * Create Doms
+    console.log(userTasks);
     userTasks.forEach(taskProperties => {
-        taskProperties.dueDate = new Date(taskProperties.dueDate);
-        taskProperties = new task(taskProperties);
         createTaskDom(taskProperties);
     });
     userGoals.forEach(goalProperties => {
-        goalProperties.dueDate = new Date(goalProperties.dueDate);
-        goalProperties = new goal(goalProperties);
         createGoalDom(goalProperties);
     });
     userReminders.forEach(reminderProperties => {
-        reminderProperties.dueDate = new Date(reminderProperties.dueDate);
-        reminderProperties = new reminder(reminderProperties);
         createReminderDom(reminderProperties);
     });
 }
@@ -51,19 +47,3 @@ function saveStorage() {
 }
 
 startSequence();
-
-// localStorage.setItem("userTasks", JSON.stringify([
-//     {name : "Tarea2", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)", description : "Hay que hacer la tarea de Fundamentos 2"},
-//     {name : "Tarea1", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)", description : "Hay que hacer la tarea de Fundamentos 2"}
-// ]));
-// localStorage.setItem("userReminders", JSON.stringify([
-//     {name : "Remember Task", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)"},
-//     {name : "Remember Reminder", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)"},
-//     {name : "Terminar la tarea", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)"},
-//     {name : "Corregir el codigo", dueDate : "Fri Dec 03 2021 00:00:00 GMT-0300 (-03)"}
-// ]));
-// localStorage.setItem("userGoals", JSON.stringify([
-//     {name : "Remember Task"},
-//     {name : "Remember Reminder"},
-//     {name : "Corregir el codigo"}
-// ]));

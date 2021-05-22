@@ -1,7 +1,6 @@
 // ! TASK EVENTS
 
 // - Create Task
-
 document.getElementById("taskBtnCreate").addEventListener("click", () => {
     // Create alert dom
     let alertDom = document.createElement("div");
@@ -52,11 +51,10 @@ document.getElementById("taskBtnCreate").addEventListener("click", () => {
 
         saveStorage();
     });
-    console.log(userTasks);
 });
 
 // - Delete a Task
-let btnTaskDelete = document.getElementsByClassName("task__actions__delete");
+let btnTaskDelete = document.getElementsByClassName("btnTaskDelete");
 for (const task of btnTaskDelete) {
     task.addEventListener("click", deleteTask);
 }
@@ -64,7 +62,6 @@ function deleteTask(event) {
     const taskContainer = event.target.parentNode.parentNode.parentNode;
 
     let i = 0;
-    console.log(userTasks);
     userTasks.forEach(task => {
         if (task.id == taskContainer.id) {
             userTasks.splice(i, 1);
@@ -111,6 +108,39 @@ document.getElementById("goalBtnCreate").addEventListener("click", () => {
     });
 });
 // - Delete a Goal
+let btnGoalDelete = document.getElementsByClassName("btnGoalDelete");
+for (const goal of btnGoalDelete) {
+    goal.addEventListener("click", (event) => {
+        let goalContainer = event.target.parentNode;
+        let i = 0;
+        userGoals.forEach(goal => {
+            if (goal.id == goalContainer.id) {
+                userGoals.split(i, 1);
+            }
+            else {
+                i++
+            }
+        });
+    });
+}
+// Complete goal
+let btnGoalComplete = document.getElementsByClassName("btnGoalComplete");
+for (const goal of btnGoalComplete) {
+    goal.addEventListener("click", (event) => {
+        let goalContainer = event.target.parentNode;
+        userGoals.forEach(goal => {
+            if (goal.id == goalContainer.id) {
+                if (goal.doneState === false) {
+                    goal.doneState = true;
+                }
+                else if(goal.doneState === true) {
+                    goal.doneState = false;
+                }
+            }
+        });
+        saveStorage();
+    });
+}
 
 // ! REMINDER EVENTS
 

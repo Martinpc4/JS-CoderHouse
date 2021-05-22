@@ -11,7 +11,7 @@ function createTaskDom (newTask) {
             <p class="task__description">${newTask.description}</p>
             <div class="task__actions">
                 <i class="bi bi-check2"></i>
-                <i class="task__actions__delete bi bi-trash"></i>
+                <i class="btnTaskDelete bi bi-trash"></i>
             </div>
         </div>
     `;
@@ -22,10 +22,22 @@ function createTaskDom (newTask) {
 function createGoalDom (newGoal) {
     let domGoal = document.createElement("div");
     domGoal.className = "goal";
-    domGoal.innerHTML = `
-        <i class="bi bi-circle"></i>
-        <p class="goal__title">${newGoal.name}</p>
-    `;
+    domGoal.id = `${newGoal.id}`;
+    console.log(newGoal.doneState);
+    if (newGoal.doneState === false) {
+        domGoal.innerHTML = `
+            <i class="btnGoalComplete bi bi-circle"></i>
+            <p class="goal__title">${newGoal.name}</p>
+            <i class="btnGoalDelete bi bi-trash"></i>
+        `;
+    }
+    else if (newGoal.doneState === true) {
+        domGoal.innerHTML = `
+            <i class="btnGoalComplete bi bi-circle-fill"></i>
+            <p class="goal__title">${newGoal.name}</p>
+            <i class="btnGoalDelete bi bi-trash"></i>
+        `;
+    }
     const goal_container = document.getElementById("goalsContainer");
     goal_container.appendChild(domGoal);
 }

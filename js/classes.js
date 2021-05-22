@@ -12,7 +12,7 @@ class goal {
     constructor(goalProperties) {
         this.id = goalProperties.id === undefined ? randomId(userGoals) : goalProperties.id;
         this.name = goalProperties.name;
-        this.doneState = false;
+        this.doneState = goalProperties.doneState === undefined ? false : goalProperties.doneState;
     }
 }
 class reminder {

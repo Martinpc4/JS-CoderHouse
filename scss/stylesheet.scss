@@ -262,20 +262,40 @@ main {
         // grid son
         grid-column: 1 / 3;
         grid-row: 2 / 3;
-        // flex box
-        display: flex;
-        flex-flow: column nowrap;
+        // grid father
+        display: grid;
+        grid-template-columns: 1fr;
+        align-content: flex-start;
+        row-gap: 5px;
         .goal {
-            display: flex;
-            flex-flow: row nowrap;
+            // grid father
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            grid-template-rows: 1fr;
+            column-gap: 5px;
+            // box modeling
             width: 100%;
-            margin-bottom: 10px;
             i {
-                margin-right: 5px;
+                font-size: 16px;
+                cursor: pointer;
             }
             p {
                 padding: 0;
                 margin: 0;
+            }
+            .btnGoalDelete {
+                display: none;
+                // grid son
+                grid-column: 3 / 4;
+                grid-row: 1 / 2;
+            }
+            .btnGoalComplete {
+                // grid son
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+            }
+            &:hover .btnGoalDelete {
+                display: block;
             }
         }
     }
