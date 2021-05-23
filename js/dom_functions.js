@@ -23,7 +23,6 @@ function createGoalDom (newGoal) {
     let domGoal = document.createElement("div");
     domGoal.className = "goal";
     domGoal.id = `${newGoal.id}`;
-    console.log(newGoal.doneState);
     if (newGoal.doneState === false) {
         domGoal.innerHTML = `
             <i class="btnGoalComplete bi bi-circle"></i>

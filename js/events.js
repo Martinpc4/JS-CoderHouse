@@ -87,10 +87,10 @@ document.getElementById("goalBtnCreate").addEventListener("click", () => {
                 <p>Create Goal</p>
                 <i id="alertBtnClose" class="bi bi-x-lg"></i>
             </div>
-            <form class="alert__form" action="">
+            <form id="alertForm" class="alert__form" action="">
                 <div class="alert__form__input">
                     <label for="name">Name</label>
-                    <input class="input" type="text" name="name">
+                    <input id="alertGoalName" class="input" type="text" name="name">
                 </div>
                 <div class="alert__form__buttons">
                     <input class="btn" type="submit">
@@ -100,30 +100,39 @@ document.getElementById("goalBtnCreate").addEventListener("click", () => {
     `;
     const mainContainer = document.getElementById("mainContainer");
     mainContainer.appendChild(alertDom);
-
     // Close alert
     let alertBtnClose = document.getElementById("alertBtnClose");
     alertBtnClose.addEventListener("click", () => {
         mainContainer.removeChild(alertDom);
+    });
+    // Capture data
+    document.getElementById("alertForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        let goalName = String(document.getElementById("alertGoalName").value);
+        newGoal = new goal(goalName);
+        userGoals.push(newGoal);
+        console.log(userGoals);
+        saveStorage();
     });
 });
 // - Delete a Goal
 let btnGoalDelete = document.getElementsByClassName("btnGoalDelete");
 for (const goal of btnGoalDelete) {
     goal.addEventListener("click", (event) => {
-        let goalContainer = event.target.parentNode;
+        const goalContainer = event.target.parentNode;
         let i = 0;
         userGoals.forEach(goal => {
             if (goal.id == goalContainer.id) {
-                userGoals.split(i, 1);
+                userGoals.splice(i, 1);
             }
             else {
                 i++
             }
         });
+        saveStorage();
     });
 }
-// Complete goal
+// - Complete goal
 let btnGoalComplete = document.getElementsByClassName("btnGoalComplete");
 for (const goal of btnGoalComplete) {
     goal.addEventListener("click", (event) => {
@@ -155,7 +164,7 @@ document.getElementById("reminderBtnCreate").addEventListener("click", () => {
                 <p>Create Reminder</p>
                 <i id="alertBtnClose" class="bi bi-x-lg"></i>
             </div>
-            <form class="alert__form" action="">
+            <form id="alertForm" class="alert__form" action="">
                 <div class="alert__form__input">
                     <label for="name">Name</label>
                     <input class="input" type="text" name="name">

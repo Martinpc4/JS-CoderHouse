@@ -28,7 +28,6 @@ function startSequence() {
     });
 
     // * Create Doms
-    console.log(userTasks);
     userTasks.forEach(taskProperties => {
         createTaskDom(taskProperties);
     });
