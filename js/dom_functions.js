@@ -10,7 +10,7 @@ function createTaskDom (newTask) {
             <p class="task__dueDate">${String(newTask.dueDate.getDate()) + "/" + String(newTask.dueDate.getMonth() + 1) + "/" + String(newTask.dueDate.getFullYear())}</p>
             <p class="task__description">${newTask.description}</p>
             <div class="task__actions">
-                <i class="bi bi-check2"></i>
+                <i class="btnTaskComplete bi bi-check2"></i>
                 <i class="btnTaskDelete bi bi-trash"></i>
             </div>
         </div>
@@ -44,20 +44,31 @@ function createGoalDom (newGoal) {
 function createReminderDom (newReminder) {
     let domReminder = document.createElement("div");
     domReminder.className = "reminders";
+    domReminder.id = `${newReminder.id}`;
     if (onTime(newReminder.dueDate) === true) {
         domReminder.innerHTML = `
-            <i class="reminders__icon bi bi-square"></i>
+            <div class="reminders__actions-complete">
+            <i class="btnReminderComplete bi bi-square"></i>
+            </div>
+            <div class="reminders__status reminders__status--onTime"></div>
             <p class="reminders__title">${newReminder.name}</p>
             <p class="reminders__dueDate">${String(newReminder.dueDate.getDate()) + "/" + String(newReminder.dueDate.getMonth() + 1) + "/" + String(newReminder.dueDate.getFullYear())}</p>
-            <div class="reminders__status reminders__status--onTime"></div>
+            <div class="reminders__actions-delete">
+                <i class="btnReminderDelete bi bi-trash"></i>
+            </div>
         `;
     }
     else if (onTime(newReminder.dueDate) === false) {
         domReminder.innerHTML = `
-            <i class="reminders__icon bi bi-square"></i>
+            <div class="reminders__actions-complete">
+            <i class="btnReminderComplete bi bi-square"></i>
+            </div>
+            <div class="reminders__status reminders__status--overdue"></div>
             <p class="reminders__title">${newReminder.name}</p>
             <p class="reminders__dueDate">${String(newReminder.dueDate.getDate()) + "/" + String(newReminder.dueDate.getMonth() + 1) + "/" + String(newReminder.dueDate.getFullYear())}</p>
-            <div class="reminders__status reminders__status--overdue"></div>
+            <div class="reminders__actions-delete">
+                <i class="btnReminderDelete bi bi-trash"></i>
+            </div>
         `;
     }
     

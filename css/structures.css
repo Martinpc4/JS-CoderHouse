@@ -1,0 +1,31 @@
+.input {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+  outline: none;
+  height: 30px;
+  width: 100%;
+  padding: 5px 5px;
+  font-size: 1rem;
+}
+
+.btn {
+  width: 70px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: #ecec00;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.textarea {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+  height: 75px;
+  width: 100%;
+  padding: 5px 5px;
+  font-size: 1rem;
+  outline: none;
+  resize: none;
+  overflow: auto;
+}
