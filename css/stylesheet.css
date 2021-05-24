@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
 .input {
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 1px;
@@ -36,7 +36,7 @@
           box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
 }
 
@@ -45,18 +45,17 @@ body {
   display: grid;
   -ms-grid-columns: 20% 80%;
       grid-template-columns: 20% 80%;
-  -webkit-column-gap: 10px;
-          column-gap: 10px;
-  padding: 1vh 1vw;
-  width: 99vw;
-  height: 99vh;
+  -ms-grid-rows: 100vh;
+      grid-template-rows: 100vh;
 }
 
 aside {
-  background-color: #3d4754;
-  border-radius: 6px;
+  background-color: #161b25;
   -ms-grid-column: 1;
   grid-column: 1 / 1;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr;
@@ -141,7 +140,9 @@ main {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
-  background-color: white;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr;
@@ -151,6 +152,8 @@ main {
   row-gap: 3vh;
   -webkit-column-gap: 4vw;
           column-gap: 4vw;
+  background-color: #f6f8f9;
+  padding: 10px;
 }
 
 .main-container {
@@ -422,7 +425,7 @@ main {
 }
 
 .goals__container {
-  border-top: 1px solid rgb(0, 0, 0, 0.1);
+  border-top: 1px solid rgb(225, 230, 232);
   padding: 10px;
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
@@ -571,7 +574,7 @@ main {
       align-content: flex-start;
   row-gap: 8px;
   padding: 10px;
-  border-top: 1px solid rgb(0, 0, 0, 0.1);
+  border-top: 1px solid rgb(225, 230, 232);
 }
 
 .tasks__container .task {
@@ -762,7 +765,7 @@ main {
   -ms-flex-line-pack: start;
       align-content: flex-start;
   row-gap: 10px;
-  border-top: 1px solid rgb(0, 0, 0, 0.1);
+  border-top: 1px solid rgb(225, 230, 232);
   padding: 10px;
 }
 

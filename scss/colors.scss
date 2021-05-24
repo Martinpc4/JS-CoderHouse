@@ -7,12 +7,13 @@ $body-background: #E7D8C9;
 $container-background: #F1E9E1;
 // *Borders
 $border-design: "1px solid rgb(0, 0, 0, 0.1)";
+$border-main: "1px solid rgb(225, 230, 232)";
 // *Default Colours
 $link-general-hover-background: #F1E9E1;
 
 // !Font Colors
 $font-color-primary: rgb(198,204,210);
-$font-color-secondary: grey;
+$font-color-secondary: rgb(152, 158, 163); // font for the aside
 
 $font-color-aside: rgb(216, 216, 216);
 $font-color-aside-dark: rgb(198,204,210);
@@ -33,6 +34,7 @@ $semantic-color-primary: #6D71F9;
 $semantic-color-secondary: #54C1FB;
 
 // ? Background colors
-$background-color-primary: rgb(61,71,84);
-$background-color-secondary: white;
+$background-color-primary:  rgb(22, 27, 37);
+// $background-color-primary:  #061D23;
+$background-color-secondary: rgb(246, 248, 249);
 $background-color-tertiary: #e9edc9;

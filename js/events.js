@@ -245,7 +245,7 @@ for (const reminder of btnsReminderComplete) {
                     reminder.doneState = true;
                 }
             }
-        });
+        }); 
         saveStorage();
     });
 }
