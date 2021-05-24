@@ -27,7 +27,7 @@ $links-hover-background-color: rgb(248,244,240);
 $btn-background-color: rgb(236, 236, 0);
 
 
-// ! APP COLORS
+// ! App Semantic
 $semantic-primary: #1D8CA6;
 $semantic-secondary: #7C73AE;
 $semantic-tertiary: #6AAC46;
@@ -46,3 +46,9 @@ $aside-dividers: #293245;
 // ! Fonts
 $aside-icons: rgb(116,123,133);
 $aside-text: #9dacb6;
+
+
+// ! Reminder Status
+$reminder-onTime: rgb(96, 201, 60);
+$reminder-overDue: rgb(235, 82, 47);
+$reminder-nextSeven:rgb(243, 166, 59);
