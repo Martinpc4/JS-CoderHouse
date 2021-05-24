@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- TaskTabs Icon -->
-    <link rel="shortcut icon" type="image/png" href="/assets/app/icons/app_icon_32.png">
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -16,23 +14,79 @@
 
     <title>JS-Proyecto</title>
 </head>
+
 <body>
-    <aside>
-        <div class="aside-logo">
-            <img src="/assets/app/app_banner.svg" alt="">
+    <aside class="aside">
+        <div class="aside__logo">
+            <img src="/assets/app/banner.svg" alt="">
         </div>
-        <div id="aside-projects-container" class="projects-container">
-            <div class="projects-container__project">
-                <p>JavaScript</p>
+        <div class="aside__menu">
+            <ul>
+                <li>
+                    <i class="bi bi-house"></i>
+                    <p>Home</p>
+                </li>
+                <li>
+                    <i class="bi bi-inbox"></i>
+                    <p>Inbox</p>
+                </li>
+            </ul>
+        </div>
+        <div class="fav-prjs">
+            <div class="fav-prjs__title">
+                <p>Favorites</p>
             </div>
+            <div class="fav-prjs__prj-ctr">
+                <div class="fav-prjs__prj-ctr__prj">
+                    <div class="fav-prjs__prj-ctr__prj__color"></div>
+                    <p>Coder House</p>
+                </div>
+                <div class="fav-prjs__prj-ctr__prj">
+                    <div class="fav-prjs__prj-ctr__prj__color"></div>
+                    <p>UCEMA</p>
+                </div>
+                <div class="fav-prjs__prj-ctr__prj">
+                    <div class="fav-prjs__prj-ctr__prj__color"></div>
+                    <p>UADE</p>
+                </div>
+            </div>
+        </div>
+        <div class="prjs">
+            <div class="prjs__title">
+                <p>Projects</p>
+            </div>
+            <div class="prjs__prjs-ctr">
+                <div class="prjs__prjs-ctr__prj">
+                    <div class="prjs__prjs-ctr__prj__color"></div>
+                    <p>Coder House</p>
+                </div>
+                <div class="prjs__prjs-ctr__prj">
+                    <div class="prjs__prjs-ctr__prj__color"></div>
+                    <p>UCEMA</p>
+                </div>
+                <div class="prjs__prjs-ctr__prj">
+                    <div class="prjs__prjs-ctr__prj__color"></div>
+                    <p>UADE</p>
+                </div>
+            </div>
+        </div>
+        <div class="aside__other">
+            <ul>
+                <li>
+                    <p>Feedback</p>
+                </li>
+                <li>
+                    <p>Configuration</p>
+                </li>
+            </ul>
         </div>
     </aside>
     <main>
-        <div class="project-info">
-            <div class="project-info__info-container">
+        <div class="prj-info">
+            <div class="prj-info__info-container">
                 <p>JavaScript</p>
             </div>
-            <div class="project-info__actions-container">
+            <div class="prj-info__actions-container">
                 <i class="bi bi-pencil-square"></i>
                 <i class="bi bi-trash"></i>
             </div>

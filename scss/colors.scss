@@ -27,14 +27,21 @@ $links-hover-background-color: rgb(248,244,240);
 $btn-background-color: rgb(236, 236, 0);
 
 
-// ! Structural Colors
+// ! APP COLORS
+$semantic-primary: #1D8CA6;
+$semantic-secondary: #7C73AE;
+$semantic-tertiary: #6AAC46;
+$semantic-quaternary: #E69541;
+$sematic-quintinary: #DD7155;
 
-// ? Semantic colors
-$semantic-color-primary: #6D71F9;
-$semantic-color-secondary: #54C1FB;
+// ! Backgrounds
+$background-aside: #161B25;
+$background-aside--hover: #1f2735;
+$background-main: #f6f8f9;
 
-// ? Background colors
-$background-color-primary:  rgb(22, 27, 37);
-// $background-color-primary:  #061D23;
-$background-color-secondary: rgb(246, 248, 249);
-$background-color-tertiary: #e9edc9;
+// ! Borders
+$aside-dividers: #293245;
+
+// ! Fonts
+$aside-icons: rgb(116,123,133);
+$aside-text: #9dacb6;
