@@ -15,7 +15,7 @@ function createTaskDom (newTask) {
             </div>
         </div>
     `;
-    const domTaskctr = document.getElementById("tasksctr");
+    const domTaskctr = document.getElementById("tasksCtr");
     domTaskctr.appendChild(domTask);
 }
 // !GOAL
@@ -37,7 +37,7 @@ function createGoalDom (newGoal) {
             <i class="btnGoalDelete bi bi-trash"></i>
         `;
     }
-    const goal_ctr = document.getElementById("goalsctr");
+    const goal_ctr = document.getElementById("goalsCtr");
     goal_ctr.appendChild(domGoal);
 }
 // !CREATE REMINDER
@@ -72,6 +72,6 @@ function createReminderDom (newReminder) {
         `;
     }
     
-    const reminders_ctr = document.getElementById("remindersctr");
+    const reminders_ctr = document.getElementById("remindersCtr");
     reminders_ctr.appendChild(domReminder);
 }

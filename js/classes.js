@@ -4,6 +4,8 @@ class project {
         this.id = projectProperties.id === undefined ? randomId(userProjects) : projectProperties.id;
         this.name = projectProperties.name;
         this.tabs = projectProperties.tabs;
+        this.color = projectProperties.color === undefined ? "red" : projectProperties.color;
+        this.fav = projectProperties.fav ===undefined ? false : projectProperties.fav;
     }
 }
 class tab {

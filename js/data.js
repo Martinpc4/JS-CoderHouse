@@ -30,9 +30,32 @@ function retrieveStorage() {
             });
         });
     });
-    console.log(userProjects);
+    // - Aside dom Creation
+    const projectContainer = document.getElementById("projectContainer");
+    const favProjectContainer = document.getElementById("favProjectContainer");
+    userProjects.forEach(Project => {
+        // projects ctr
+        let projectDom = document.createElement("div");
+        projectDom.className = "prjs__prjs-ctr__prj";
+        projectDom.id = `${Project.id}`;
+        projectDom.innerHTML = `
+            <div class="prjs__prjs-ctr__prj__color"></div>
+            <p>${Project.name}</p>
+        `;
+        projectContainer.appendChild(projectDom);
+        // fav projects ctr
+        if (Project.fav === true) {
+            let favProjectDom = document.createElement("div");
+            favProjectDom.className = "prjs__prjs-ctr__prj";
+            favProjectDom.id = `${Project.id}`;
+            favProjectDom.innerHTML = `
+                <div class="prjs__prjs-ctr__prj__color"></div>
+                <p>${Project.name}</p>
+            `;
+            favProjectContainer.appendChild(favProjectDom);
+        }
+    });
 
-    
 }
 function saveStorage() {
     localStorage.setItem("userProjects", JSON.stringify(userProjects));
@@ -42,13 +65,24 @@ function saveStorage() {
 retrieveStorage();
 
 // localStorage.setItem("userProjects", JSON.stringify(
-//     [{id: 1230, name: "UCEMA", tabs: [{
-//         tabOf: 1230, id: 12354, name: "Fundamentos de Informatica", tasks: [{
-//             taskOf: 12354, id: 15745, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
-//         }], reminders: [{
-//             reminderOf: 12354, id: 18645, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
-//         }], goals: [{
-//             reminderOf: 12354, id: 37534, name: "Meta tarea"
-//         }]
-//     }]}]
+//     [
+//         {id: 1230, fav: false, color: "red",name: "CoderHouse", tabs: [{
+//             tabOf: 1230, id: 12354, name: "Fundamentos de Informatica", tasks: [{
+//                 taskOf: 12354, id: 15745, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
+//             }], reminders: [{
+//                 reminderOf: 12354, id: 18645, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
+//             }], goals: [{
+//                 reminderOf: 12354, id: 37534, name: "Meta tarea"
+//             }]
+//         }]},
+//         {id: 122394, fav: true, color: "yellow",name: "UCEMA", tabs: [{
+//             tabOf: 122394, id: 12837123, name: "Fundamentos de Informatica", tasks: [{
+//                 taskOf: 12837123, id: 15745, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
+//             }], reminders: [{
+//                 reminderOf: 12837123, id: 18645, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
+//             }], goals: [{
+//                 reminderOf: 12837123, id: 37534, name: "Meta tarea"
+//             }]
+//         }]}
+//     ]
 // ));

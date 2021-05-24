@@ -1,3 +1,48 @@
+// ! Aside Events
+let projectBtns = document.getElementsByClassName("prjs__prjs-ctr__prj");
+for (const ProjectBtn of projectBtns) {
+    // Project Info
+    ProjectBtn.addEventListener("click", (event) => {
+        // Project info DOM
+        userProjects.forEach(projectProperties => {
+            if (projectProperties.id == event.target.parentNode.id) {
+                // create the title
+                let prjInfoCtrDom = document.createElement("p");
+                prjInfoCtrDom.innerText = `${projectProperties.name}`;
+                // append the title created
+                const prjInfoCtr = document.getElementById("prjInfoCtr");
+                prjInfoCtr.innerHTML = `
+                    <i class="bi bi-star"></i>
+                `;
+                prjInfoCtr.appendChild(prjInfoCtrDom);
+            }
+        });
+        // Project Tabs
+        userProjects.forEach(projectProperties => {
+            if (projectProperties.id == event.target.parentNode.id) {
+                // create tabs
+                projectProperties.tabs.forEach(projectTab => {
+                    // create the "new" tab DOM
+                    let newTab = document.createElement("div"); 
+                    newTab.className = "prj-info__tabs-ctr__tab tab-link";
+                    newTab.innerHTML = `
+                    <p>${projectTab.name}</p>
+                    `;
+                    // Append the "new" tab
+                    const prjTabsCtr = document.getElementById("prjTabsCtr");
+                    prjTabsCtr.innerHTML = "";
+                    prjTabsCtr.appendChild(newTab);
+                });
+            }
+        });
+    });
+    
+}
+
+
+
+
+
 // ! TASK EVENTS
 // - Create Task
 document.getElementById("taskBtnCreate").addEventListener("click", () => {
