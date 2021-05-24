@@ -1,48 +1,54 @@
-let userTasks = [];
-let userGoals = [];
-let userReminders = [];
+let userProjects = [];
 
 // ! START SEQUENCE
-function startSequence() {
-    // * Retrieve Tasks
-    let tasks = JSON.parse(localStorage.getItem("userTasks"));
-    tasks.forEach(taskProperties => {
-        taskProperties.dueDate = new Date(taskProperties.dueDate);
-        let newTask = new task(taskProperties);
-        userTasks.push(newTask);
+function retrieveStorage() {
+    // * Retrieving Projects
+    let projects = JSON.parse(localStorage.getItem("userProjects"));
+    projects.forEach(projectProperties => {
+        let newProject = new project(projectProperties);
+        userProjects.push(newProject);
     });
+    userProjects.forEach(projectProperties => {
+        // * Creating intances of tabs < projects
+        projectProperties.tabs.forEach(tabProperties => {
+            let newTab = new tab(tabProperties);
+            tabProperties = newTab;
+            // * Create instances of tasks < tabs < projects
+            tabProperties.tasks.forEach(taskProperties => {
+                let newTask = new task(taskProperties);
+                taskProperties = newTask;
+            });
+            // * Create instances of goals < tabs < projects
+            tabProperties.goals.forEach(goalProperties => {
+                let newGoal = new goal(goalProperties);
+                goalProperties = newGoal;
+            });
+            // * Create instances of reminders < tabs < projects
+            tabProperties.reminders.forEach(reminderProperties => {
+                let newReminder = new reminder(reminderProperties);
+                reminderProperties = newReminder;
+            });
+        });
+    });
+    console.log(userProjects);
 
-    // * Retrieve Goals
-    const goals = JSON.parse(localStorage.getItem("userGoals"));
-    goals.forEach(goalProperties => {
-        let newGoal = new goal(goalProperties);
-        userGoals.push(newGoal);
-    });
-
-    // * Retrieve Reminders
-    let reminders = JSON.parse(localStorage.getItem("userReminders"));
-    reminders.forEach(reminderProperties => {
-        reminderProperties.dueDate = new Date(reminderProperties.dueDate);
-        let newReminder = new reminder(reminderProperties);
-        userReminders.push(newReminder);
-    });
-
-    // * Create Doms
-    userTasks.forEach(taskProperties => {
-        createTaskDom(taskProperties);
-    });
-    userGoals.forEach(goalProperties => {
-        createGoalDom(goalProperties);
-    });
-    userReminders.forEach(reminderProperties => {
-        createReminderDom(reminderProperties);
-    });
+    
 }
 function saveStorage() {
-    localStorage.setItem("userTasks", JSON.stringify(userTasks));
-    localStorage.setItem("userGoals", JSON.stringify(userGoals));
-    localStorage.setItem("userReminders", JSON.stringify(userReminders));
+    localStorage.setItem("userProjects", JSON.stringify(userProjects));
     location.reload();
 }
 
-startSequence();
+retrieveStorage();
+
+// localStorage.setItem("userProjects", JSON.stringify(
+//     [{id: 1230, name: "UCEMA", tabs: [{
+//         tabOf: 1230, id: 12354, name: "Fundamentos de Informatica", tasks: [{
+//             taskOf: 12354, id: 15745, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
+//         }], reminders: [{
+//             reminderOf: 12354, id: 18645, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
+//         }], goals: [{
+//             reminderOf: 12354, id: 37534, name: "Meta tarea"
+//         }]
+//     }]}]
+// ));

@@ -1,7 +1,39 @@
  // ! Contructors
+class project {
+    constructor(projectProperties) {
+        this.id = projectProperties.id === undefined ? randomId(userProjects) : projectProperties.id;
+        this.name = projectProperties.name;
+        this.tabs = projectProperties.tabs;
+    }
+}
+class tab {
+    constructor(tabProperties) {
+        this.tabOf = tabProperties.tabOf;
+        this.id = tabProperties.id === undefined ? randomId(
+            userProjects.forEach(project => {
+                if (project.id == tabProperties.tabOf) {
+                    return (project.tabs);
+                }
+            })
+        ) : tabProperties.id;
+        this.name = tabProperties.name;
+        this.tasks = tabProperties.tasks;
+        this.goals = tabProperties.goals;
+        this.reminders = tabProperties.reminders;
+    }
+}
 class task {
     constructor(taskProperties) {
-        this.id = taskProperties.id === undefined ? randomId(userTasks) : taskProperties.id;
+        this.taskOf = taskProperties.taskOf;
+        this.id = taskProperties.id === undefined ? randomId(
+            userProjects.forEach(project => {
+                project.tabs.forEach(tab => {
+                    if (tab.id == taskProperties.taskOf) {
+                        return (tab.tasks);
+                    }
+                });
+            })
+        ) : taskProperties.id;
         this.name = taskProperties.name;
         this.dueDate = taskProperties.dueDate;
         this.description = taskProperties.description;
@@ -10,14 +42,32 @@ class task {
 }
 class goal {
     constructor(goalProperties) {
-        this.id = goalProperties.id === undefined ? randomId(userGoals) : goalProperties.id;
+        this.goalOf = goalProperties.goalOf;
+        this.id = goalProperties.id === undefined ? randomId(
+            userProjects.forEach(project => {
+                project.tabs.forEach(tab => {
+                    if (tab.id == goalProperties.goalOf) {
+                        return (tab.goals);
+                    }
+                });
+            })
+        ) : goalProperties.id;
         this.name = goalProperties.name;
         this.doneState = goalProperties.doneState === undefined ? false : goalProperties.doneState;
     }
 }
 class reminder {
     constructor(reminderProperties) {
-        this.id = reminderProperties.id === undefined ? randomId(userReminders) : reminderProperties.id;
+        this.reminderOf = reminderProperties.reminderOf;
+        this.id = reminderProperties.id === undefined ? randomId(
+            userProjects.forEach(project => {
+                project.tabs.forEach(tab => {
+                    if (tab.id == reminderProperties.reminderOf) {
+                        return (tab.reminders);
+                    }
+                });
+            })
+        ) : reminderProperties.id;
         this.name = reminderProperties.name;
         this.dueDate = reminderProperties.dueDate;
         this.doneState = reminderProperties.doneState === undefined ? false : reminderProperties.doneState;
