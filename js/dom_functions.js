@@ -5,7 +5,7 @@ function createTaskDom (newTask) {
     domTask.id = `${newTask.id}`;
     domTask.innerHTML = `
         <div class="task__bar"></div>
-        <div class="task__container">
+        <div class="task__ctr">
             <p class="task__title">${newTask.name}</p>
             <p class="task__dueDate">${String(newTask.dueDate.getDate()) + "/" + String(newTask.dueDate.getMonth() + 1) + "/" + String(newTask.dueDate.getFullYear())}</p>
             <p class="task__description">${newTask.description}</p>
@@ -15,8 +15,8 @@ function createTaskDom (newTask) {
             </div>
         </div>
     `;
-    const domTaskContainer = document.getElementById("tasksContainer");
-    domTaskContainer.appendChild(domTask);
+    const domTaskctr = document.getElementById("tasksctr");
+    domTaskctr.appendChild(domTask);
 }
 // !GOAL
 function createGoalDom (newGoal) {
@@ -37,8 +37,8 @@ function createGoalDom (newGoal) {
             <i class="btnGoalDelete bi bi-trash"></i>
         `;
     }
-    const goal_container = document.getElementById("goalsContainer");
-    goal_container.appendChild(domGoal);
+    const goal_ctr = document.getElementById("goalsctr");
+    goal_ctr.appendChild(domGoal);
 }
 // !CREATE REMINDER
 function createReminderDom (newReminder) {
@@ -72,6 +72,6 @@ function createReminderDom (newReminder) {
         `;
     }
     
-    const reminders_container = document.getElementById("remindersContainer");
-    reminders_container.appendChild(domReminder);
+    const reminders_ctr = document.getElementById("remindersctr");
+    reminders_ctr.appendChild(domReminder);
 }

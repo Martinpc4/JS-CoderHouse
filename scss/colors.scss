@@ -4,7 +4,7 @@ $primary-colour: #FFDDD2;
 $secondary-colour: #E29578;
 // *Backgrounds
 $body-background: #E7D8C9;
-$container-background: #F1E9E1;
+$ctr-background: #F1E9E1;
 // *Borders
 $border-design: "1px solid rgb(0, 0, 0, 0.1)";
 $border-main: "1px solid rgb(225, 230, 232)";
@@ -32,12 +32,13 @@ $semantic-primary: #1D8CA6;
 $semantic-secondary: #7C73AE;
 $semantic-tertiary: #6AAC46;
 $semantic-quaternary: #E69541;
-$sematic-quintinary: #DD7155;
+$semantic-quintinary: #DD7155;
 
 // ! Backgrounds
 $background-aside: #161B25;
 $background-aside--hover: #1f2735;
-$background-main: #f6f8f9;
+$background-main: #f5f5f5;
+$background-main--blur: rgba(245,245,245,0.5);
 
 // ! Borders
 $aside-dividers: #293245;
