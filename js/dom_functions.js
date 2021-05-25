@@ -1,5 +1,5 @@
 // !TASK
-function createTaskDom (newTask) {
+function createTaskDom(newTask) {
     let domTask = document.createElement("div");
     domTask.className = "task"
     domTask.id = `${newTask.id}`;
@@ -19,7 +19,7 @@ function createTaskDom (newTask) {
     domTaskctr.appendChild(domTask);
 }
 // !GOAL
-function createGoalDom (newGoal) {
+function createGoalDom(newGoal) {
     let domGoal = document.createElement("div");
     domGoal.className = "goal";
     domGoal.id = `${newGoal.id}`;
@@ -41,7 +41,7 @@ function createGoalDom (newGoal) {
     goal_ctr.appendChild(domGoal);
 }
 // !CREATE REMINDER
-function createReminderDom (newReminder) {
+function createReminderDom(newReminder) {
     let domReminder = document.createElement("div");
     domReminder.className = "reminders";
     domReminder.id = `${newReminder.id}`;
@@ -71,7 +71,7 @@ function createReminderDom (newReminder) {
             </div>
         `;
     }
-    
+
     const reminders_ctr = document.getElementById("remindersCtr");
     reminders_ctr.appendChild(domReminder);
 }

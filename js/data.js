@@ -13,21 +13,27 @@ function retrieveStorage() {
         projectProperties.tabs.forEach(tabProperties => {
             let newTab = new tab(tabProperties);
             tabProperties = newTab;
-            // * Create instances of tasks < tabs < projects
-            tabProperties.tasks.forEach(taskProperties => {
-                let newTask = new task(taskProperties);
-                taskProperties = newTask;
-            });
-            // * Create instances of goals < tabs < projects
-            tabProperties.goals.forEach(goalProperties => {
-                let newGoal = new goal(goalProperties);
-                goalProperties = newGoal;
-            });
-            // * Create instances of reminders < tabs < projects
-            tabProperties.reminders.forEach(reminderProperties => {
-                let newReminder = new reminder(reminderProperties);
-                reminderProperties = newReminder;
-            });
+            if (tabProperties.tasks != undefined) {
+                // * Create instances of tasks < tabs < projects
+                tabProperties.tasks.forEach(taskProperties => {
+                    let newTask = new task(taskProperties);
+                    taskProperties = newTask;
+                });
+            }
+            if (tabProperties.goals != undefined) {
+                // * Create instances of goals < tabs < projects
+                tabProperties.goals.forEach(goalProperties => {
+                    let newGoal = new goal(goalProperties);
+                    goalProperties = newGoal;
+                });
+            }
+            if (tabProperties.reminders != undefined) {
+                // * Create instances of reminders < tabs < projects
+                tabProperties.reminders.forEach(reminderProperties => {
+                    let newReminder = new reminder(reminderProperties);
+                    reminderProperties = newReminder;
+                });
+            }
         });
     });
     // - Aside dom Creation
@@ -67,22 +73,32 @@ retrieveStorage();
 // localStorage.setItem("userProjects", JSON.stringify(
 //     [
 //         {id: 1230, fav: false, color: "red",name: "CoderHouse", tabs: [{
-//             tabOf: 1230, id: 12354, name: "Fundamentos de Informatica", tasks: [{
-//                 taskOf: 12354, id: 15745, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
+//             tabOf: 1230, id: "12354", overview: false, name: "Fundamentos de Informatica", tasks: [{
+//                 taskOf: 12354, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
 //             }], reminders: [{
-//                 reminderOf: 12354, id: 18645, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
+//                 reminderOf: 12354, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
 //             }], goals: [{
-//                 reminderOf: 12354, id: 37534, name: "Meta tarea"
+//                 reminderOf: 12354, name: "Meta tarea"
 //             }]
 //         }]},
 //         {id: 122394, fav: true, color: "yellow",name: "UCEMA", tabs: [{
-//             tabOf: 122394, id: 12837123, name: "Fundamentos de Informatica", tasks: [{
-//                 taskOf: 12837123, id: 15745, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
+//             tabOf: 122394, id:"1395123", overview: false, name: "Fundamentos de Informatica", tasks: [{
+//                 taskOf: 1395123, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
 //             }], reminders: [{
-//                 reminderOf: 12837123, id: 18645, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
+//                 reminderOf: 1395123, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
 //             }], goals: [{
-//                 reminderOf: 12837123, id: 37534, name: "Meta tarea"
+//                 reminderOf: 1395123, name: "Meta tarea"
 //             }]
-//         }]}
+//         },
+//         {
+//             tabOf: 122394,id: "12837123", overview: false, name: "Analisis Matematico I", tasks: [{
+//                 taskOf: 12837123, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
+//             }], reminders: [{
+//                 reminderOf: 12837123, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
+//             }], goals: [{
+//                 reminderOf: 12837123, name: "Meta tarea"
+//             }]
+//             }
+//         ]}
 //     ]
 // ));

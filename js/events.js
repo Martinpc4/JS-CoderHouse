@@ -1,4 +1,4 @@
-// ! Aside Events
+// ! Aside / Project-related Events
 let projectBtns = document.getElementsByClassName("prjs__prjs-ctr__prj");
 for (const ProjectBtn of projectBtns) {
     // Project Info
@@ -20,28 +20,123 @@ for (const ProjectBtn of projectBtns) {
         // Project Tabs
         userProjects.forEach(projectProperties => {
             if (projectProperties.id == event.target.parentNode.id) {
-                // create tabs
+                // * Create tabs
+                const prjTabsCtr = document.getElementById("prjTabsCtr");
+                prjTabsCtr.innerHTML = "";
                 projectProperties.tabs.forEach(projectTab => {
-                    // create the "new" tab DOM
-                    let newTab = document.createElement("div"); 
+                    // * Create the "new" tab DOM
+                    let newTab = document.createElement("div");
                     newTab.className = "prj-info__tabs-ctr__tab tab-link";
+                    newTab.id = `${projectTab.id}`;
                     newTab.innerHTML = `
-                    <p>${projectTab.name}</p>
+                        <p>${projectTab.name}</p>
                     `;
-                    // Append the "new" tab
-                    const prjTabsCtr = document.getElementById("prjTabsCtr");
-                    prjTabsCtr.innerHTML = "";
                     prjTabsCtr.appendChild(newTab);
                 });
+                // * Create event listeners for each tab
+                const TabLinks = document.getElementsByClassName("prj-info__tabs-ctr__tab");
+                for (const TabLink of TabLinks) {
+                    TabLink.addEventListener("click", (event) => {
+                        userProjects.forEach(projectProperties => {
+                            projectProperties.tabs.forEach(tabProperties => {
+                                if (tabProperties.id == event.target.parentNode.id) {
+                                    console.log(tabProperties); // TODO CREAR EL DOM DE TASKS GOALS Y REMINDERS
+                                }
+                            });
+                        });
+                    });
+                }
+            }
+        });
+        // Project overview
+        userProjects.forEach(projectProperties => {
+            if (projectProperties.id == event.target.parentNode.id) {
+                createOverviewDOM(projectProperties);
             }
         });
     });
-    
+
+}
+function createOverviewDOM(projectProperties) {
+    // Generate dom
+    const mainCtr = document.getElementById("mainCtr");
+    mainCtr.innerHTML = "";
+    let overviewProjectCrt = document.createElement("div");
+    overviewProjectCrt.className = "overview__prj-ctr";
+    overviewProjectCrt.innerHTML = `
+    <div class="overview__prj-ctr__title">
+        <p>Tabs</p>
+    </div>
+    <div id="overviewPrjCtr" class="overview__prj-ctr__prjs"></div>
+    `;
+    mainCtr.appendChild(overviewProjectCrt);
+    // Fill the overview projects
+    const overviewPrjCtr = document.getElementById("overviewPrjCtr");
+    projectProperties.tabs.forEach(tab => {
+        if (tab.overview === false) {
+            let newTab = document.createElement("div");
+            newTab.className = "overview__prj-ctr__prjs__prj";
+            newTab.innerHTML = `
+                <p>${tab.name}</p>
+            `;
+            overviewPrjCtr.appendChild(newTab);
+        }
+    });
 }
 
 
 
-
+// ! PROJECT EVENTS
+document.getElementById("prjsBtnCreate").addEventListener("click", () => {
+    // Create alert dom
+    let alertDom = document.createElement("div");
+    alertDom.className = "alert";
+    alertDom.innerHTML = `
+        <div class="alert__ctr">
+            <div class="alert__info">
+                <p>Create Project</p>
+                <i id="alertBtnClose" class="bi bi-x-lg"></i>
+            </div>
+            <form id="alertForm" class="alert__form" action="">
+                <div class="alert__form__input">
+                    <label for="name">Name</label>
+                    <input id="alertProjectName" class="input" type="text" name="name">
+                </div>
+                <div class="alert__form__input">
+                    <label for="color">Color</label>
+                    <select name="color" id="alertProjectColor">
+                        <option value="orange">Orange</option>
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="purple">Purple</option>
+                        <option value="red">Red</option>
+                    </select>
+                </div>
+                <div class="alert__form__buttons">
+                    <input class="btn" type="submit">
+                </div>
+            </form>
+        </div>
+    `;
+    const mainCtr = document.getElementById("mainCtr");
+    mainCtr.appendChild(alertDom);
+    // Close alert
+    document.getElementById("alertBtnClose").addEventListener("click", () => {
+        mainCtr.removeChild(alertDom);
+    });
+    // Capture data
+    document.getElementById("alertForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        // storing user given values in them
+        let projectName = String(document.getElementById("alertProjectName").value);
+        let projectColor = String(document.getElementById("alertProjectColor").value);
+        // object creation
+        let newProject = { "name": projectName, "color": projectColor };
+        newProject = new project(newProject);
+        userProjects.push(newProject);
+        saveStorage();
+    });
+});
 
 // ! TASK EVENTS
 // - Create Task
@@ -74,12 +169,12 @@ document.getElementById("taskBtnCreate").addEventListener("click", () => {
             </form>
         </div>
     `;
-    const mainctr = document.getElementById("mainctr");
-    mainctr.appendChild(alertDom);
+    const mainCtr = document.getElementById("mainCtr");
+    mainCtr.appendChild(alertDom);
 
     // Close alert
     document.getElementById("alertBtnClose").addEventListener("click", () => {
-        mainctr.removeChild(alertDom);
+        mainCtr.removeChild(alertDom);
     });
 
     // Capture data
@@ -155,12 +250,12 @@ document.getElementById("goalBtnCreate").addEventListener("click", () => {
             </form>
         </div>
     `;
-    const mainctr = document.getElementById("mainctr");
-    mainctr.appendChild(alertDom);
+    const mainCtr = document.getElementById("mainCtr");
+    mainCtr.appendChild(alertDom);
     // Close alert
     let alertBtnClose = document.getElementById("alertBtnClose");
     alertBtnClose.addEventListener("click", () => {
-        mainctr.removeChild(alertDom);
+        mainCtr.removeChild(alertDom);
     });
     // Capture data
     document.getElementById("alertForm").addEventListener("submit", (event) => {
@@ -168,7 +263,7 @@ document.getElementById("goalBtnCreate").addEventListener("click", () => {
         // storing user given values in them
         let goalName = String(document.getElementById("alertGoalName").value);
         // object creation
-        goalName = {"name" : goalName};
+        goalName = { "name": goalName };
         goalName = new goal(goalName);
         userGoals.push(goalName);
         saveStorage();
@@ -237,13 +332,13 @@ document.getElementById("reminderBtnCreate").addEventListener("click", () => {
             </form>
         </div>
     `;
-    const mainctr = document.getElementById("mainctr");
-    mainctr.appendChild(alertDom);
+    const mainCtr = document.getElementById("mainCtr");
+    mainCtr.appendChild(alertDom);
 
     // Close alert
     let alertBtnClose = document.getElementById("alertBtnClose");
     alertBtnClose.addEventListener("click", () => {
-        mainctr.removeChild(alertDom);
+        mainCtr.removeChild(alertDom);
     });
 
     // Capture data
@@ -253,7 +348,7 @@ document.getElementById("reminderBtnCreate").addEventListener("click", () => {
         let reminderName = String(document.getElementById("reminderName").value);
         let reminderDueDate = String(document.getElementById("reminderDueDate").value);
         // object creation
-        let newReminder = { "name": reminderName, "dueDate": parseDate(reminderDueDate)};
+        let newReminder = { "name": reminderName, "dueDate": parseDate(reminderDueDate) };
         newReminder = new reminder(newReminder);
         userReminders.push(newReminder);
         saveStorage();
@@ -290,7 +385,7 @@ for (const reminder of btnsReminderComplete) {
                     reminder.doneState = true;
                 }
             }
-        }); 
+        });
         saveStorage();
     });
 }

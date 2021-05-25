@@ -43,10 +43,17 @@ $background-main--blur: rgba(245,245,245,0.5);
 // ! Borders
 $aside-dividers: #293245;
 
-// ! Fonts
-$aside-icons: rgb(116,123,133);
+// ! Aside
+// fonts
 $aside-text: #9dacb6;
-// - Tabs
+// icons
+$aside-icons: rgb(116,123,133);
+
+
+
+// ! Main
+// - PJR INFO
+// ? Tabs
 // font
 $tab-link: rgb(116,123,133);
 $tab-link--hover: rgb(0, 140, 227);
@@ -54,6 +61,12 @@ $tab-link--active: rgb(0, 140, 227);
 // border
 $tab-border--hover: rgb(0, 140, 227);
 $tab-border--active: rgb(0, 140, 227);
+// - Overview
+// font
+$overview-font-title: rgba(0, 0, 0, 0.8);
+$overview-font-title--hover: rgba(0, 0, 0, 0.9);
+$overview-font-text: rgba(0, 0, 0, 0.7);
+$overview-font-text--hover: rgba(0, 0, 0, 0.8);
 
 
 // ! Reminder Status
