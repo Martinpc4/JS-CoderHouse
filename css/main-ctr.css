@@ -146,13 +146,130 @@
   border-bottom: #008ce3 2px solid;
 }
 
-.overview__prj-ctr {
-  -ms-grid-column: 2;
-  -ms-grid-column-span: 1;
-  grid-column: 2 / 3;
-  -ms-grid-row: 1;
-  -ms-grid-row-span: 2;
-  grid-row: 1 / 3;
+.alert {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  position: relative;
+  background-color: rgba(245, 245, 245, 0.5);
+}
+
+.alert__ctr {
+  border: black 2px solid;
+  border-radius: 3px;
+  padding: 10px;
+  background-color: white;
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+
+.alert__info {
+  width: 100%;
+  border-bottom: #E69541 5px solid;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.alert__info p {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.alert__info i {
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.alert__form {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
+  -webkit-column-gap: 30px;
+          column-gap: 30px;
+  row-gap: 10px;
+}
+
+.alert__form__input {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  row-gap: 5px;
+}
+
+.alert__form__input label {
+  font-size: 1.25rem;
+}
+
+.alert__form__input--description {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: auto;
+      grid-template-rows: auto;
+  row-gap: 5px;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / 3;
+}
+
+.alert__form__input--description label {
+  font-size: 1.25rem;
+}
+
+.alert__form__buttons {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / 3;
+}
+
+.prj-overview {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
+  -ms-grid-rows: (1fr)[2];
+      grid-template-rows: repeat(2, 1fr);
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  row-gap: 1vh;
+  -webkit-column-gap: 1vw;
+          column-gap: 1vw;
+}
+
+.prj-overview__tabs-status {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr;
@@ -167,7 +284,7 @@
       align-content: flex-start;
 }
 
-.overview__prj-ctr__title {
+.prj-overview__tabs-status__title {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -182,14 +299,14 @@
       align-content: center;
 }
 
-.overview__prj-ctr__title p {
+.prj-overview__tabs-status__title p {
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.8);
   margin: 0;
   padding: 0;
 }
 
-.overview__prj-ctr__prjs {
+.prj-overview__tabs-status__prjs {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
@@ -208,21 +325,39 @@
       align-content: flex-start;
 }
 
-.overview__prj-ctr__prjs__prj {
+.prj-overview__tabs-status__prjs__prj {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
 }
 
-.overview__prj-ctr__prjs__prj p {
+.prj-overview__tabs-status__prjs__prj p {
   font-size: 1.1rem;
   color: rgba(0, 0, 0, 0.7);
   margin: 0;
   cursor: pointer;
 }
 
-.overview__prj-ctr__prjs__prj p:hover {
+.prj-overview__tabs-status__prjs__prj p:hover {
   color: #E69541;
+}
+
+#tabCtr {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 0.5fr 1fr;
+      grid-template-columns: 0.5fr 1fr;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+  row-gap: 3vh;
+  -webkit-column-gap: 4vw;
+          column-gap: 4vw;
 }
 
 .goals {

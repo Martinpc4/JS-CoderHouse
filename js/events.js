@@ -1,30 +1,28 @@
-// ! Aside / Project-related Events
+// ! Aside Events
+
+// - Create project DOM
 let projectBtns = document.getElementsByClassName("prjs__prjs-ctr__prj");
 for (const ProjectBtn of projectBtns) {
-    // Project Info
     ProjectBtn.addEventListener("click", (event) => {
-        // Project info DOM
+        // * Project info DOM
         userProjects.forEach(projectProperties => {
             if (projectProperties.id == event.target.parentNode.id) {
-                // create the title
                 let prjInfoCtrDom = document.createElement("p");
                 prjInfoCtrDom.innerText = `${projectProperties.name}`;
-                // append the title created
-                const prjInfoCtr = document.getElementById("prjInfoCtr");
+                const prjInfoCtr = document.getElementById("topBarPrjInfoCtr");
                 prjInfoCtr.innerHTML = `
                     <i class="bi bi-star"></i>
                 `;
                 prjInfoCtr.appendChild(prjInfoCtrDom);
             }
         });
-        // Project Tabs
+        // * Project Tabs
         userProjects.forEach(projectProperties => {
             if (projectProperties.id == event.target.parentNode.id) {
-                // * Create tabs
-                const prjTabsCtr = document.getElementById("prjTabsCtr");
+                // Create tabs
+                const prjTabsCtr = document.getElementById("topBarPrjTabsCtr");
                 prjTabsCtr.innerHTML = "";
                 projectProperties.tabs.forEach(projectTab => {
-                    // * Create the "new" tab DOM
                     let newTab = document.createElement("div");
                     newTab.className = "prj-info__tabs-ctr__tab tab-link";
                     newTab.id = `${projectTab.id}`;
@@ -33,14 +31,19 @@ for (const ProjectBtn of projectBtns) {
                     `;
                     prjTabsCtr.appendChild(newTab);
                 });
-                // * Create event listeners for each tab
+                // Create event listeners for each tab
                 const TabLinks = document.getElementsByClassName("prj-info__tabs-ctr__tab");
                 for (const TabLink of TabLinks) {
                     TabLink.addEventListener("click", (event) => {
                         userProjects.forEach(projectProperties => {
                             projectProperties.tabs.forEach(tabProperties => {
                                 if (tabProperties.id == event.target.parentNode.id) {
-                                    console.log(tabProperties); // TODO CREAR EL DOM DE TASKS GOALS Y REMINDERS
+                                    if (tabProperties.overview === false) {
+                                        createTabDom(tabProperties); // TODO ACA ME QUEDE
+                                    }
+                                    else if (tabProperties.overview === true) {
+                                        createOverviewDOM(projectProperties);
+                                    }
                                 }
                             });
                         });
@@ -57,38 +60,12 @@ for (const ProjectBtn of projectBtns) {
     });
 
 }
-function createOverviewDOM(projectProperties) {
-    // Generate dom
-    const mainCtr = document.getElementById("mainCtr");
-    mainCtr.innerHTML = "";
-    let overviewProjectCrt = document.createElement("div");
-    overviewProjectCrt.className = "overview__prj-ctr";
-    overviewProjectCrt.innerHTML = `
-    <div class="overview__prj-ctr__title">
-        <p>Tabs</p>
-    </div>
-    <div id="overviewPrjCtr" class="overview__prj-ctr__prjs"></div>
-    `;
-    mainCtr.appendChild(overviewProjectCrt);
-    // Fill the overview projects
-    const overviewPrjCtr = document.getElementById("overviewPrjCtr");
-    projectProperties.tabs.forEach(tab => {
-        if (tab.overview === false) {
-            let newTab = document.createElement("div");
-            newTab.className = "overview__prj-ctr__prjs__prj";
-            newTab.innerHTML = `
-                <p>${tab.name}</p>
-            `;
-            overviewPrjCtr.appendChild(newTab);
-        }
-    });
-}
-
-
 
 // ! PROJECT EVENTS
+
+// - Create a Project
 document.getElementById("prjsBtnCreate").addEventListener("click", () => {
-    // Create alert dom
+    // * Create alert dom
     let alertDom = document.createElement("div");
     alertDom.className = "alert";
     alertDom.innerHTML = `
@@ -119,12 +96,14 @@ document.getElementById("prjsBtnCreate").addEventListener("click", () => {
         </div>
     `;
     const mainCtr = document.getElementById("mainCtr");
+    mainCtr.innerHTML = "";
     mainCtr.appendChild(alertDom);
-    // Close alert
+    document.getElementById("topBarCtr").style.display = "none"; // hide top bar
+    // * Close alert
     document.getElementById("alertBtnClose").addEventListener("click", () => {
-        mainCtr.removeChild(alertDom);
+        location.reload();
     });
-    // Capture data
+    // * Capture data
     document.getElementById("alertForm").addEventListener("submit", (event) => {
         event.preventDefault();
         // storing user given values in them
@@ -139,6 +118,7 @@ document.getElementById("prjsBtnCreate").addEventListener("click", () => {
 });
 
 // ! TASK EVENTS
+
 // - Create Task
 document.getElementById("taskBtnCreate").addEventListener("click", () => {
     // Create alert dom
@@ -169,12 +149,12 @@ document.getElementById("taskBtnCreate").addEventListener("click", () => {
             </form>
         </div>
     `;
-    const mainCtr = document.getElementById("mainCtr");
-    mainCtr.appendChild(alertDom);
+    const tabCtr = document.getElementById("tabCtr");
+    tabCtr.appendChild(alertDom);
 
     // Close alert
     document.getElementById("alertBtnClose").addEventListener("click", () => {
-        mainCtr.removeChild(alertDom);
+        tabCtr.removeChild(alertDom);
     });
 
     // Capture data
@@ -250,12 +230,12 @@ document.getElementById("goalBtnCreate").addEventListener("click", () => {
             </form>
         </div>
     `;
-    const mainCtr = document.getElementById("mainCtr");
-    mainCtr.appendChild(alertDom);
+    const tabCtr = document.getElementById("tabCtr");
+    tabCtr.appendChild(alertDom);
     // Close alert
     let alertBtnClose = document.getElementById("alertBtnClose");
     alertBtnClose.addEventListener("click", () => {
-        mainCtr.removeChild(alertDom);
+        tabCtr.removeChild(alertDom);
     });
     // Capture data
     document.getElementById("alertForm").addEventListener("submit", (event) => {
@@ -332,13 +312,13 @@ document.getElementById("reminderBtnCreate").addEventListener("click", () => {
             </form>
         </div>
     `;
-    const mainCtr = document.getElementById("mainCtr");
-    mainCtr.appendChild(alertDom);
+    const tabCtr = document.getElementById("tabCtr");
+    tabCtr.appendChild(alertDom);
 
     // Close alert
     let alertBtnClose = document.getElementById("alertBtnClose");
     alertBtnClose.addEventListener("click", () => {
-        mainCtr.removeChild(alertDom);
+        tabCtr.removeChild(alertDom);
     });
 
     // Capture data

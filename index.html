@@ -64,51 +64,53 @@
     </aside>
     <main>
         <!-- ! Project Info -->
-        <div class="prj-info">
+        <div id="topBarCtr" class="prj-info">
             <!-- * Info Container -->
-            <div id="prjInfoCtr" class="prj-info__info-ctr">
+            <div id="topBarPrjInfoCtr" class="prj-info__info-ctr">
             </div>
             <!-- * Info Actions -->
             <div class="prj-info__actions-ctr">
                 <i class="bi bi-gear"></i>
             </div>
             <!-- * Info Tabs -->
-            <div id="prjTabsCtr" class="prj-info__tabs-ctr">
+            <div id="topBarPrjTabsCtr" class="prj-info__tabs-ctr">
             </div>
         </div>
         <!-- ! Main Container -->
         <div id="mainCtr" class="main-ctr">
-            <!-- * Goals -->
-            <div class="goals">
-                <div class="goals__info">
-                    <p>Goals</p>
+            <div id="tabCtr">
+                <!-- * Goals -->
+                <div class="goals">
+                    <div class="goals__info">
+                        <p>Goals</p>
+                    </div>
+                    <div class="goals__actions">
+                        <i id="goalBtnCreate" class="bi bi-plus-lg"></i>
+                    </div>
+                    <div id="goalsCtr" class="goals__ctr">
+                    </div>
                 </div>
-                <div class="goals__actions">
-                    <i id="goalBtnCreate" class="bi bi-plus-lg"></i>
+                <!-- * Tasks -->
+                <div class="tasks">
+                    <div class="tasks__info">
+                        <p>Tasks</p>
+                    </div>
+                    <div class="tasks__actions">
+                        <i id="taskBtnCreate" class="bi bi-plus-lg"></i>
+                    </div>
+                    <div id="tasksCtr" class="tasks__ctr">
+                    </div>
                 </div>
-                <div id="goalsCtr" class="goals__ctr">
-                </div>
-            </div>
-            <!-- * Tasks -->
-            <div class="tasks">
-                <div class="tasks__info">
-                    <p>Tasks</p>
-                </div>
-                <div class="tasks__actions">
-                    <i id="taskBtnCreate" class="bi bi-plus-lg"></i>
-                </div>
-                <div id="tasksCtr" class="tasks__ctr">
-                </div>
-            </div>
-            <!-- * Reminders -->
-            <div class="reminders">
-                <div class="reminders__info">
-                    <p>Reminders</p>
-                </div>
-                <div class="reminders__actions">
-                    <i id="reminderBtnCreate" class="bi bi-plus-lg"></i>
-                </div>
-                <div id="remindersCtr" class="reminders__ctr">
+                <!-- * Reminders -->
+                <div class="reminders">
+                    <div class="reminders__info">
+                        <p>Reminders</p>
+                    </div>
+                    <div class="reminders__actions">
+                        <i id="reminderBtnCreate" class="bi bi-plus-lg"></i>
+                    </div>
+                    <div id="remindersCtr" class="reminders__ctr">
+                    </div>
                 </div>
             </div>
         </div>

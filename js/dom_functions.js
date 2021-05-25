@@ -1,3 +1,82 @@
+// - Overview Tab Dom
+function createOverviewDOM(projectProperties) {
+    // Generate dom
+    const mainCtr = document.getElementById("mainCtr");
+    mainCtr.innerHTML = "";
+    let prjOverview = document.createElement("div");
+    prjOverview.className = "prj-overview";
+    prjOverview.innerHTML = `
+        <div class="prj-overview__tabs-status">
+            <div class="prj-overview__tabs-status__title">
+                <p>Tabs</p>
+            </div>
+            <div id="overviewPrjCtr" class="prj-overview__tabs-status__prjs"></div>
+        </div>
+    `;
+    mainCtr.appendChild(prjOverview);
+    // Fill the overview projects
+    const overviewPrjCtr = document.getElementById("overviewPrjCtr");
+    projectProperties.tabs.forEach(tab => {
+        if (tab.overview === false) {
+            let newTab = document.createElement("div");
+            newTab.className = "prj-overview__tabs-status__prj";
+            newTab.innerHTML = `
+                <p>${tab.name}</p>
+            `;
+            overviewPrjCtr.appendChild(newTab);
+        }
+    });
+}
+// - General Tab Dom
+function createTabDom (tabProperties) {
+    const mainCtr = document.getElementById("mainCtr");
+    mainCtr.innerHTML = "";
+    mainCtr.innerHTML = `
+        <div id="tabCtr" class="main-ctr">
+            <div class="goals">
+                <div class="goals__info">
+                    <p>Goals</p>
+                </div>
+                <div class="goals__actions">
+                    <i id="goalBtnCreate" class="bi bi-plus-lg"></i>
+                </div>
+                <div id="goalsCtr" class="goals__ctr">
+                </div>
+            </div>
+            <div class="tasks">
+                <div class="tasks__info">
+                    <p>Tasks</p>
+                </div>
+                <div class="tasks__actions">
+                    <i id="taskBtnCreate" class="bi bi-plus-lg"></i>
+                </div>
+                <div id="tasksCtr" class="tasks__ctr">
+                </div>
+            </div>
+            <div class="reminders">
+                <div class="reminders__info">
+                    <p>Reminders</p>
+                </div>
+                <div class="reminders__actions">
+                    <i id="reminderBtnCreate" class="bi bi-plus-lg"></i>
+                </div>
+                <div id="remindersCtr" class="reminders__ctr">
+                </div>
+            </div>
+        </div>
+    `;
+    tabProperties.tasks.forEach(taskProperties => {
+        createTaskDom(taskProperties);
+    });
+    tabProperties.goals.forEach(goalProperties => {
+        console.log(goalProperties);
+        createGoalDom(goalProperties);
+    });
+    tabProperties.reminders.forEach(reminderProperties => {
+        createReminderDom(reminderProperties);
+    });
+}
+
 // !TASK
 function createTaskDom(newTask) {
     let domTask = document.createElement("div");

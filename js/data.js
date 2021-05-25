@@ -16,6 +16,7 @@ function retrieveStorage() {
             if (tabProperties.tasks != undefined) {
                 // * Create instances of tasks < tabs < projects
                 tabProperties.tasks.forEach(taskProperties => {
+                    taskProperties.dueDate = new Date(taskProperties.dueDate);
                     let newTask = new task(taskProperties);
                     taskProperties = newTask;
                 });
@@ -30,6 +31,7 @@ function retrieveStorage() {
             if (tabProperties.reminders != undefined) {
                 // * Create instances of reminders < tabs < projects
                 tabProperties.reminders.forEach(reminderProperties => {
+                    reminderProperties.dueDate = new Date(reminderProperties.dueDate);
                     let newReminder = new reminder(reminderProperties);
                     reminderProperties = newReminder;
                 });
@@ -78,7 +80,7 @@ retrieveStorage();
 //             }], reminders: [{
 //                 reminderOf: 12354, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
 //             }], goals: [{
-//                 reminderOf: 12354, name: "Meta tarea"
+//                 reminderOf: 12354, name: "Meta tarea", doneState: false
 //             }]
 //         }]},
 //         {id: 122394, fav: true, color: "yellow",name: "UCEMA", tabs: [{
@@ -87,7 +89,7 @@ retrieveStorage();
 //             }], reminders: [{
 //                 reminderOf: 1395123, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
 //             }], goals: [{
-//                 reminderOf: 1395123, name: "Meta tarea"
+//                 reminderOf: 1395123, name: "Meta tarea", doneState: false
 //             }]
 //         },
 //         {
@@ -96,7 +98,7 @@ retrieveStorage();
 //             }], reminders: [{
 //                 reminderOf: 12837123, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
 //             }], goals: [{
-//                 reminderOf: 12837123, name: "Meta tarea"
+//                 reminderOf: 12837123, name: "Meta tarea", doneState: false
 //             }]
 //             }
 //         ]}

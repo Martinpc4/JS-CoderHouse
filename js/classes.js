@@ -19,10 +19,10 @@ class tab {
             });
         } : tabProperties.id;
         this.name = tabProperties.name;
+        this.overview = tabProperties.overview === undefined ? false : tabProperties.overview;
         this.tasks = tabProperties.tasks;
         this.goals = tabProperties.goals;
         this.reminders = tabProperties.reminders;
-        this.overview = tabProperties.overview === undefined ? false : tabProperties.overview;
     }
 }
 class task {
