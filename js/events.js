@@ -7,32 +7,37 @@ for (const ProjectBtn of projectBtns) {
         // * Project info DOM
         userProjects.forEach(projectProperties => {
             if (projectProperties.id == event.target.parentNode.id) {
+                cleanTopBarDom(); // cleans the top bar
+                // Create topBarInfoCtr
+                const prjInfoCtr = document.getElementById("topBarInfoCtr");
+                prjInfoCtr.innerHTML = `
+                <i class="bi bi-star"></i>
+                `;
                 let prjInfoCtrDom = document.createElement("p");
                 prjInfoCtrDom.innerText = `${projectProperties.name}`;
-                const prjInfoCtr = document.getElementById("topBarPrjInfoCtr");
-                prjInfoCtr.innerHTML = `
-                    <i class="bi bi-star"></i>
-                `;
                 prjInfoCtr.appendChild(prjInfoCtrDom);
-            }
-        });
-        // * Project Tabs
-        userProjects.forEach(projectProperties => {
-            if (projectProperties.id == event.target.parentNode.id) {
-                // Create tabs
-                const prjTabsCtr = document.getElementById("topBarPrjTabsCtr");
-                prjTabsCtr.innerHTML = "";
-                projectProperties.tabs.forEach(projectTab => {
-                    let newTab = document.createElement("div");
-                    newTab.className = "prj-info__tabs-ctr__tab tab-link";
-                    newTab.id = `${projectTab.id}`;
-                    newTab.innerHTML = `
-                        <p>${projectTab.name}</p>
-                    `;
-                    prjTabsCtr.appendChild(newTab);
+                // Create topBarActionsCtr
+                let prjActionsDom = document.createElement("i");
+                prjActionsDom.className = "bi bi-gear";
+                const prjActionsCtr = document.getElementById("topBarActionsCtr");
+                prjActionsCtr.appendChild(prjActionsDom);
+
+                // Create topBarTabsCtr
+                projectProperties.tabs.forEach(tabProperties => {
+                    const prjTabsCtr = document.getElementById("topBarTabsCtr");
+                    prjTabsCtr.innerHTML = "";
+                    projectProperties.tabs.forEach(projectTab => {
+                        let newTab = document.createElement("div");
+                        newTab.className = "top-bar__tabs-ctr__tab tab-link";
+                        newTab.id = `${projectTab.id}`;
+                        newTab.innerHTML = `
+                            <p>${projectTab.name}</p>
+                        `;
+                        prjTabsCtr.appendChild(newTab);
+                    });
                 });
                 // Create event listeners for each tab
-                const TabLinks = document.getElementsByClassName("prj-info__tabs-ctr__tab");
+                const TabLinks = document.getElementsByClassName("top-bar__tabs-ctr__tab");
                 for (const TabLink of TabLinks) {
                     TabLink.addEventListener("click", (event) => {
                         userProjects.forEach(projectProperties => {
@@ -49,9 +54,10 @@ for (const ProjectBtn of projectBtns) {
                         });
                     });
                 }
+
             }
         });
-        // Project overview
+        // create the default Project Overview Tab
         userProjects.forEach(projectProperties => {
             if (projectProperties.id == event.target.parentNode.id) {
                 createOverviewDOM(projectProperties);
@@ -60,7 +66,6 @@ for (const ProjectBtn of projectBtns) {
     });
 
 }
-
 // ! PROJECT EVENTS
 
 // - Create a Project
@@ -118,254 +123,266 @@ document.getElementById("prjsBtnCreate").addEventListener("click", () => {
 });
 
 // ! TASK EVENTS
-
-// - Create Task
-document.getElementById("taskBtnCreate").addEventListener("click", () => {
-    // Create alert dom
-    let alertDom = document.createElement("div");
-    alertDom.className = "alert";
-    alertDom.innerHTML = `
-        <div class="alert__ctr">
-            <div class="alert__info">
-                <p>Create Task</p>
-                <i id="alertBtnClose" class="bi bi-x-lg"></i>
+function tasksEventsListeners () {
+    // - Create Task
+    document.getElementById("taskBtnCreate").addEventListener("click", () => {
+        // * DOM Alert
+        let alertDom = document.createElement("div");
+        alertDom.className = "alert";
+        alertDom.innerHTML = `
+            <div class="alert__ctr">
+                <div class="alert__info">
+                    <p>Create Task</p>
+                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                </div>
+                <form id="alertForm" class="alert__form" action="">
+                    <div class="alert__form__input">
+                        <label for="name">Name</label>
+                        <input id="alertTaskName" class="input" type="text" name="name">
+                    </div>
+                    <div class="alert__form__input">
+                        <label for="dueDate">Due date</label>
+                        <input id="alertTaskDueDate" class="input" type="" name="date" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="alert__form__input--description">
+                        <label for="description">Description</label>
+                        <textarea id="alertTaskDescription" class="textarea" name="description" id=""></textarea>
+                    </div>
+                    <div class="alert__form__buttons">
+                        <input class="btn" type="submit">
+                    </div>
+                </form>
             </div>
-            <form id="alertForm" class="alert__form" action="">
-                <div class="alert__form__input">
-                    <label for="name">Name</label>
-                    <input id="alertTaskName" class="input" type="text" name="name">
-                </div>
-                <div class="alert__form__input">
-                    <label for="dueDate">Due date</label>
-                    <input id="alertTaskDueDate" class="input" type="" name="date" placeholder="dd/mm/yyyy">
-                </div>
-                <div class="alert__form__input--description">
-                    <label for="description">Description</label>
-                    <textarea id="alertTaskDescription" class="textarea" name="description" id=""></textarea>
-                </div>
-                <div class="alert__form__buttons">
-                    <input class="btn" type="submit">
-                </div>
-            </form>
-        </div>
-    `;
-    const tabCtr = document.getElementById("tabCtr");
-    tabCtr.appendChild(alertDom);
-
-    // Close alert
-    document.getElementById("alertBtnClose").addEventListener("click", () => {
-        tabCtr.removeChild(alertDom);
-    });
-
-    // Capture data
-    document.getElementById("alertForm").addEventListener("submit", (event) => {
-        event.preventDefault();
-        // storing user given values in them
-        let taskName = String(document.getElementById("alertTaskName").value);
-        let taskDueDate = String(document.getElementById("alertTaskDueDate").value);
-        let taskDescription = String(document.getElementById("alertTaskDescription").value);
-        // object creation
-        let newTask = { "name": taskName, "dueDate": parseDate(taskDueDate), "description": taskDescription };
-        newTask = new task(newTask);
-        userTasks.push(newTask);
-        saveStorage();
-    });
-});
-// - Delete a Task
-let btnsTaskDelete = document.getElementsByClassName("btnTaskDelete");
-for (const task of btnsTaskDelete) {
-    task.addEventListener("click", (event) => {
-        const taskctr = event.target.parentNode.parentNode.parentNode;
-        let i = 0;
-        userTasks.forEach(task => {
-            if (task.id == taskctr.id) {
-                userTasks.splice(i, 1);
-            }
-            else {
-                i++;
-            }
+        `;
+        const mainCtr = document.getElementById("mainCtr");
+        mainCtr.innerHTML = "";
+        mainCtr.appendChild(alertDom);
+    
+        // * Event Close Alert
+        document.getElementById("alertBtnClose").addEventListener("click", () => {
+            mainCtr.removeChild(alertDom);
+            location.reload();
         });
-        saveStorage();
-    });
-}
-// - Complete a Task
-let btnsTaskComplete = document.getElementsByClassName("btnTaskComplete");
-for (const task of btnsTaskComplete) {
-    task.addEventListener("click", (event) => {
-        const taskctr = event.target.parentNode.parentNode.parentNode;
-        userTasks.forEach(task => {
-            if (task.id == taskctr.id) {
-                if (task.doneState === false) {
-                    task.doneState = true;
-                }
-                else if (task.doneState === true) {
-                    task.doneState = false;
-                }
-            }
+    
+        // * Event Capture data
+        document.getElementById("alertForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            // storing user given values in them
+            let taskName = String(document.getElementById("alertTaskName").value);
+            let taskDueDate = String(document.getElementById("alertTaskDueDate").value);
+            let taskDescription = String(document.getElementById("alertTaskDescription").value);
+            // object creation
+            let newTask = { "name": taskName, "dueDate": parseDate(taskDueDate), "description": taskDescription };
+            newTask = new task(newTask);
+            userTasks.push(newTask);
+            saveStorage();
         });
-        saveStorage();
     });
+    // - Delete a Task
+    let btnsTaskDelete = document.getElementsByClassName("btnTaskDelete");
+    for (const task of btnsTaskDelete) {
+        task.addEventListener("click", (event) => {
+            const taskctr = event.target.parentNode.parentNode.parentNode;
+            let i = 0;
+            userTasks.forEach(task => {
+                if (task.id == taskctr.id) {
+                    userTasks.splice(i, 1);
+                }
+                else {
+                    i++;
+                }
+            });
+            saveStorage();
+        });
+    }
+    // - Complete a Task
+    let btnsTaskComplete = document.getElementsByClassName("btnTaskComplete");
+    for (const task of btnsTaskComplete) {
+        task.addEventListener("click", (event) => {
+            const taskctr = event.target.parentNode.parentNode.parentNode;
+            userTasks.forEach(task => {
+                if (task.id == taskctr.id) {
+                    if (task.doneState === false) {
+                        task.doneState = true;
+                    }
+                    else if (task.doneState === true) {
+                        task.doneState = false;
+                    }
+                }
+            });
+            saveStorage();
+        });
+    }
 }
 
 // ! GOAL EVENTS
-// - Create a Goal
-document.getElementById("goalBtnCreate").addEventListener("click", () => {
-    // Create alert dom
-    let alertDom = document.createElement("div");
-    alertDom.className = "alert";
-    alertDom.innerHTML = `
-        <div class="alert__ctr">
-            <div class="alert__info">
-                <p>Create Goal</p>
-                <i id="alertBtnClose" class="bi bi-x-lg"></i>
+function goalsEventsListeners () {
+    // - Create a Goal
+    document.getElementById("goalBtnCreate").addEventListener("click", () => {
+        // * DOM Alert
+        let alertDom = document.createElement("div");
+        alertDom.className = "alert";
+        alertDom.innerHTML = `
+            <div class="alert__ctr">
+                <div class="alert__info">
+                    <p>Create Goal</p>
+                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                </div>
+                <form id="alertForm" class="alert__form" action="">
+                    <div class="alert__form__input">
+                        <label for="name">Name</label>
+                        <input id="alertGoalName" class="input" type="text" name="name">
+                    </div>
+                    <div class="alert__form__buttons">
+                        <input class="btn" type="submit">
+                    </div>
+                </form>
             </div>
-            <form id="alertForm" class="alert__form" action="">
-                <div class="alert__form__input">
-                    <label for="name">Name</label>
-                    <input id="alertGoalName" class="input" type="text" name="name">
-                </div>
-                <div class="alert__form__buttons">
-                    <input class="btn" type="submit">
-                </div>
-            </form>
-        </div>
-    `;
-    const tabCtr = document.getElementById("tabCtr");
-    tabCtr.appendChild(alertDom);
-    // Close alert
-    let alertBtnClose = document.getElementById("alertBtnClose");
-    alertBtnClose.addEventListener("click", () => {
-        tabCtr.removeChild(alertDom);
-    });
-    // Capture data
-    document.getElementById("alertForm").addEventListener("submit", (event) => {
-        event.preventDefault();
-        // storing user given values in them
-        let goalName = String(document.getElementById("alertGoalName").value);
-        // object creation
-        goalName = { "name": goalName };
-        goalName = new goal(goalName);
-        userGoals.push(goalName);
-        saveStorage();
-    });
-});
-// - Delete a Goal
-let btnGoalDelete = document.getElementsByClassName("btnGoalDelete");
-for (const goal of btnGoalDelete) {
-    goal.addEventListener("click", (event) => {
-        const goalctr = event.target.parentNode;
-        let i = 0;
-        userGoals.forEach(goal => {
-            if (goal.id == goalctr.id) {
-                userGoals.splice(i, 1);
-            }
-            else {
-                i++
-            }
+        `;
+        const mainCtr = document.getElementById("mainCtr");
+        mainCtr.innerHTML = "";
+        mainCtr.appendChild(alertDom);
+        
+        // * Event Close Alert
+        let alertBtnClose = document.getElementById("alertBtnClose");
+        alertBtnClose.addEventListener("click", () => {
+            mainCtr.removeChild(alertDom);
+            location.reload();
         });
-        saveStorage();
-    });
-}
-// - Complete goal
-let btnGoalComplete = document.getElementsByClassName("btnGoalComplete");
-for (const goal of btnGoalComplete) {
-    goal.addEventListener("click", (event) => {
-        let goalctr = event.target.parentNode;
-        userGoals.forEach(goal => {
-            if (goal.id == goalctr.id) {
-                if (goal.doneState === false) {
-                    goal.doneState = true;
-                }
-                else if (goal.doneState === true) {
-                    goal.doneState = false;
-                }
-            }
+        // * Event Capture Data
+        document.getElementById("alertForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            // storing user given values in them
+            let goalName = String(document.getElementById("alertGoalName").value);
+            // object creation
+            goalName = { "name": goalName };
+            goalName = new goal(goalName);
+            userGoals.push(goalName);
+            saveStorage();
         });
-        saveStorage();
     });
+    // - Delete a Goal
+    let btnGoalDelete = document.getElementsByClassName("btnGoalDelete");
+    for (const goal of btnGoalDelete) {
+        goal.addEventListener("click", (event) => {
+            const goalctr = event.target.parentNode;
+            let i = 0;
+            userGoals.forEach(goal => {
+                if (goal.id == goalctr.id) {
+                    userGoals.splice(i, 1);
+                }
+                else {
+                    i++
+                }
+            });
+            saveStorage();
+        });
+    }
+    // - Complete goal
+    let btnGoalComplete = document.getElementsByClassName("btnGoalComplete");
+    for (const goal of btnGoalComplete) {
+        goal.addEventListener("click", (event) => {
+            let goalctr = event.target.parentNode;
+            userGoals.forEach(goal => {
+                if (goal.id == goalctr.id) {
+                    if (goal.doneState === false) {
+                        goal.doneState = true;
+                    }
+                    else if (goal.doneState === true) {
+                        goal.doneState = false;
+                    }
+                }
+            });
+            saveStorage();
+        });
+    }
 }
 
 // ! REMINDER EVENTS
-// - Create a Reminder
-document.getElementById("reminderBtnCreate").addEventListener("click", () => {
-    // Create alert dom
-    let alertDom = document.createElement("div");
-    alertDom.className = "alert";
-    alertDom.innerHTML = `
-        <div class="alert__ctr">
-            <div class="alert__info">
-                <p>Create Reminder</p>
-                <i id="alertBtnClose" class="bi bi-x-lg"></i>
+function remindersEventListeners () {
+    // - Create a Reminder
+    document.getElementById("reminderBtnCreate").addEventListener("click", () => {
+        // * DOM Alert
+        let alertDom = document.createElement("div");
+        alertDom.className = "alert";
+        alertDom.innerHTML = `
+            <div class="alert__ctr">
+                <div class="alert__info">
+                    <p>Create Reminder</p>
+                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                </div>
+                <form id="alertForm" class="alert__form" action="">
+                    <div class="alert__form__input">
+                        <label for="name">Name</label>
+                        <input id="reminderName" class="input" type="text" name="name">
+                    </div>
+                    <div class="alert__form__input">
+                        <label for="dueDate">Due date</label>
+                        <input id="reminderDueDate" class="input" type="text" name="dueDate" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="alert__form__buttons">
+                        <input class="btn" type="submit">
+                    </div>
+                </form>
             </div>
-            <form id="alertForm" class="alert__form" action="">
-                <div class="alert__form__input">
-                    <label for="name">Name</label>
-                    <input id="reminderName" class="input" type="text" name="name">
-                </div>
-                <div class="alert__form__input">
-                    <label for="dueDate">Due date</label>
-                    <input id="reminderDueDate" class="input" type="text" name="dueDate" placeholder="dd/mm/yyyy">
-                </div>
-                <div class="alert__form__buttons">
-                    <input class="btn" type="submit">
-                </div>
-            </form>
-        </div>
-    `;
-    const tabCtr = document.getElementById("tabCtr");
-    tabCtr.appendChild(alertDom);
-
-    // Close alert
-    let alertBtnClose = document.getElementById("alertBtnClose");
-    alertBtnClose.addEventListener("click", () => {
-        tabCtr.removeChild(alertDom);
-    });
-
-    // Capture data
-    document.getElementById("alertForm").addEventListener("submit", (event) => {
-        event.preventDefault();
-        // storing user given values in them
-        let reminderName = String(document.getElementById("reminderName").value);
-        let reminderDueDate = String(document.getElementById("reminderDueDate").value);
-        // object creation
-        let newReminder = { "name": reminderName, "dueDate": parseDate(reminderDueDate) };
-        newReminder = new reminder(newReminder);
-        userReminders.push(newReminder);
-        saveStorage();
-    });
-});
-// - Delete Reminder
-let btnsReminderDelete = document.getElementsByClassName("btnReminderDelete");
-for (const reminder of btnsReminderDelete) {
-    reminder.addEventListener("click", (event) => {
-        const reminderctr = event.target.parentNode.parentNode;
-        let i = 0;
-        userReminders.forEach(reminder => {
-            if (reminder.id == reminderctr.id) {
-                userReminders.splice(i, 1);
-            }
-            else {
-                i++
-            }
+        `;
+        const mainCtr = document.getElementById("mainCtr");
+        mainCtr.innerHTML = "";
+        mainCtr.appendChild(alertDom);
+    
+        // * Event Close Alert
+        let alertBtnClose = document.getElementById("alertBtnClose");
+        alertBtnClose.addEventListener("click", () => {
+            mainCtr.removeChild(alertDom);
+            location.reload();
         });
-        saveStorage();
-    });
-}
-// - Complete Reminder
-let btnsReminderComplete = document.getElementsByClassName("btnReminderComplete");
-for (const reminder of btnsReminderComplete) {
-    reminder.addEventListener("click", (event) => {
-        let reminderctr = event.target.parentNode.parentNode;
-        userReminders.forEach(reminder => {
-            if (reminder.id == reminderctr.id) {
-                if (reminder.doneState === true) {
-                    reminder.doneState = false;
-                }
-                else if (reminder.doneState === false) {
-                    reminder.doneState = true;
-                }
-            }
+    
+        // * Event Capture Data
+        document.getElementById("alertForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            // storing user given values in them
+            let reminderName = String(document.getElementById("reminderName").value);
+            let reminderDueDate = String(document.getElementById("reminderDueDate").value);
+            // object creation
+            let newReminder = { "name": reminderName, "dueDate": parseDate(reminderDueDate) };
+            newReminder = new reminder(newReminder);
+            userReminders.push(newReminder);
+            saveStorage();
         });
-        saveStorage();
     });
+    // - Delete Reminder
+    let btnsReminderDelete = document.getElementsByClassName("btnReminderDelete");
+    for (const reminder of btnsReminderDelete) {
+        reminder.addEventListener("click", (event) => {
+            const reminderctr = event.target.parentNode.parentNode;
+            let i = 0;
+            userReminders.forEach(reminder => {
+                if (reminder.id == reminderctr.id) {
+                    userReminders.splice(i, 1);
+                }
+                else {
+                    i++
+                }
+            });
+            saveStorage();
+        });
+    }
+    // - Complete Reminder
+    let btnsReminderComplete = document.getElementsByClassName("btnReminderComplete");
+    for (const reminder of btnsReminderComplete) {
+        reminder.addEventListener("click", (event) => {
+            let reminderctr = event.target.parentNode.parentNode;
+            userReminders.forEach(reminder => {
+                if (reminder.id == reminderctr.id) {
+                    if (reminder.doneState === true) {
+                        reminder.doneState = false;
+                    }
+                    else if (reminder.doneState === false) {
+                        reminder.doneState = true;
+                    }
+                }
+            });
+            saveStorage();
+        });
+    }
 }

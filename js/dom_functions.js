@@ -1,3 +1,12 @@
+// ! Top bar
+// - Clean Top Bar
+function cleanTopBarDom () {
+    document.getElementById("topBarInfoCtr").innerHTML = "";
+    document.getElementById("topBarActionsCtr").innerHTML = "";
+    document.getElementById("topBarTabsCtr").innerHTML = "";
+}
+
+// ! MainCtr
 // - Overview Tab Dom
 function createOverviewDOM(projectProperties) {
     // Generate dom
@@ -66,14 +75,16 @@ function createTabDom (tabProperties) {
         </div>
     `;
     tabProperties.tasks.forEach(taskProperties => {
-        createTaskDom(taskProperties);
+        createTaskDom(taskProperties); // creates the DOM
+        tasksEventsListeners(); // creates events listeners
     });
     tabProperties.goals.forEach(goalProperties => {
-        console.log(goalProperties);
-        createGoalDom(goalProperties);
+        createGoalDom(goalProperties); // creates the DOM
+        goalsEventsListeners(); // creates events listeners
     });
     tabProperties.reminders.forEach(reminderProperties => {
-        createReminderDom(reminderProperties);
+        createReminderDom(reminderProperties); // creates the DOM
+        remindersEventListeners(); // creates events listeners
     });
 }
 

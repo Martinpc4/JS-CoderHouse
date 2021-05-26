@@ -1,7 +1,7 @@
 @import "colors.scss";
 
 // ! Top Bar Container
-.prj-info {
+.top-bar {
     // grid son
     grid-column: 1 / 2;
     grid-row: 1 / 2;
@@ -14,7 +14,7 @@
     // box modeling
     padding: 1vh 2vw 0 2vw;
     box-shadow: 0 1px 4px 0 rgba(21, 27, 38, 0.08);
-    &__info-ctr {
+    &__title-ctr {
         // grid son
         grid-column: 1 / 2;
         grid-row: 1 / 2;
