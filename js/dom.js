@@ -1,15 +1,81 @@
-// ! Top bar
-// - Clean Top Bar
+// @ Top Bar DOM Functions
+
+// ! Clean Top Bar
 function cleanTopBarDom () {
     document.getElementById("topBarInfoCtr").innerHTML = "";
-    document.getElementById("topBarActionsCtr").innerHTML = "";
+    document.getElementById("topBarInfoActionsCtr").innerHTML = "";
     document.getElementById("topBarTabsCtr").innerHTML = "";
+    document.getElementById("topBarTabsActionsCtr").innerHTML = "";
+}
+// ! Create Project Top Bar DOM
+function createProjectTopBarDom (projectProperties) {
+    // - Create topBarInfoCtr
+    const prjInfoCtr = document.getElementById("topBarInfoCtr");
+    prjInfoCtr.innerHTML = `
+        <i class="bi bi-star"></i>
+    `;
+    let prjInfoCtrDom = document.createElement("p");
+    prjInfoCtrDom.innerText = `${projectProperties.name}`;
+    prjInfoCtr.appendChild(prjInfoCtrDom);
+
+    // Create topBarInfoActionsCtr
+    let prjActionsDom = document.createElement("i");
+    prjActionsDom.className = "bi bi-gear";
+    const prjActionsCtr = document.getElementById("topBarInfoActionsCtr");
+    prjActionsCtr.appendChild(prjActionsDom);
+
+    // - Create topBarTabsCtr
+    projectProperties.tabs.forEach(tabProperties => {
+        const prjTabsCtr = document.getElementById("topBarTabsCtr");
+        prjTabsCtr.innerHTML = "";
+        projectProperties.tabs.forEach(projectTab => {
+            let newTab = document.createElement("div");
+            newTab.className = "top-bar__tabs-ctr__tab tab-link";
+            newTab.id = `${projectTab.id}`;
+            newTab.innerHTML = `
+                <p>${projectTab.name}</p>
+            `;
+            prjTabsCtr.appendChild(newTab);
+        });
+    });
+    
+    // Create event listeners for each tab
+    const TabLinks = document.getElementsByClassName("top-bar__tabs-ctr__tab");
+    for (const TabLink of TabLinks) {
+        TabLink.addEventListener("click", (event) => {
+            userProjects.forEach(projectProperties => {
+                projectProperties.tabs.forEach(tabProperties => {
+                    if (tabProperties.id == event.target.parentNode.id) {
+                        if (tabProperties.overview === false) {
+                            createTabDom(tabProperties);
+                        }
+                        else if (tabProperties.overview === true) {
+                            createOverviewDOM(projectProperties);
+                        }
+                    }
+                });
+            });
+        });
+    }
+
+    // Create topBarTabsActionsCtr
+    const topBarTabsActionsCtr = document.getElementById("topBarTabsActionsCtr");
+    let tabActions = document.createElement("i");
+    tabActions.id = "tabsBtnCreate";
+    tabActions.className = "bi bi-plus-lg";
+    topBarTabsActionsCtr.appendChild(tabActions);
+
+    // Create even listener for topBarTabsActionsCtr
+    tabsEventsListeners();
 }
 
-// ! MainCtr
-// - Overview Tab Dom
+// @ Main Container DOM Functions
+
+// ! Overview Tab DOM
 function createOverviewDOM(projectProperties) {
-    // Generate dom
+    // - Save last location
+    lastLocation = {projectStatus : true, projectId : projectProperties.id, generalOverviewStatus : true, specificTabStatus : false, tabId : undefined}
+    // - Generate dom
     const mainCtr = document.getElementById("mainCtr");
     mainCtr.innerHTML = "";
     let prjOverview = document.createElement("div");
@@ -23,7 +89,7 @@ function createOverviewDOM(projectProperties) {
         </div>
     `;
     mainCtr.appendChild(prjOverview);
-    // Fill the overview projects
+    // - Fill the overview projects container
     const overviewPrjCtr = document.getElementById("overviewPrjCtr");
     projectProperties.tabs.forEach(tab => {
         if (tab.overview === false) {
@@ -36,12 +102,15 @@ function createOverviewDOM(projectProperties) {
         }
     });
 }
-// - General Tab Dom
+// ! General Tab Dom
 function createTabDom (tabProperties) {
+    // - Save last location
+    lastLocation = {projectStatus : true, projectId : tabProperties.tabOf, generalOverviewStatus : false, specificTabStatus : true, tabId : tabProperties.id}
+    // - Generate Specific Tab DOM
     const mainCtr = document.getElementById("mainCtr");
     mainCtr.innerHTML = "";
     mainCtr.innerHTML = `
-        <div id="tabCtr" class="main-ctr">
+        <div id="${tabProperties.id}" class="Goals-Tasks-Reminders-Ctr">
             <div class="goals">
                 <div class="goals__info">
                     <p>Goals</p>
@@ -74,21 +143,24 @@ function createTabDom (tabProperties) {
             </div>
         </div>
     `;
+    // - Create existing Tasks, Goals and Reminders DOM
     tabProperties.tasks.forEach(taskProperties => {
         createTaskDom(taskProperties); // creates the DOM
-        tasksEventsListeners(); // creates events listeners
     });
     tabProperties.goals.forEach(goalProperties => {
         createGoalDom(goalProperties); // creates the DOM
-        goalsEventsListeners(); // creates events listeners
     });
     tabProperties.reminders.forEach(reminderProperties => {
         createReminderDom(reminderProperties); // creates the DOM
-        remindersEventListeners(); // creates events listeners
     });
+    goalsEventsListeners(); // creates goals events listeners
+    remindersEventListeners(); // creates reminders events listeners
+    tasksEventsListeners(); // creates tasks events listeners
 }
 
-// !TASK
+// ! Tasks
+
+// - Tasks DOM Creation
 function createTaskDom(newTask) {
     let domTask = document.createElement("div");
     domTask.className = "task"
@@ -108,7 +180,10 @@ function createTaskDom(newTask) {
     const domTaskctr = document.getElementById("tasksCtr");
     domTaskctr.appendChild(domTask);
 }
-// !GOAL
+
+// ! Goals
+
+// - Goals DOM Creation
 function createGoalDom(newGoal) {
     let domGoal = document.createElement("div");
     domGoal.className = "goal";
@@ -130,7 +205,10 @@ function createGoalDom(newGoal) {
     const goal_ctr = document.getElementById("goalsCtr");
     goal_ctr.appendChild(domGoal);
 }
-// !CREATE REMINDER
+
+// ! Reminders
+
+// - Reminders DOM Creation
 function createReminderDom(newReminder) {
     let domReminder = document.createElement("div");
     domReminder.className = "reminders";

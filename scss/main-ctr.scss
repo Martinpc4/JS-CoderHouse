@@ -1,6 +1,6 @@
 @import "colors.scss";
 
-// ! Top Bar Container
+// @ Top Bar Container
 .top-bar {
     // grid son
     grid-column: 1 / 2;
@@ -45,7 +45,7 @@
             color: #fcbd01;
         }
     }
-    &__actions-ctr {
+    &__info-actions-ctr {
         // grid son
         grid-column: 2 / 3;
         grid-row: 1 / 2;
@@ -55,19 +55,27 @@
         align-items: center;
         justify-content: flex-end;
         i {
+            display: none;
             font-size: 1.25rem;
         }
     }
     &__tabs-ctr {
         // grid son
         grid-row: 2 / 3;
-        grid-column: 1 / 3;
+        grid-column: 1 / 2;
         // grid father
         display: grid;
         grid-template-rows: 1fr;
         justify-content: flex-start;
         align-items: flex-end;
         column-gap: 15px;
+        // box modeling
+        height: 100%;
+        width: 100%;
+        // special properties
+        overflow: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
         &__tab {
             // grid son
             grid-row: 1 / 2;
@@ -80,7 +88,6 @@
                 font-size: 1rem;
                 margin: 0;
                 cursor: pointer;
-                padding: 4px 0;
             }
         }
         .tab-link {
@@ -94,12 +101,35 @@
             }
         }
     }
+    &__tabs-actions-ctr {
+        // grid son
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        // box modeling
+        height: 100%;
+        width: 100%;
+        // flex box
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+        i {
+            display: none;
+            font-size: 1rem;
+        }
+    }
+    &:hover i {
+        display: block;
+        cursor: pointer;
+    }
 }
+// @ Main Container
 
-// ! Main Container
-
-// - Alert Container
+// ! Alert Container
 .alert {
+    // grid son
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
     // flex-box
     display: flex;
     flex-flow: column nowrap;
@@ -109,6 +139,7 @@
     // box modeling
     position: relative;
     background-color: #{$background-main--blur};
+    // backdrop-filter: blur(2px);
     &__ctr {
         // borders
         border: black 2px solid;
@@ -176,9 +207,12 @@
     }
 }
 
-// - Overview Container
+// ! Overview Container
 
 .prj-overview {
+    // grid son
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
     // grid father
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -233,9 +267,9 @@
     }
 }
 
-// - Tab Container
+// ! Tab Container
 
-#tabCtr {
+.Goals-Tasks-Reminders-Ctr {
     // grid son
     grid-column: 1 / 2;
     grid-row: 1 / 2;
