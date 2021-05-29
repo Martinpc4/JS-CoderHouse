@@ -5,7 +5,6 @@ function cleanTopBarDom () {
     document.getElementById("topBarInfoCtr").innerHTML = "";
     document.getElementById("topBarInfoActionsCtr").innerHTML = "";
     document.getElementById("topBarTabsCtr").innerHTML = "";
-    document.getElementById("topBarTabsActionsCtr").innerHTML = "";
 }
 // ! Create Project Top Bar DOM
 function createProjectTopBarDom (projectProperties) {
@@ -18,11 +17,14 @@ function createProjectTopBarDom (projectProperties) {
     prjInfoCtrDom.innerText = `${projectProperties.name}`;
     prjInfoCtr.appendChild(prjInfoCtrDom);
 
-    // Create topBarInfoActionsCtr
+    // - Create topBarInfoActionsCtr
     let prjActionsDom = document.createElement("i");
     prjActionsDom.className = "bi bi-gear";
     const prjActionsCtr = document.getElementById("topBarInfoActionsCtr");
     prjActionsCtr.appendChild(prjActionsDom);
+
+    // * Create topBarInforActionsCtr event listener
+    // TODO Hay que terminar el evento de la configuración del projecto
 
     // - Create topBarTabsCtr
     projectProperties.tabs.forEach(tabProperties => {
@@ -39,7 +41,7 @@ function createProjectTopBarDom (projectProperties) {
         });
     });
     
-    // Create event listeners for each tab
+    // * Create event listeners for each tab
     const TabLinks = document.getElementsByClassName("top-bar__tabs-ctr__tab");
     for (const TabLink of TabLinks) {
         TabLink.addEventListener("click", (event) => {
@@ -57,16 +59,6 @@ function createProjectTopBarDom (projectProperties) {
             });
         });
     }
-
-    // Create topBarTabsActionsCtr
-    const topBarTabsActionsCtr = document.getElementById("topBarTabsActionsCtr");
-    let tabActions = document.createElement("i");
-    tabActions.id = "tabsBtnCreate";
-    tabActions.className = "bi bi-plus-lg";
-    topBarTabsActionsCtr.appendChild(tabActions);
-
-    // Create even listener for topBarTabsActionsCtr
-    tabsEventsListeners();
 }
 
 // @ Main Container DOM Functions
@@ -75,30 +67,154 @@ function createProjectTopBarDom (projectProperties) {
 function createOverviewDOM(projectProperties) {
     // - Save last location
     lastLocation = {projectStatus : true, projectId : projectProperties.id, generalOverviewStatus : true, specificTabStatus : false, tabId : undefined}
+    if ((lastLocation.generalOverviewStatus != true) || (lastLocation.projectId != projectProperties.id)) {
+        saveStorage();
+    }
     // - Generate dom
     const mainCtr = document.getElementById("mainCtr");
     mainCtr.innerHTML = "";
     let prjOverview = document.createElement("div");
     prjOverview.className = "prj-overview";
     prjOverview.innerHTML = `
-        <div class="prj-overview__tabs-status">
-            <div class="prj-overview__tabs-status__title">
-                <p>Tabs</p>
+        <div class="tabs-stat">
+            <div class="tabs-stat__hrds">
+                <div class="tabs-stat__hrds__ctr-hdr">
+                    <p>${projectProperties.name}'s Tabs</p>
+                </div>
+                <div class="tabs-stat__hrds__type-hdr">
+                    <div class="tabs-stat__hrds__type-hdr__type">
+                        <p>Tasks</p>
+                    </div>
+                    <div class="tabs-stat__hrds__type-hdr__type">
+                        <p>Goals</p>
+                    </div>
+                    <div class="tabs-stat__hrds__type-hdr__type">
+                        <p>Reminders</p>
+                    </div>
+                </div>
+                <div class="tabs-stat__hrds__actions">
+                    <i id="overviewBtnTabsCreate" class="bi bi-plus-lg"></i>
+                </div>
             </div>
-            <div id="overviewPrjCtr" class="prj-overview__tabs-status__prjs"></div>
+            <div id="overviewPrjStatsTabCtr" class="tabs-stat__ctr">
+            </div>
         </div>
     `;
     mainCtr.appendChild(prjOverview);
+    // - Create the create event listener
+    document.getElementById("overviewBtnTabsCreate").addEventListener("click", () => {
+        // * Alert creation (DOM)
+        let alertDom = document.createElement("div");
+        alertDom.className = "alert";
+        alertDom.innerHTML = `
+            <div class="alert__ctr">
+                <div class="alert__info">
+                    <p>Create new Tab</p>
+                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                </div>
+                <form id="alertForm" class="alert__form" action="">
+                    <div class="alert__form__input">
+                        <label for="name">Name</label>
+                        <input id="alertTabName" class="input" type="text" name="name">
+                    </div>
+                    <div class="alert__form__buttons">
+                        <input class="btn" type="submit">
+                    </div>
+                </form>
+            </div>
+        `;
+        const mainCtr = document.getElementById("mainCtr");
+        mainCtr.appendChild(alertDom);
+        // * Close alert
+        document.getElementById("alertBtnClose").addEventListener("click", () => {
+            mainCtr.removeChild(alertDom);
+        });
+        // * Capture data
+        document.getElementById("alertForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            // storing user given values in them
+            let tabName = String(document.getElementById("alertTabName").value);
+            // tab object creation
+            let newTab = { "name": tabName, "tabOf" : lastLocation.projectId, "overview" : false, };
+            newTab = new tab(newTab);
+            // adding the new tab to the project
+            userProjects.forEach( projectProperties => {
+                if (projectProperties.id == lastLocation.projectId) {
+                    projectProperties.tabs.push(newTab);
+                    saveStorage();
+                }
+            });
+        });
+    });
     // - Fill the overview projects container
-    const overviewPrjCtr = document.getElementById("overviewPrjCtr");
-    projectProperties.tabs.forEach(tab => {
-        if (tab.overview === false) {
+    const overviewPrjCtr = document.getElementById("overviewPrjStatsTabCtr");
+    projectProperties.tabs.forEach(tabProperties => {
+        if (tabProperties.overview === false) {
+            // * Count the amount of tasks, goals and reminders
+            let tasksNotFinished = 0;
+            let goalsNotFinished = 0;
+            let remindersNotFinished = 0;
+
+            tabProperties.tasks.forEach( taskProperties => {
+                if (taskProperties.doneState == false) {
+                    tasksNotFinished++;
+                }
+            });
+            tabProperties.goals.forEach( goalProperties => {
+                if (goalProperties.doneState == false) {
+                    goalsNotFinished++;
+                }
+            });
+            tabProperties.reminders.forEach( reminderProperties => {
+                if (reminderProperties.doneState == false) {
+                    remindersNotFinished++;
+                }
+            });
+
+            // * create the DOM for a new tab
             let newTab = document.createElement("div");
-            newTab.className = "prj-overview__tabs-status__prj";
+            newTab.className = "tabs-stat__ctr__tab";
+            newTab.id = `${tabProperties.id}`;
             newTab.innerHTML = `
-                <p>${tab.name}</p>
+                <div class="tabs-stat__ctr__tab__hdr-ctr">
+                    <div class="tabs-stat__ctr__tab__hdr-ctr__hdr">
+                        <p>${tabProperties.name}</p>
+                    </div>
+                </div>
+                <div class="tabs-stat__ctr__tab__types">
+                    <div class="tabs-stat__ctr__tab__types__type">
+                        <p>${tasksNotFinished}</p>
+                    </div>
+                    <div class="tabs-stat__ctr__tab__types__type">
+                        <p>${goalsNotFinished}</p>
+                    </div>
+                    <div class="tabs-stat__ctr__tab__types__type">
+                        <p>${remindersNotFinished}</p>
+                    </div>
+                </div>
+                <div class="tabs-stat__ctr__tab__actions">
+                    <i id="overviewBtnTabDelete" class="bi bi-trash"></i>
+                </div>
             `;
             overviewPrjCtr.appendChild(newTab);
+            // * Create event listener for the deletion of a tab
+            document.getElementById("overviewBtnTabDelete").addEventListener("click", (event) => {
+                console.log("PING");
+                userProjects.forEach( projectProperties => {
+                    if (projectProperties.id == lastLocation.projectId) {
+                        let i = 0;
+                        projectProperties.tabs.forEach( tabProperties => {
+                            if (tabProperties.id == event.target.parentNode.parentNode.id) {
+                                projectProperties.tabs.splice(i, 1);
+                                saveStorage();
+                            } 
+                            else {
+                                i++;
+                            }
+                        });
+                    }
+                });
+            });
         }
     });
 }

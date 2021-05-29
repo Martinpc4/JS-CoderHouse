@@ -78,56 +78,6 @@ function projectEventsListeners() {
     }
 }
 
-// @ Tabs Events Listeners
-
-function tabsEventsListeners () {
-    // - Event for creating a tab (btn +)
-    document.getElementById("tabsBtnCreate").addEventListener("click", () => {
-        // * Alert creation (DOM)
-        let alertDom = document.createElement("div");
-        alertDom.className = "alert";
-        alertDom.innerHTML = `
-            <div class="alert__ctr">
-                <div class="alert__info">
-                    <p>Create new Tab</p>
-                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
-                </div>
-                <form id="alertForm" class="alert__form" action="">
-                    <div class="alert__form__input">
-                        <label for="name">Name</label>
-                        <input id="alertTabName" class="input" type="text" name="name">
-                    </div>
-                    <div class="alert__form__buttons">
-                        <input class="btn" type="submit">
-                    </div>
-                </form>
-            </div>
-        `;
-        const mainCtr = document.getElementById("mainCtr");
-        mainCtr.appendChild(alertDom);
-        // * Close alert
-        document.getElementById("alertBtnClose").addEventListener("click", () => {
-            mainCtr.removeChild(alertDom);
-        });
-        // * Capture data
-        document.getElementById("alertForm").addEventListener("submit", (event) => {
-            event.preventDefault();
-            // storing user given values in them
-            let tabName = String(document.getElementById("alertTabName").value);
-            // tab object creation
-            let newTab = { "name": tabName, "tabOf" : lastLocation.projectId, "overview" : false, };
-            newTab = new tab(newTab);
-            // adding the new tab to the project
-            userProjects.forEach( projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
-                    projectProperties.tabs.push(newTab);
-                    saveStorage();
-                }
-            });
-        });
-    });
-}
-
 // @ Tasks Events Listeners
 function tasksEventsListeners () {
     // - Event for creating a task (btn +)
