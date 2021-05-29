@@ -1,13 +1,13 @@
 // @ Top Bar DOM Functions
 
 // ! Clean Top Bar
-function cleanTopBarDom () {
+function cleanTopBarDom() {
     document.getElementById("topBarInfoCtr").innerHTML = "";
     document.getElementById("topBarInfoActionsCtr").innerHTML = "";
     document.getElementById("topBarTabsCtr").innerHTML = "";
 }
 // ! Create Project Top Bar DOM
-function createProjectTopBarDom (projectProperties) {
+function createProjectTopBarDom(projectProperties) {
     // - Create topBarInfoCtr
     const prjInfoCtr = document.getElementById("topBarInfoCtr");
     prjInfoCtr.innerHTML = `
@@ -40,7 +40,7 @@ function createProjectTopBarDom (projectProperties) {
             prjTabsCtr.appendChild(newTab);
         });
     });
-    
+
     // * Create event listeners for each tab
     const TabLinks = document.getElementsByClassName("top-bar__tabs-ctr__tab");
     for (const TabLink of TabLinks) {
@@ -66,7 +66,7 @@ function createProjectTopBarDom (projectProperties) {
 // ! Overview Tab DOM
 function createOverviewDOM(projectProperties) {
     // - Save last location
-    lastLocation = {projectStatus : true, projectId : projectProperties.id, generalOverviewStatus : true, specificTabStatus : false, tabId : undefined}
+    lastLocation = { projectStatus: true, projectId: projectProperties.id, generalOverviewStatus: true, specificTabStatus: false, tabId: undefined }
     if ((lastLocation.generalOverviewStatus != true) || (lastLocation.projectId != projectProperties.id)) {
         saveStorage();
     }
@@ -135,10 +135,10 @@ function createOverviewDOM(projectProperties) {
             // storing user given values in them
             let tabName = String(document.getElementById("alertTabName").value);
             // tab object creation
-            let newTab = { "name": tabName, "tabOf" : lastLocation.projectId, "overview" : false, };
+            let newTab = { "name": tabName, "tabOf": lastLocation.projectId, "overview": false, };
             newTab = new tab(newTab);
             // adding the new tab to the project
-            userProjects.forEach( projectProperties => {
+            userProjects.forEach(projectProperties => {
                 if (projectProperties.id == lastLocation.projectId) {
                     projectProperties.tabs.push(newTab);
                     saveStorage();
@@ -155,17 +155,17 @@ function createOverviewDOM(projectProperties) {
             let goalsNotFinished = 0;
             let remindersNotFinished = 0;
 
-            tabProperties.tasks.forEach( taskProperties => {
+            tabProperties.tasks.forEach(taskProperties => {
                 if (taskProperties.doneState == false) {
                     tasksNotFinished++;
                 }
             });
-            tabProperties.goals.forEach( goalProperties => {
+            tabProperties.goals.forEach(goalProperties => {
                 if (goalProperties.doneState == false) {
                     goalsNotFinished++;
                 }
             });
-            tabProperties.reminders.forEach( reminderProperties => {
+            tabProperties.reminders.forEach(reminderProperties => {
                 if (reminderProperties.doneState == false) {
                     remindersNotFinished++;
                 }
@@ -193,21 +193,22 @@ function createOverviewDOM(projectProperties) {
                     </div>
                 </div>
                 <div class="tabs-stat__ctr__tab__actions">
-                    <i id="overviewBtnTabDelete" class="bi bi-trash"></i>
+                    <i class="overviewBtnsTabsDelete bi bi-trash"></i>
                 </div>
             `;
             overviewPrjCtr.appendChild(newTab);
-            // * Create event listener for the deletion of a tab
-            document.getElementById("overviewBtnTabDelete").addEventListener("click", (event) => {
-                console.log("PING");
-                userProjects.forEach( projectProperties => {
+        }
+        // - Create event listener for the deletion of each tab
+        for (const overviewBtnTabDelete of document.getElementsByClassName("overviewBtnsTabsDelete")) {
+            overviewBtnTabDelete.addEventListener("click", (event) => {
+                userProjects.forEach(projectProperties => {
                     if (projectProperties.id == lastLocation.projectId) {
                         let i = 0;
-                        projectProperties.tabs.forEach( tabProperties => {
+                        projectProperties.tabs.forEach(tabProperties => {
                             if (tabProperties.id == event.target.parentNode.parentNode.id) {
                                 projectProperties.tabs.splice(i, 1);
                                 saveStorage();
-                            } 
+                            }
                             else {
                                 i++;
                             }
@@ -219,9 +220,9 @@ function createOverviewDOM(projectProperties) {
     });
 }
 // ! General Tab Dom
-function createTabDom (tabProperties) {
+function createTabDom(tabProperties) {
     // - Save last location
-    lastLocation = {projectStatus : true, projectId : tabProperties.tabOf, generalOverviewStatus : false, specificTabStatus : true, tabId : tabProperties.id}
+    lastLocation = { projectStatus: true, projectId: tabProperties.tabOf, generalOverviewStatus: false, specificTabStatus: true, tabId: tabProperties.id }
     // - Generate Specific Tab DOM
     const mainCtr = document.getElementById("mainCtr");
     mainCtr.innerHTML = "";
