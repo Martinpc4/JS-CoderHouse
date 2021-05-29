@@ -146,36 +146,3 @@ function saveStorage() {
 retrieveStorage();
 
 // localStorage.clear();
-
-// localStorage.setItem("userProjects", JSON.stringify(
-//     [
-//         {id: 1230, fav: false, color: "red",name: "CoderHouse", tabs: [{
-//             tabOf: 1230, id: "12354", overview: false, name: "Fundamentos de Informatica", tasks: [{
-//                 taskOf: 12354, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
-//             }], reminders: [{
-//                 reminderOf: 12354, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
-//             }], goals: [{
-//                 reminderOf: 12354, name: "Meta tarea", doneState: false
-//             }]
-//         }]},
-//         {id: 122394, fav: true, color: "yellow",name: "UCEMA", tabs: [{
-//             tabOf: 122394, id:"1395123", overview: false, name: "Fundamentos de Informatica", tasks: [{
-//                 taskOf: 1395123, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
-//             }], reminders: [{
-//                 reminderOf: 1395123, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
-//             }], goals: [{
-//                 reminderOf: 1395123, name: "Meta tarea", doneState: false
-//             }]
-//         },
-//         {
-//             tabOf: 122394,id: "12837123", overview: false, name: "Analisis Matematico I", tasks: [{
-//                 taskOf: 12837123, name: "Hacer la Tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)", description: "sample text"
-//             }], reminders: [{
-//                 reminderOf: 12837123, name: "Recordatorio tarea", dueDate: "Mon Apr 12 2021 00:00:00 GMT-0300 (-03)"
-//             }], goals: [{
-//                 reminderOf: 12837123, name: "Meta tarea", doneState: false
-//             }]
-//             }
-//         ]}
-//     ]
-// ));
