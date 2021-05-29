@@ -26,7 +26,7 @@ body {
     //grid father
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 8vh 10vh auto auto 4vh;
+    grid-template-rows: 8vh 10vh max-content max-content auto;
     &__logo {
         // box modeling
         padding: 0 10px;
@@ -96,7 +96,7 @@ body {
         // grid father
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 10% auto;
+        grid-template-rows: 1rem auto;
         row-gap: 5px;
         &__title {
             // grid son
@@ -173,7 +173,7 @@ body {
         // grid father
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 10% auto;
+        grid-template-rows: 1rem auto;
         row-gap: 5px;
         &:hover .prjs__title i {
             display: block;
@@ -255,7 +255,6 @@ body {
     }
     &__other {
         // box modeling
-        border-top: 2px solid #{$aside-dividers};
         width: 100%;
         // grid son
         grid-column: 1 / 2;
@@ -264,7 +263,7 @@ body {
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
-        align-items: center;
+        align-items: flex-end;
         ul {
             list-style-type: none;
             // grid father

@@ -1,6 +1,7 @@
 // @ Projects Events Listeners
 
-function projectEventsListeners() {
+// - Event Listener Create Project (+)
+function projectEventCreateListener() {
     // ! Create a new project (+)
     document.getElementById("prjsBtnCreate").addEventListener("click", () => {
         const mainCtr = document.getElementById("mainCtr");
@@ -54,23 +55,20 @@ function projectEventsListeners() {
             userProjects.push(newProject);
             saveStorage();
         });
-    });
-
+    });    
+}
+// - Event Listener Open Project
+function projectEventOpenListener () {
     // ! Open a Project from Aside Btns
     let projectBtns = document.getElementsByClassName("prjs__prjs-ctr__prj");
     for (const ProjectBtn of projectBtns) {
         ProjectBtn.addEventListener("click", (event) => {
-            // * Project info DOM
             userProjects.forEach(projectProperties => {
                 if (projectProperties.id == event.target.parentNode.id) {
+                    // * Project info DOM
                     cleanTopBarDom(); // cleans the top bar
                     createProjectTopBarDom(projectProperties);
-
-                }
-            });
-            // * Create the default Project Overview Tab
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == event.target.parentNode.id) {
+                    // * Create the default Project Overview Tab
                     createOverviewDOM(projectProperties);
                 }
             });

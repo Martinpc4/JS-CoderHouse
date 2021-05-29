@@ -369,11 +369,11 @@
 }
 
 .prj-overview .prj-status__time__status--delayed p {
-  color: red;
+  color: #DD7155;
 }
 
 .prj-overview .prj-status__time__status--onTime p {
-  color: green;
+  color: #6AAC46;
 }
 
 .prj-overview .prj-status__completed {

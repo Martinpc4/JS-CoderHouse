@@ -11,7 +11,7 @@ function createProjectTopBarDom(projectProperties) {
     // - Create topBarInfoCtr
     const prjInfoCtr = document.getElementById("topBarInfoCtr");
     prjInfoCtr.innerHTML = `
-        <i class="bi bi-star"></i>
+        ${ projectProperties.fav === false ? `<i id="prjBtnFav" class="bi bi-star"></i>` : `<i id="prjBtnFav" class="bi bi-star-fill"></i>`}
     `;
     let prjInfoCtrDom = document.createElement("p");
     prjInfoCtrDom.innerText = `${projectProperties.name}`;
@@ -40,7 +40,6 @@ function createProjectTopBarDom(projectProperties) {
             prjTabsCtr.appendChild(newTab);
         });
     });
-
     // * Create event listeners for each tab
     const TabLinks = document.getElementsByClassName("top-bar__tabs-ctr__tab");
     for (const TabLink of TabLinks) {
@@ -59,6 +58,20 @@ function createProjectTopBarDom(projectProperties) {
             });
         });
     }
+    // * Create the event listener to set a project as favourite
+    document.getElementById("prjBtnFav").addEventListener("click", () => {
+        userProjects.forEach( projectProperties => {
+            if (projectProperties.id == lastLocation.projectId) {
+                if (projectProperties.fav == true) {
+                    projectProperties.fav = false;
+                }
+                else if (projectProperties.fav == false) {
+                    projectProperties.fav = true;
+                }
+                saveStorage();
+            }
+        });
+    });
 }
 
 // @ Main Container DOM Functions

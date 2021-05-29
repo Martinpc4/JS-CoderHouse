@@ -243,12 +243,12 @@
                 align-content: center;
                 &--delayed {
                     p {
-                        color: red;
+                        color: #{$semantic-quintinary};
                     }
                 }
                 &--onTime {
                     p {
-                        color: green;
+                        color: #{$semantic-tertiary};
                     }
                 }
             }
