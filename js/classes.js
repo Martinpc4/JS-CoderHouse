@@ -26,6 +26,7 @@ class task {
         this.dueDate = taskProperties.dueDate;
         this.description = taskProperties.description;
         this.doneState = taskProperties.doneState === undefined ? false : taskProperties.doneState;
+        this.onTime = this.doneState === false ? onTime(this.dueDate) : true;
     }
 }
 class goal {
@@ -41,6 +42,7 @@ class reminder {
         this.name = reminderProperties.name;
         this.dueDate = reminderProperties.dueDate;
         this.doneState = reminderProperties.doneState === undefined ? false : reminderProperties.doneState;
+        this.onTime = this.doneState === false ? onTime(this.dueDate) : true;
     }
 }
 

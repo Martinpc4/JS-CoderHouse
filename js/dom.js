@@ -66,11 +66,66 @@ function createProjectTopBarDom(projectProperties) {
 // ! Overview Tab DOM
 function createOverviewDOM(projectProperties) {
     // - Save last location
-    lastLocation = { projectStatus: true, projectId: projectProperties.id, generalOverviewStatus: true, specificTabStatus: false, tabId: undefined }
-    if ((lastLocation.generalOverviewStatus != true) || (lastLocation.projectId != projectProperties.id)) {
+    if ((lastLocation.generalOverviewStatus === false) || (lastLocation.projectId != projectProperties.id)) {
+        lastLocation.generalOverviewStatus = true;
+        lastLocation.projectStatus = true;
+        lastLocation.projectId = projectProperties.id;
+        lastLocation.specificTabStatus = false;
+        lastLocation.tabId = undefined;
         saveStorage();
     }
-    // - Generate dom
+    // - (Project Status Component) Generate stats
+    // * Create the project status
+    let prjOnTime = undefined;
+    projectProperties.tabs.forEach( tabProperties => {
+        if (tabProperties.overview === false) {
+            tabProperties.tasks.forEach( taskProperties => {
+                if (taskProperties.onTime === false) {
+                    prjOnTime = false;
+                }
+            });
+        } 
+    });
+    // * Create the number of completed tasks and goals in the project
+    let completedTotal = 0;
+    let totalExisting = 0;
+    projectProperties.tabs.forEach( tabProperties => {
+        if (tabProperties.overview === false) {
+            tabProperties.tasks.forEach( taskProperties => {
+                if (taskProperties.doneState === true) {
+                    completedTotal++;
+                    totalExisting++;
+                }
+                else {
+                    totalExisting++;
+                }
+            });
+            tabProperties.goals.forEach( goalProperties => {
+                if (goalProperties.doneState === true) {
+                    completedTotal++;
+                    totalExisting++
+                }
+                else {
+                    totalExisting++;
+                }
+            });
+            tabProperties.reminders.forEach( reminderProperties => {
+                if (reminderProperties.doneState === true) {
+                    completedTotal++;
+                    totalExisting++;
+                }
+                else {
+                    totalExisting++;
+                }
+            });
+        }
+    });
+    // * Create the percentage of completed tasks and goals in the project
+    let completedPrjPercentage = Math.floor((completedTotal * 100) / totalExisting);
+    if (isNaN(completedPrjPercentage)) {
+        completedPrjPercentage = 0;
+    }
+    // - Generate overview components DOM
     const mainCtr = document.getElementById("mainCtr");
     mainCtr.innerHTML = "";
     let prjOverview = document.createElement("div");
@@ -99,11 +154,49 @@ function createOverviewDOM(projectProperties) {
             <div id="overviewPrjStatsTabCtr" class="tabs-stat__ctr">
             </div>
         </div>
+        <div class="prj-status">
+            <div class="prj-status__time">
+                <div class="prj-status__time__hdr">
+                    <p>Status</p>
+                </div>
+                ${
+                    prjOnTime === false ? `
+                        <div class="prj-status__time__status prj-status__time__status--delayed">
+                            <p>Delayed</p>
+                        </div>
+                    `: `
+                        <div class="prj-status__time__status prj-status__time__status--onTime">
+                            <p>On time</p>
+                        </div>
+                    `
+                }
+            </div>
+            <div class="prj-status__completed">
+                <div class="prj-status__completed__hdr">
+                    <p>Completed</p>
+                </div>
+                <div class="prj-status__completed__data">
+                    <p>${completedTotal}/${totalExisting}</p>
+                </div>
+            </div>
+            <div class="prj-status__percentage">
+                <div class="prj-status__percentage__data">
+                    <div class="prj-status__percentage__data__ctr">
+                        <p>${completedPrjPercentage}%</p>
+                    </div>
+                </div>
+                <div class="prj-status__percentage__hdr">
+                    <p>of ${projectProperties.name} is completed</p>
+                </div>
+            </div>
+        </div>
     `;
     mainCtr.appendChild(prjOverview);
-    // - Create the create event listener
+
+    // - Tab Stats Component event Listeners
+    // * (Tab Stats Component) Create the create event listener
     document.getElementById("overviewBtnTabsCreate").addEventListener("click", () => {
-        // * Alert creation (DOM)
+        // Alert creation (DOM)
         let alertDom = document.createElement("div");
         alertDom.className = "alert";
         alertDom.innerHTML = `
@@ -125,11 +218,11 @@ function createOverviewDOM(projectProperties) {
         `;
         const mainCtr = document.getElementById("mainCtr");
         mainCtr.appendChild(alertDom);
-        // * Close alert
+        // Close alert
         document.getElementById("alertBtnClose").addEventListener("click", () => {
             mainCtr.removeChild(alertDom);
         });
-        // * Capture data
+        // Capture data
         document.getElementById("alertForm").addEventListener("submit", (event) => {
             event.preventDefault();
             // storing user given values in them
@@ -146,7 +239,7 @@ function createOverviewDOM(projectProperties) {
             });
         });
     });
-    // - Fill the overview projects container
+    // * (Tab Stats Component) Fill the overview projects container
     const overviewPrjCtr = document.getElementById("overviewPrjStatsTabCtr");
     projectProperties.tabs.forEach(tabProperties => {
         if (tabProperties.overview === false) {
@@ -198,7 +291,7 @@ function createOverviewDOM(projectProperties) {
             `;
             overviewPrjCtr.appendChild(newTab);
         }
-        // - Create event listener for the deletion of each tab
+        // * (Tab Stats Component) Create event listener for the deletion of each tab
         for (const overviewBtnTabDelete of document.getElementsByClassName("overviewBtnsTabsDelete")) {
             overviewBtnTabDelete.addEventListener("click", (event) => {
                 userProjects.forEach(projectProperties => {
@@ -305,20 +398,13 @@ function createGoalDom(newGoal) {
     let domGoal = document.createElement("div");
     domGoal.className = "goal";
     domGoal.id = `${newGoal.id}`;
-    if (newGoal.doneState === false) {
-        domGoal.innerHTML = `
-            <i class="btnGoalComplete bi bi-circle"></i>
-            <p class="goal__title">${newGoal.name}</p>
-            <i class="btnGoalDelete bi bi-trash"></i>
-        `;
-    }
-    else if (newGoal.doneState === true) {
-        domGoal.innerHTML = `
-            <i class="btnGoalComplete bi bi-circle-fill"></i>
-            <p class="goal__title">${newGoal.name}</p>
-            <i class="btnGoalDelete bi bi-trash"></i>
-        `;
-    }
+    domGoal.innerHTML = `
+        ${
+            newGoal.doneState === false ? `<i class="btnGoalComplete bi bi-circle"></i>` : `<i class="btnGoalComplete bi bi-circle-fill"></i>`
+        }
+        <p class="goal__title">${newGoal.name}</p>
+        <i class="btnGoalDelete bi bi-trash"></i>
+    `;
     const goal_ctr = document.getElementById("goalsCtr");
     goal_ctr.appendChild(domGoal);
 }
@@ -330,32 +416,17 @@ function createReminderDom(newReminder) {
     let domReminder = document.createElement("div");
     domReminder.className = "reminders";
     domReminder.id = `${newReminder.id}`;
-    if (onTime(newReminder.dueDate) === true) {
-        domReminder.innerHTML = `
+    domReminder.innerHTML = `
             <div class="reminders__actions-complete">
-            <i class="btnReminderComplete bi bi-square"></i>
+                ${newReminder.doneState === false ? `<i class="btnReminderComplete bi bi-square"></i>` : `<i class="btnReminderComplete bi bi-square-fill"></i>`}
             </div>
-            <div class="reminders__status reminders__status--onTime"></div>
+            ${ newReminder.onTime === true ? `<div class="reminders__status reminders__status--onTime"></div>` : `<div class="reminders__status reminders__status--overdue"></div>`}
             <p class="reminders__title">${newReminder.name}</p>
             <p class="reminders__dueDate">${String(newReminder.dueDate.getDate()) + "/" + String(newReminder.dueDate.getMonth() + 1) + "/" + String(newReminder.dueDate.getFullYear())}</p>
             <div class="reminders__actions-delete">
                 <i class="btnReminderDelete bi bi-trash"></i>
             </div>
         `;
-    }
-    else if (onTime(newReminder.dueDate) === false) {
-        domReminder.innerHTML = `
-            <div class="reminders__actions-complete">
-            <i class="btnReminderComplete bi bi-square"></i>
-            </div>
-            <div class="reminders__status reminders__status--overdue"></div>
-            <p class="reminders__title">${newReminder.name}</p>
-            <p class="reminders__dueDate">${String(newReminder.dueDate.getDate()) + "/" + String(newReminder.dueDate.getMonth() + 1) + "/" + String(newReminder.dueDate.getFullYear())}</p>
-            <div class="reminders__actions-delete">
-                <i class="btnReminderDelete bi bi-trash"></i>
-            </div>
-        `;
-    }
 
     const reminders_ctr = document.getElementById("remindersCtr");
     reminders_ctr.appendChild(domReminder);
