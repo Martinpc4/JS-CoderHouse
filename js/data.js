@@ -28,7 +28,9 @@ function retrieveStorage() {
                     if (tabProperties.tasks != undefined) {
                         // * Create instances of tasks < tabs < projects
                         tabProperties.tasks.forEach(taskProperties => {
-                            taskProperties.dueDate = new Date(taskProperties.dueDate);
+                            if (taskProperties.dueDate != false) {
+                                taskProperties.dueDate = new Date(taskProperties.dueDate);
+                            }
                             let newTask = new task(taskProperties);
                             // asign a random Id in case it doesn't have it yet
                             if (newTask.id === undefined) {
@@ -51,7 +53,9 @@ function retrieveStorage() {
                     if (tabProperties.reminders != undefined) {
                         // * Create instances of reminders < tabs < projects
                         tabProperties.reminders.forEach(reminderProperties => {
-                            reminderProperties.dueDate = new Date(reminderProperties.dueDate);
+                            if (reminderProperties.dueDate != false) {
+                                reminderProperties.dueDate = new Date(reminderProperties.dueDate);
+                            }
                             let newReminder = new reminder(reminderProperties);
                             // asign a random Id in case it doesn't have it yet
                             if (newReminder.id === undefined) {

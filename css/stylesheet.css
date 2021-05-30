@@ -99,14 +99,16 @@ body {
   grid-column: 1 / 2;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: auto auto;
-      grid-template-columns: auto auto;
+  -ms-grid-columns: 20px auto;
+      grid-template-columns: 20px auto;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
   -webkit-column-gap: 5px;
           column-gap: 5px;
   padding: 2.5px 10px;
@@ -118,11 +120,27 @@ body {
 }
 
 .aside__menu ul li i {
-  font-size: 1.25rem;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 1.1rem;
   color: #747b85;
 }
 
 .aside__menu ul li p {
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 1;
+  grid-column: 2 / 3;
   font-size: 1.1rem;
   color: #9dacb6;
   margin: 0;

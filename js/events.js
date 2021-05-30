@@ -14,7 +14,7 @@ function projectEventCreateListener() {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--blue">
                     <p>Create Project</p>
-                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                    <i id="alertBtnClose" class="fas fa-times"></i>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -23,7 +23,7 @@ function projectEventCreateListener() {
                     </div>
                     <div class="alert__form__input">
                         <label for="color">Project Color</label>
-                        <select name="color" id="alertProjectColor">
+                        <select name="color" id="alertProjectColor" class="select">
                             <option value="orange">Orange</option>
                             <option value="blue">Blue</option>
                             <option value="green">Green</option>
@@ -90,7 +90,7 @@ function tasksEventsListeners () {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Task</p>
-                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                    <i id="alertBtnClose" class="fas fa-times"></i>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -123,24 +123,26 @@ function tasksEventsListeners () {
         // * Capture alert data (Event)
         document.getElementById("alertForm").addEventListener("submit", (event) => {
             event.preventDefault();
-            // storing user given values in them
-            let taskName = String(document.getElementById("alertTaskName").value);
-            let taskDueDate = String(document.getElementById("alertTaskDueDate").value);
-            let taskDescription = String(document.getElementById("alertTaskDescription").value);
             // task object instance creation
-            let newTask = { "name": taskName, "dueDate": parseDate(taskDueDate), "description": taskDescription };
-            newTask = new task(newTask);
-            // add the task
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
-                    projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
-                            tabProperties.tasks.push(newTask);
-                            saveStorage();
-                        }
-                    });
-                }
-            });
+            let newTask = { 
+                "name": String(document.getElementById("alertTaskName").value),
+                "dueDate": parseDate(String(document.getElementById("alertTaskDueDate").value)),
+                "description": String(document.getElementById("alertTaskDescription").value)
+            };
+            if ((newTask.name != "") && (newTask.description != "")) {
+                newTask = new task(newTask);
+                // add the task
+                userProjects.forEach(projectProperties => {
+                    if (projectProperties.id == lastLocation.projectId) {
+                        projectProperties.tabs.forEach(tabProperties => {
+                            if (tabProperties.id == lastLocation.tabId) {
+                                tabProperties.tasks.push(newTask);
+                                saveStorage();
+                            }
+                        });
+                    }
+                });
+            }
         });
     });
 
@@ -207,7 +209,7 @@ function goalsEventsListeners() {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Goal</p>
-                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                    <i id="alertBtnClose" class="fas fa-times"></i>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -311,7 +313,7 @@ function remindersEventListeners() {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Reminder</p>
-                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                    <i id="alertBtnClose" class="fas fa-times"></i>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -340,22 +342,25 @@ function remindersEventListeners() {
         document.getElementById("alertForm").addEventListener("submit", (event) => {
             event.preventDefault();
             // storing user given values in them
-            let reminderName = String(document.getElementById("reminderName").value);
-            let reminderDueDate = String(document.getElementById("reminderDueDate").value);
+            let newReminder = {
+                name : String(document.getElementById("reminderName").value),
+                dueDate : parseDate(String(document.getElementById("reminderDueDate").value))
+            }
             // object creation
-            let newReminder = { "name": reminderName, "dueDate": parseDate(reminderDueDate) };
-            newReminder = new reminder(newReminder);
-            // add the reminder
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
-                    projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
-                            tabProperties.reminders.push(newReminder);
-                            saveStorage();
-                        }
-                    });
-                }
-            });
+            if (newReminder.name != "") {
+                newReminder = new reminder(newReminder);
+                // add the reminder
+                userProjects.forEach(projectProperties => {
+                    if (projectProperties.id == lastLocation.projectId) {
+                        projectProperties.tabs.forEach(tabProperties => {
+                            if (tabProperties.id == lastLocation.tabId) {
+                                tabProperties.reminders.push(newReminder);
+                                saveStorage();
+                            }
+                        });
+                    }
+                });
+            }
         });
     });
     // - Delete Reminder

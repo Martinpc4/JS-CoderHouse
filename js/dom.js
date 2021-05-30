@@ -11,7 +11,7 @@ function createProjectTopBarDom(projectProperties) {
     topBarInfoCtr.className = "top-bar__title-ctr";
     topBarInfoCtr.id = "topBarInfoCtr";
     topBarInfoCtr.innerHTML = `
-        ${ projectProperties.fav === false ? `<i id="prjBtnFav" class="bi bi-star"></i>` : `<i id="prjBtnFav" class="bi bi-star-fill"></i>`}
+        ${ projectProperties.fav === false ? `<i id="prjBtnFav" class="far fa-star"></i>` : `<i id="prjBtnFav" class="fas fa-star"></i>`}
         <p>${projectProperties.name}</p>
     `;
     topBarCtr.appendChild(topBarInfoCtr);
@@ -21,7 +21,7 @@ function createProjectTopBarDom(projectProperties) {
     topBarInfoActionsCtr.className = "top-bar__info-actions-ctr";
     topBarInfoActionsCtr.id = "topBarInfoActionsCtr";
     topBarInfoActionsCtr.innerHTML = `
-        <i id="prjBtnConfig" class="bi bi-gear"></i>
+        <i id="prjBtnConfig" class="fas fa-cog"></i>
     `;
     topBarCtr.appendChild(topBarInfoActionsCtr);
     
@@ -33,7 +33,7 @@ function createProjectTopBarDom(projectProperties) {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>${projectProperties.name}</p>
-                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                    <i id="alertBtnClose" class="fas fa-times"></i>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -234,7 +234,7 @@ function createOverviewDOM(projectProperties) {
                     </div>
                 </div>
                 <div class="tabs-stat__hrds__actions">
-                    <i id="overviewBtnTabsCreate" class="bi bi-plus-lg"></i>
+                    <i id="overviewBtnTabsCreate" class="fas fa-plus"></i>
                 </div>
             </div>
             <div id="overviewPrjStatsTabCtr" class="tabs-stat__ctr">
@@ -289,7 +289,7 @@ function createOverviewDOM(projectProperties) {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create new Tab</p>
-                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                    <i id="alertBtnClose" class="fas fa-times"></i>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -372,7 +372,7 @@ function createOverviewDOM(projectProperties) {
                     </div>
                 </div>
                 <div class="tabs-stat__ctr__tab__actions">
-                    <i class="overviewBtnsTabsDelete bi bi-trash"></i>
+                    <i class="overviewBtnsTabsDelete fas fa-trash"></i>
                 </div>
             `;
             overviewPrjCtr.appendChild(newTab);
@@ -424,7 +424,7 @@ function createTabDom(tabProperties) {
                     <p>Goals</p>
                 </div>
                 <div class="goals__actions">
-                    <i id="goalBtnCreate" class="bi bi-plus-lg"></i>
+                    <i id="goalBtnCreate" class="fas fa-plus"></i>
                 </div>
                 <div id="goalsCtr" class="goals__ctr">
                 </div>
@@ -434,7 +434,7 @@ function createTabDom(tabProperties) {
                     <p>Tasks</p>
                 </div>
                 <div class="tasks__actions">
-                    <i id="taskBtnCreate" class="bi bi-plus-lg"></i>
+                    <i id="taskBtnCreate" class="fas fa-plus"></i>
                 </div>
                 <div id="tasksCtr" class="tasks__ctr">
                 </div>
@@ -444,7 +444,7 @@ function createTabDom(tabProperties) {
                     <p>Reminders</p>
                 </div>
                 <div class="reminders__actions">
-                    <i id="reminderBtnCreate" class="bi bi-plus-lg"></i>
+                    <i id="reminderBtnCreate" class="fas fa-plus"></i>
                 </div>
                 <div id="remindersCtr" class="reminders__ctr">
                 </div>
@@ -477,11 +477,17 @@ function createTaskDom(newTask) {
         <div class="task__bar"></div>
         <div class="task__ctr">
             <p class="task__title">${newTask.name}</p>
-            <p class="task__dueDate">${String(newTask.dueDate.getDate()) + "/" + String(newTask.dueDate.getMonth() + 1) + "/" + String(newTask.dueDate.getFullYear())}</p>
+            <p class="task__dueDate">
+                ${
+                    newTask.dueDate === false ? "" : String(newTask.dueDate.getDate()) + `/` + String(newTask.dueDate.getMonth() + 1) + `/` + String(newTask.dueDate.getFullYear())
+                }
+            </p>
             <p class="task__description">${newTask.description}</p>
             <div class="task__actions">
-                <i class="btnTaskComplete bi bi-check2"></i>
-                <i class="btnTaskDelete bi bi-trash"></i>
+                ${
+                    newTask.doneState === false ? `<i class="btnTaskComplete fas fa-check"></i>` : `<i class="btnTaskComplete far fa-check-square"></i>`
+                }
+                <i class="btnTaskDelete fas fa-trash"></i>
             </div>
         </div>
     `;
@@ -498,10 +504,10 @@ function createGoalDom(newGoal) {
     domGoal.id = `${newGoal.id}`;
     domGoal.innerHTML = `
         ${
-            newGoal.doneState === false ? `<i class="btnGoalComplete bi bi-circle"></i>` : `<i class="btnGoalComplete bi bi-circle-fill"></i>`
+            newGoal.doneState === false ? `<i class="btnGoalComplete far fa-circle"></i>` : `<i class="btnGoalComplete far fa-check-circle"></i>`
         }
         <p class="goal__title">${newGoal.name}</p>
-        <i class="btnGoalDelete bi bi-trash"></i>
+        <i class="btnGoalDelete fas fa-trash"></i>
     `;
     const goal_ctr = document.getElementById("goalsCtr");
     goal_ctr.appendChild(domGoal);
@@ -516,13 +522,19 @@ function createReminderDom(newReminder) {
     domReminder.id = `${newReminder.id}`;
     domReminder.innerHTML = `
             <div class="reminders__actions-complete">
-                ${newReminder.doneState === false ? `<i class="btnReminderComplete bi bi-square"></i>` : `<i class="btnReminderComplete bi bi-square-fill"></i>`}
+                ${
+                    newReminder.doneState === false ? `<i class="btnReminderComplete far fa-square"></i>` : `<i class="btnReminderComplete far fa-check-square"></i>`
+                }
             </div>
-            ${ newReminder.onTime === true ? `<div class="reminders__status reminders__status--onTime"></div>` : `<div class="reminders__status reminders__status--overdue"></div>`}
+            ${
+                newReminder.onTime === true ? `<div class="reminders__status reminders__status--onTime"></div>` : `<div class="reminders__status reminders__status--overdue"></div>`
+            }
             <p class="reminders__title">${newReminder.name}</p>
-            <p class="reminders__dueDate">${String(newReminder.dueDate.getDate()) + "/" + String(newReminder.dueDate.getMonth() + 1) + "/" + String(newReminder.dueDate.getFullYear())}</p>
+            <p class="reminders__dueDate">${
+                newReminder.dueDate === false ? "" : String(newReminder.dueDate.getDate()) + "/" + String(newReminder.dueDate.getMonth() + 1) + "/" + String(newReminder.dueDate.getFullYear())
+            }</p>
             <div class="reminders__actions-delete">
-                <i class="btnReminderDelete bi bi-trash"></i>
+                <i class="btnReminderDelete fas fa-trash"></i>
             </div>
         `;
 

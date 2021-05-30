@@ -63,9 +63,10 @@ body {
                 grid-column: 1 / 2;
                 // grid father
                 display: grid;
-                grid-template-columns: auto auto;
+                grid-template-columns: 20px auto;
                 justify-content: flex-start;
                 align-items: center;
+                align-content: center;
                 column-gap: 5px;
                 // box modeling
                 padding: 2.5px 10px;
@@ -75,10 +76,20 @@ body {
                     background-color: #{$background-aside--hover};
                 }
                 i {
-                    font-size: 1.25rem;
+                    // grid son
+                    grid-column: 1 / 2;
+                    // flexbox
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: center;
+                    // font
+                    font-size: 1.1rem;
                     color: #{$aside-icons};
                 }
                 p {
+                    // grid son
+                    grid-column: 2 / 3;
+                    // font
                     font-size: 1.1rem;
                     color: #{$aside-text};
                     margin: 0;
