@@ -52,7 +52,7 @@ function createProjectTopBarDom(projectProperties) {
                     </div>
                     <div class="alert__form__buttons">
                         <input class="btn btn--${lastLocation.projectColor}" type="submit" value="Save">
-                        <input class="btn btn--${lastLocation.projectColor}" type="button" value="Delete Project">
+                        <input id="alertProjectBtnDelete" class="btn btn--${lastLocation.projectColor}" type="button" value="Delete Project">
                     </div>
                 </form>
             </div>
@@ -80,6 +80,20 @@ function createProjectTopBarDom(projectProperties) {
                 lastLocation.projectColor = alertProjectNewColor;
             }
             saveStorage();
+        });
+
+        // * Event delete project (btn)
+        document.getElementById("alertProjectBtnDelete").addEventListener("click", () => {
+            let i = 0;
+            userProjects.forEach( prjProperties => {
+                if (prjProperties.id == projectProperties.id) {
+                    userProjects.splice(i, 1);
+                    saveStorage();
+                }
+                else {
+                    i++;
+                }
+            });
         });
     });
     
