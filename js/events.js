@@ -12,7 +12,7 @@ function projectEventCreateListener() {
         alertDom.className = "alert";
         alertDom.innerHTML = `
             <div class="alert__ctr">
-                <div class="alert__info">
+                <div class="alert__info alert__info--blue">
                     <p>Create Project</p>
                     <i id="alertBtnClose" class="bi bi-x-lg"></i>
                 </div>
@@ -32,13 +32,12 @@ function projectEventCreateListener() {
                         </select>
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn" type="submit">
+                        <input class="btn btn--blue" type="submit">
                     </div>
                 </form>
             </div>
         `;
         mainCtr.appendChild(alertDom);
-        cleanTopBarDom();
         // * Close alert
         document.getElementById("alertBtnClose").addEventListener("click", () => {
             saveStorage();
@@ -53,6 +52,10 @@ function projectEventCreateListener() {
             let newProject = { "name": projectName, "color": projectColor };
             newProject = new project(newProject);
             userProjects.push(newProject);
+            // Project info DOM
+            createProjectTopBarDom(newProject);
+            // Create the default Project Overview Tab
+            createOverviewDOM(newProject);
             saveStorage();
         });
     });    
@@ -66,7 +69,6 @@ function projectEventOpenListener () {
             userProjects.forEach(projectProperties => {
                 if (projectProperties.id == event.target.parentNode.id) {
                     // * Project info DOM
-                    cleanTopBarDom(); // cleans the top bar
                     createProjectTopBarDom(projectProperties);
                     // * Create the default Project Overview Tab
                     createOverviewDOM(projectProperties);
@@ -82,10 +84,11 @@ function tasksEventsListeners () {
     document.getElementById("taskBtnCreate").addEventListener("click", (event) => {
         // * Alert creation (DOM)
         let alertDom = document.createElement("div");
+        console.log(lastLocation.projectColor);
         alertDom.className = "alert";
         alertDom.innerHTML = `
             <div class="alert__ctr">
-                <div class="alert__info">
+                <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Task</p>
                     <i id="alertBtnClose" class="bi bi-x-lg"></i>
                 </div>
@@ -103,7 +106,7 @@ function tasksEventsListeners () {
                         <textarea id="alertTaskDescription" class="textarea" name="description" id=""></textarea>
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn" type="submit">
+                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -202,7 +205,7 @@ function goalsEventsListeners() {
         alertDom.className = "alert";
         alertDom.innerHTML = `
             <div class="alert__ctr">
-                <div class="alert__info">
+                <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Goal</p>
                     <i id="alertBtnClose" class="bi bi-x-lg"></i>
                 </div>
@@ -212,13 +215,12 @@ function goalsEventsListeners() {
                         <input id="alertGoalName" class="input" type="text" name="name">
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn" type="submit">
+                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
         `;
         const mainCtr = document.getElementById("mainCtr");
-        mainCtr.innerHTML = "";
         mainCtr.appendChild(alertDom);
 
         // * Event Close Alert
@@ -307,7 +309,7 @@ function remindersEventListeners() {
         alertDom.className = "alert";
         alertDom.innerHTML = `
             <div class="alert__ctr">
-                <div class="alert__info">
+                <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Reminder</p>
                     <i id="alertBtnClose" class="bi bi-x-lg"></i>
                 </div>
@@ -321,7 +323,7 @@ function remindersEventListeners() {
                         <input id="reminderDueDate" class="input" type="text" name="dueDate" placeholder="dd/mm/yyyy">
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn" type="submit">
+                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>

@@ -1,45 +1,103 @@
 // @ Top Bar DOM Functions
 
-// ! Clean Top Bar
-function cleanTopBarDom() {
-    document.getElementById("topBarInfoCtr").innerHTML = "";
-    document.getElementById("topBarInfoActionsCtr").innerHTML = "";
-    document.getElementById("topBarTabsCtr").innerHTML = "";
-}
 // ! Create Project Top Bar DOM
 function createProjectTopBarDom(projectProperties) {
-    // - Create topBarInfoCtr
-    const prjInfoCtr = document.getElementById("topBarInfoCtr");
-    prjInfoCtr.innerHTML = `
+    // - Create Top Bar Ctr
+    const topBarCtr = document.getElementById("topBarCtr");
+    topBarCtr.innerHTML = "";
+
+    // * Create topBarInfoCtr
+    const topBarInfoCtr = document.createElement("div");
+    topBarInfoCtr.className = "top-bar__title-ctr";
+    topBarInfoCtr.id = "topBarInfoCtr";
+    topBarInfoCtr.innerHTML = `
         ${ projectProperties.fav === false ? `<i id="prjBtnFav" class="bi bi-star"></i>` : `<i id="prjBtnFav" class="bi bi-star-fill"></i>`}
+        <p>${projectProperties.name}</p>
     `;
-    let prjInfoCtrDom = document.createElement("p");
-    prjInfoCtrDom.innerText = `${projectProperties.name}`;
-    prjInfoCtr.appendChild(prjInfoCtrDom);
+    topBarCtr.appendChild(topBarInfoCtr);
 
-    // - Create topBarInfoActionsCtr
-    let prjActionsDom = document.createElement("i");
-    prjActionsDom.className = "bi bi-gear";
-    const prjActionsCtr = document.getElementById("topBarInfoActionsCtr");
-    prjActionsCtr.appendChild(prjActionsDom);
+    // * Create topBarInfoActionsCtr
+    const topBarInfoActionsCtr = document.createElement("div");
+    topBarInfoActionsCtr.className = "top-bar__info-actions-ctr";
+    topBarInfoActionsCtr.id = "topBarInfoActionsCtr";
+    topBarInfoActionsCtr.innerHTML = `
+        <i id="prjBtnConfig" class="bi bi-gear"></i>
+    `;
+    topBarCtr.appendChild(topBarInfoActionsCtr);
+    
+    // * Create Config event listener
+    document.getElementById("prjBtnConfig").addEventListener("click", () => {
+        let alertDom = document.createElement("div");
+        alertDom.className = "alert";
+        alertDom.innerHTML = `
+            <div class="alert__ctr">
+                <div class="alert__info alert__info--${lastLocation.projectColor}">
+                    <p>${projectProperties.name}</p>
+                    <i id="alertBtnClose" class="bi bi-x-lg"></i>
+                </div>
+                <form id="alertForm" class="alert__form" action="">
+                    <div class="alert__form__input">
+                        <label for="name">Change name</label>
+                        <input id="alertProjectNewName" class="input" type="text" name="name">
+                    </div>
+                    <div class="alert__form__input">
+                        <label for="color">Change color</label>
+                        <select name="color" class="select" id="alertProjectNewColor">
+                            <option value="orange">Orange</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="purple">Purple</option>
+                            <option value="red">Red</option>
+                        </select>
+                    </div>
+                    <div class="alert__form__buttons">
+                        <input class="btn btn--${lastLocation.projectColor}" type="submit" value="Save">
+                        <input class="btn btn--${lastLocation.projectColor}" type="button" value="Delete Project">
+                    </div>
+                </form>
+            </div>
+        `;
+        const mainCtr = document.getElementById("mainCtr");
+        mainCtr.appendChild(alertDom);
 
-    // * Create topBarInforActionsCtr event listener
-    // TODO Hay que terminar el evento de la configuración del projecto
+        // * Event Close Alert
+        document.getElementById("alertBtnClose").addEventListener("click", () => {
+            mainCtr.removeChild(alertDom);
+        });
 
-    // - Create topBarTabsCtr
-    projectProperties.tabs.forEach(tabProperties => {
-        const prjTabsCtr = document.getElementById("topBarTabsCtr");
-        prjTabsCtr.innerHTML = "";
-        projectProperties.tabs.forEach(projectTab => {
-            let newTab = document.createElement("div");
-            newTab.className = "top-bar__tabs-ctr__tab tab-link";
-            newTab.id = `${projectTab.id}`;
-            newTab.innerHTML = `
-                <p>${projectTab.name}</p>
-            `;
-            prjTabsCtr.appendChild(newTab);
+        // * Capture alert data (Config)
+        document.getElementById("alertForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            // change name
+            let alertProjectNewName = String(document.getElementById("alertProjectNewName").value);
+            if ((projectProperties.name != alertProjectNewName) && !(alertProjectNewName === "")) {
+                projectProperties.name = alertProjectNewName;
+            }
+            // change color
+            let alertProjectNewColor = String(document.getElementById("alertProjectNewColor").value);
+            if (projectProperties.color != alertProjectNewColor) {
+                projectProperties.color = alertProjectNewColor;
+                lastLocation.projectColor = alertProjectNewColor;
+            }
+            saveStorage();
         });
     });
+    
+    // * Create topBarTabsCtr
+    const topBarTabsCtr = document.createElement("div");
+    topBarTabsCtr.className = "top-bar__tabs-ctr";
+    topBarTabsCtr.id = "topBarTabsCtr";
+    projectProperties.tabs.forEach(projectTab => {
+        let newTab = document.createElement("div");
+        newTab.className = "top-bar__tabs-ctr__tab tab-link";
+        newTab.id = `${projectTab.id}`;
+        newTab.innerHTML = `
+        <p>${projectTab.name}</p>
+        `;
+        topBarTabsCtr.appendChild(newTab);
+    });
+    topBarCtr.appendChild(topBarTabsCtr);
+    
     // * Create event listeners for each tab
     const TabLinks = document.getElementsByClassName("top-bar__tabs-ctr__tab");
     for (const TabLink of TabLinks) {
@@ -83,6 +141,7 @@ function createOverviewDOM(projectProperties) {
         lastLocation.generalOverviewStatus = true;
         lastLocation.projectStatus = true;
         lastLocation.projectId = projectProperties.id;
+        lastLocation.projectColor = projectProperties.color;
         lastLocation.specificTabStatus = false;
         lastLocation.tabId = undefined;
         saveStorage();
@@ -199,7 +258,7 @@ function createOverviewDOM(projectProperties) {
                     </div>
                 </div>
                 <div class="prj-status__percentage__hdr">
-                    <p>of ${projectProperties.name} is completed</p>
+                    <p>completed</p>
                 </div>
             </div>
         </div>
@@ -214,7 +273,7 @@ function createOverviewDOM(projectProperties) {
         alertDom.className = "alert";
         alertDom.innerHTML = `
             <div class="alert__ctr">
-                <div class="alert__info">
+                <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create new Tab</p>
                     <i id="alertBtnClose" class="bi bi-x-lg"></i>
                 </div>
@@ -224,7 +283,7 @@ function createOverviewDOM(projectProperties) {
                         <input id="alertTabName" class="input" type="text" name="name">
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn" type="submit">
+                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -328,7 +387,19 @@ function createOverviewDOM(projectProperties) {
 // ! General Tab Dom
 function createTabDom(tabProperties) {
     // - Save last location
-    lastLocation = { projectStatus: true, projectId: tabProperties.tabOf, generalOverviewStatus: false, specificTabStatus: true, tabId: tabProperties.id }
+    if (lastLocation.specificTabStatus === false) {
+        userProjects.forEach( projectProperties => {
+            if (projectProperties.id == tabProperties.tabOf) {
+                lastLocation.projectStatus = true;
+                lastLocation.projectId = projectProperties.id;
+                lastLocation.projectColor = projectProperties.color;
+                lastLocation.generalOverviewStatus = false;
+                lastLocation.specificTabStatus = true;
+                lastLocation.tabId = tabProperties.id;
+                saveStorage();
+            }
+        });
+    }
     // - Generate Specific Tab DOM
     const mainCtr = document.getElementById("mainCtr");
     mainCtr.innerHTML = "";

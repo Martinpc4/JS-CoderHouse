@@ -179,7 +179,8 @@
   -ms-flex-line-pack: center;
       align-content: center;
   position: relative;
-  background-color: rgba(245, 245, 245, 0.5);
+  -webkit-backdrop-filter: blur(1.5px);
+          backdrop-filter: blur(1.5px);
 }
 
 .alert__ctr {
@@ -197,7 +198,6 @@
 
 .alert__info {
   width: 100%;
-  border-bottom: #E69541 5px solid;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -214,7 +214,7 @@
 }
 
 .alert__info p {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: 0;
 }
 
@@ -223,13 +223,33 @@
   cursor: pointer;
 }
 
+.alert__info--orange {
+  border-bottom: #E69541 5px solid;
+}
+
+.alert__info--purple {
+  border-bottom: #7C73AE 5px solid;
+}
+
+.alert__info--red {
+  border-bottom: #DD7155 5px solid;
+}
+
+.alert__info--green {
+  border-bottom: #6AAC46 5px solid;
+}
+
+.alert__info--blue {
+  border-bottom: #1D8CA6 5px solid;
+}
+
 .alert__form {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[2];
       grid-template-columns: repeat(2, 1fr);
-  -webkit-column-gap: 30px;
-          column-gap: 30px;
+  -webkit-column-gap: 50px;
+          column-gap: 50px;
   row-gap: 10px;
 }
 
@@ -244,7 +264,7 @@
 }
 
 .alert__form__input label {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 
 .alert__form__input--description {
@@ -798,7 +818,7 @@
 
 .goals__info p {
   margin: 0;
-  padding: 0;
+  padding: 0 1px;
   font-size: 1.25rem;
 }
 
@@ -933,7 +953,7 @@
 
 .tasks__info p {
   margin: 0;
-  padding: 0;
+  padding: 0 1px;
   font-size: 1.25rem;
 }
 
@@ -1126,7 +1146,7 @@
 
 .reminders__info p {
   margin: 0;
-  padding: 0;
+  padding: 0 1px;
   font-size: 1.25rem;
 }
 

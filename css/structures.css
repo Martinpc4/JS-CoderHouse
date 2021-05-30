@@ -9,13 +9,31 @@
 }
 
 .btn {
-  width: 70px;
-  height: 30px;
+  padding: 5px 10px;
   cursor: pointer;
-  font-size: 1rem;
-  background-color: #ecec00;
+  font-size: .9rem;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 3px;
+}
+
+.btn--orange {
+  background-color: #E69541;
+}
+
+.btn--purple {
+  background-color: #7C73AE;
+}
+
+.btn--red {
+  background-color: #DD7155;
+}
+
+.btn--green {
+  background-color: #6AAC46;
+}
+
+.btn--blue {
+  background-color: #1D8CA6;
 }
 
 .textarea {
@@ -28,5 +46,15 @@
   outline: none;
   resize: none;
   overflow: auto;
+}
+
+.select {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+  outline: none;
+  height: 30px;
+  width: 100%;
+  padding: 5px 5px;
+  font-size: .9rem;
 }
 /*# sourceMappingURL=structures.css.map */

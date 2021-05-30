@@ -1,7 +1,7 @@
 // @ Define data arrays
 
 let userProjects = [];
-let lastLocation = {projectStatus : undefined, projectId : undefined, generalOverviewStatus : undefined, specificTabStatus : undefined, tabId : undefined};
+let lastLocation = {projectStatus : undefined, projectId : undefined, projectColor : undefined, generalOverviewStatus : undefined, specificTabStatus : undefined, tabId : undefined};
 
 // @ Storage Data Functions
 
@@ -76,7 +76,7 @@ function retrieveStorage() {
             favPrjCtr.className = "fav-prjs";
             favPrjCtr.innerHTML = `
             <div class="fav-prjs__title">
-            <p>Favorites</p>
+                <p>Favorites</p>
             </div>
             <div id="favProjectContainer" class="fav-prjs__prj-ctr">
             </div>
@@ -84,19 +84,21 @@ function retrieveStorage() {
             asideCtr.appendChild(favPrjCtr);
         }
     });
-    // * Add the existing projects to the projects container
+    // * Add the existing projects to both projects container
     const favProjectContainer = document.getElementById("favProjectContainer");
     const projectContainer = document.getElementById("projectContainer");
     userProjects.forEach(projectProperties => {
         // projects ctr
-        let projectDom = document.createElement("div");
-        projectDom.className = "prjs__prjs-ctr__prj";
-        projectDom.id = `${projectProperties.id}`;
-        projectDom.innerHTML = `
-            <div class="prjs__prjs-ctr__prj__color"></div>
-            <p>${projectProperties.name}</p>
-        `;
-        projectContainer.appendChild(projectDom);
+        if (projectProperties.fav === false) {
+            let projectDom = document.createElement("div");
+            projectDom.className = "prjs__prjs-ctr__prj";
+            projectDom.id = `${projectProperties.id}`;
+            projectDom.innerHTML = `
+                <div class="prjs__prjs-ctr__prj__color"></div>
+                <p>${projectProperties.name}</p>
+            `;
+            projectContainer.appendChild(projectDom);
+        }
         // fav projects ctr
         if (projectProperties.fav === true) {
             let favProjectDom = document.createElement("div");
@@ -118,7 +120,6 @@ function retrieveStorage() {
     if (JSON.parse(localStorage.getItem("lastLocation")) != undefined) {
         lastLocation = JSON.parse(localStorage.getItem("lastLocation"));
         if (lastLocation.projectStatus === true) {
-            cleanTopBarDom();
             userProjects.forEach(projectProperties => {
                 if (projectProperties.id == lastLocation.projectId) {
                     createProjectTopBarDom(projectProperties);
@@ -136,6 +137,7 @@ function retrieveStorage() {
             });
         }
     }
+    console.log(lastLocation);
 }
 function saveStorage() {    
     localStorage.setItem("userProjects", JSON.stringify(userProjects)); // userPorjects-related data
