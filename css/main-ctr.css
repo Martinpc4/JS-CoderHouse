@@ -51,7 +51,7 @@
   font-size: 1.25rem;
 }
 
-.top-bar__title-ctr i {
+.top-bar__title-ctr svg {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
@@ -59,8 +59,7 @@
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
   cursor: pointer;
-  font-size: 0.9rem;
-  color: #fcbd01;
+  fill: #fcbd01;
 }
 
 .top-bar__info-actions-ctr {
@@ -85,9 +84,13 @@
           justify-content: flex-end;
 }
 
-.top-bar__info-actions-ctr i {
+.top-bar__info-actions-ctr svg {
   display: none;
-  font-size: 1.25rem;
+}
+
+.top-bar:hover .top-bar__info-actions-ctr svg {
+  display: block;
+  cursor: pointer;
 }
 
 .top-bar__tabs-ctr {
@@ -146,14 +149,29 @@
   border-bottom: #f5f5f5 2px solid;
 }
 
-.top-bar__tabs-ctr .tab-link p:hover {
-  color: #008ce3;
-  border-bottom: #008ce3 2px solid;
+.top-bar__tabs-ctr .tab-link--red:hover p {
+  border-bottom: #DD7155 2px solid;
+  color: #DD7155;
 }
 
-.top-bar:hover i {
-  display: block;
-  cursor: pointer;
+.top-bar__tabs-ctr .tab-link--blue:hover p {
+  border-bottom: #1D8CA6 2px solid;
+  color: #1D8CA6;
+}
+
+.top-bar__tabs-ctr .tab-link--purple:hover p {
+  border-bottom: #7C73AE 2px solid;
+  color: #7C73AE;
+}
+
+.top-bar__tabs-ctr .tab-link--green:hover p {
+  border-bottom: #6AAC46 2px solid;
+  color: #6AAC46;
+}
+
+.top-bar__tabs-ctr .tab-link--orange:hover p {
+  border-bottom: #E69541 2px solid;
+  color: #E69541;
 }
 
 .alert {
@@ -218,8 +236,7 @@
   margin: 0;
 }
 
-.alert__info i {
-  font-size: 1.2rem;
+.alert__info svg {
   cursor: pointer;
 }
 
@@ -575,8 +592,8 @@
   grid-row: 1 / 2;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr auto 16px;
-      grid-template-columns: 1fr auto 16px;
+  -ms-grid-columns: 1fr auto 24px;
+      grid-template-columns: 1fr auto 24px;
   -ms-grid-rows: 1fr;
       grid-template-rows: 1fr;
   -webkit-column-gap: 10px;
@@ -637,10 +654,21 @@
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
 }
 
-.prj-overview .tabs-stat__hrds__actions i {
-  font-size: .9rem;
+.prj-overview .tabs-stat__hrds__actions svg {
   cursor: pointer;
 }
 
@@ -668,8 +696,8 @@
   grid-column: 1 / 2;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr auto 16px;
-      grid-template-columns: 1fr auto 16px;
+  -ms-grid-columns: 1fr auto 26px;
+      grid-template-columns: 1fr auto 26px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -683,7 +711,7 @@
   color: #E69541;
 }
 
-.prj-overview .tabs-stat__ctr__tab:hover i {
+.prj-overview .tabs-stat__ctr__tab:hover svg {
   display: block;
 }
 
@@ -754,9 +782,21 @@
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
 }
 
-.prj-overview .tabs-stat__ctr__tab__actions i {
+.prj-overview .tabs-stat__ctr__tab__actions svg {
   display: none;
   cursor: pointer;
 }
@@ -829,7 +869,6 @@
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
-  padding: 0 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -845,8 +884,7 @@
           align-items: center;
 }
 
-.goals__actions i {
-  font-size: 1rem;
+.goals__actions svg {
   margin-left: 10px;
   cursor: pointer;
 }
@@ -881,36 +919,63 @@
   width: 100%;
 }
 
-.goals__ctr .goal i {
-  font-size: 16px;
-  cursor: pointer;
-}
-
 .goals__ctr .goal p {
   padding: 0;
   margin: 0;
 }
 
-.goals__ctr .goal .btnGoalDelete {
-  display: none;
-  -ms-grid-column: 3;
-  -ms-grid-column-span: 1;
-  grid-column: 3 / 4;
-  -ms-grid-row: 1;
-  -ms-grid-row-span: 1;
-  grid-row: 1 / 2;
-}
-
-.goals__ctr .goal .btnGoalComplete {
+.goals__ctr .goal__actions-complete {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
 }
 
-.goals__ctr .goal:hover .btnGoalDelete {
+.goals__ctr .goal__actions-complete svg {
+  cursor: pointer;
+}
+
+.goals__ctr .goal__actions-delete {
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 1;
+  grid-column: 3 / 4;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+.goals__ctr .goal__actions-delete svg {
+  display: none;
+  cursor: pointer;
+}
+
+.goals__ctr .goal:hover .goal__actions-delete svg {
   display: block;
 }
 
@@ -964,7 +1029,6 @@
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
-  padding: 0 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -980,9 +1044,7 @@
           align-items: center;
 }
 
-.tasks__actions i {
-  font-size: 1rem;
-  margin-left: 10px;
+.tasks__actions svg {
   cursor: pointer;
 }
 
@@ -1077,11 +1139,6 @@
   font-size: 0.9rem;
 }
 
-.tasks__ctr .task:hover .task__actions {
-  display: -ms-grid;
-  display: grid;
-}
-
 .tasks__ctr .task__actions {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
@@ -1104,11 +1161,53 @@
           column-gap: 5px;
 }
 
-.tasks__ctr .task__actions i {
+.tasks__ctr .task__actions-delete {
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+.tasks__ctr .task__actions-delete svg {
   cursor: pointer;
+}
+
+.tasks__ctr .task__actions-complete {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+  grid-row: 1 / 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+}
+
+.tasks__ctr .task__actions-complete svg {
+  cursor: pointer;
+}
+
+.tasks__ctr .task:hover .task__actions {
+  display: -ms-grid;
+  display: grid;
 }
 
 .reminders {
@@ -1157,7 +1256,6 @@
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
-  padding: 0 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1169,9 +1267,7 @@
           align-items: center;
 }
 
-.reminders__actions i {
-  font-size: 1rem;
-  margin-left: 10px;
+.reminders__actions svg {
   cursor: pointer;
 }
 
@@ -1271,7 +1367,7 @@
       align-content: center;
 }
 
-.reminders__ctr .reminders__actions-complete i {
+.reminders__ctr .reminders__actions-complete svg {
   cursor: pointer;
 }
 
@@ -1298,10 +1394,10 @@
           justify-content: center;
 }
 
-.reminders__ctr .reminders__actions-delete i {
-  cursor: pointer;
+.reminders__ctr .reminders__actions-delete svg {
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
+  cursor: pointer;
 }
 /*# sourceMappingURL=main-ctr.css.map */

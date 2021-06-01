@@ -17,6 +17,24 @@ body {
     grid-template-rows: 100vh;
 }
 
+// ! Semantic Colors
+// Estas clases van a dar color a containers
+.red {
+    background-color: #{$semantic-quintinary};
+}
+.blue {
+    background-color: #{$semantic-primary};
+}
+.purple {
+    background-color: #{$semantic-secondary};
+}
+.green {
+    background-color: #{$semantic-tertiary};
+}
+.orange {
+    background-color: #{$semantic-quaternary};
+}
+
 // !ASIDE
 .aside {
     background-color: #{$background-aside};
@@ -26,7 +44,7 @@ body {
     //grid father
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 8vh 10vh max-content max-content auto;
+    grid-template-rows: 8vh max-content max-content max-content auto;
     &__logo {
         // box modeling
         padding: 0 10px;
@@ -64,10 +82,10 @@ body {
                 // grid father
                 display: grid;
                 grid-template-columns: 20px auto;
-                justify-content: flex-start;
+                justify-content: flex-start;;
                 align-items: center;
                 align-content: center;
-                column-gap: 5px;
+                column-gap: 10px;
                 // box modeling
                 padding: 2.5px 10px;
                 // special properties
@@ -75,16 +93,19 @@ body {
                 &:hover {
                     background-color: #{$background-aside--hover};
                 }
-                i {
-                    // grid son
-                    grid-column: 1 / 2;
+                .icon {
+                    height: 100%;
+                    width: 100%;
                     // flexbox
                     display: flex;
                     flex-flow: row nowrap;
                     justify-content: center;
+                }
+                svg {
+                    // grid son
+                    grid-column: 1 / 2;
                     // font
-                    font-size: 1.1rem;
-                    color: #{$aside-icons};
+                    fill: #{$aside-icons};
                 }
                 p {
                     // grid son
@@ -92,6 +113,7 @@ body {
                     // font
                     font-size: 1.1rem;
                     color: #{$aside-text};
+                    // box modeling
                     margin: 0;
                 }
             }
@@ -100,21 +122,22 @@ body {
     .fav-prjs {
         // box modeling
         padding: 10px 0;
-        border-top: 2px solid #{$aside-dividers};
+        border-top: 1px solid #{$aside-dividers};
         // grid son
         grid-column: 1 / 2;
         grid-row: 3 / 4;
         // grid father
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 1rem auto;
-        row-gap: 5px;
+        grid-template-rows: max-content auto;
+        row-gap: 10px;
         &__title {
             // grid son
             grid-column: 1 / 2;
             grid-row: 1 / 2;
             // box modeling
             padding: 0 10px;
+            min-height: 24px;
             // flex box
             display: flex;
             flex-flow: row nowrap;
@@ -122,7 +145,7 @@ body {
             align-items: center;
             p {
                 font-size: 1rem;
-                color: #{$aside-icons};
+                color: #{$aside-text};
                 margin: 0;
             }
         }
@@ -134,7 +157,7 @@ body {
             display: grid;
             grid-template-columns: 1fr;
             align-content: flex-start;
-            row-gap: 5px;
+            row-gap: 2px;
             // box modeling
             height: 100%;
             width: 100%;
@@ -158,8 +181,8 @@ body {
                     // box modeling
                     height: 10px;
                     width: 10px;
-                    background-color: red;
                     border-radius: 3px;
+                    background-color: red;
                 }
                 p {
                     // grid son
@@ -177,16 +200,16 @@ body {
     .prjs {
         // box modeling
         padding: 10px 0;
-        border-top: 2px solid #{$aside-dividers};
+        border-top: 1px solid #{$aside-dividers};
         // grid son
         grid-column: 1 / 2;
         grid-row: 4 / 5;
         // grid father
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 1rem auto;
-        row-gap: 5px;
-        &:hover .prjs__title i {
+        grid-template-rows: max-content auto;
+        row-gap: 10px;
+        &:hover .prjs__title svg {
             display: block;
         }
         &__title {
@@ -195,21 +218,20 @@ body {
             grid-row: 1 / 2;
             // box modeling
             padding: 0 10px;
+            min-height: 24px;
             // flex box
             display: flex;
             flex-flow: row nowrap;
             justify-content: space-between;
             align-items: center;
             p {
-                font-size: 1rem;
-                color: #{$aside-icons};
+                font-size: 1.1rem;
+                color: #{$aside-text};
                 margin: 0;
             }
-            i {
+            svg {
                 display: none;
-                padding: 0;
-                margin: 0;
-                color: #{$aside-icons};
+                fill: #{$aside-icons};
                 cursor: pointer;
             }
         }
@@ -221,7 +243,7 @@ body {
             display: grid;
             grid-template-columns: 1fr;
             align-content: flex-start;
-            row-gap: 5px;
+            row-gap: 2px;
             // box modeling
             height: 100%;
             width: 100%;
@@ -248,7 +270,6 @@ body {
                     // box modeling
                     height: 10px;
                     width: 10px;
-                    background-color: red;
                     border-radius: 3px;
                 }
                 p {
@@ -288,7 +309,7 @@ body {
                 grid-row: 1 / 2;
                 p {
                     font-size: 1rem;
-                    color: #{$aside-icons};
+                    color: #{$aside-text};
                 }
             }
         }
@@ -317,7 +338,7 @@ body {
         width: 100%;
         p {
             font-size: 1.15rem;
-            color: #{$font-color-aside};
+            color: #{$aside-text};
         }
     }
 }

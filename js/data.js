@@ -98,7 +98,7 @@ function retrieveStorage() {
             projectDom.className = "prjs__prjs-ctr__prj";
             projectDom.id = `${projectProperties.id}`;
             projectDom.innerHTML = `
-                <div class="prjs__prjs-ctr__prj__color"></div>
+                <div class="prjs__prjs-ctr__prj__color ${projectProperties.color}"></div>
                 <p>${projectProperties.name}</p>
             `;
             projectContainer.appendChild(projectDom);
@@ -109,7 +109,7 @@ function retrieveStorage() {
             favProjectDom.className = "prjs__prjs-ctr__prj";
             favProjectDom.id = `${projectProperties.id}`;
             favProjectDom.innerHTML = `
-                <div class="prjs__prjs-ctr__prj__color"></div>
+                <div class="prjs__prjs-ctr__prj__color ${projectProperties.color}"></div>
                 <p>${projectProperties.name}</p>
             `;
             favProjectContainer.appendChild(favProjectDom);
@@ -141,7 +141,6 @@ function retrieveStorage() {
             });
         }
     }
-    console.log(lastLocation);
 }
 function saveStorage() {    
     localStorage.setItem("userProjects", JSON.stringify(userProjects)); // userPorjects-related data

@@ -16,26 +16,6 @@
   border-radius: 3px;
 }
 
-.btn--orange {
-  background-color: #E69541;
-}
-
-.btn--purple {
-  background-color: #7C73AE;
-}
-
-.btn--red {
-  background-color: #DD7155;
-}
-
-.btn--green {
-  background-color: #6AAC46;
-}
-
-.btn--blue {
-  background-color: #1D8CA6;
-}
-
 .textarea {
   border: 1px solid rgba(0, 0, 0, 0.4);
   border-radius: 1px;

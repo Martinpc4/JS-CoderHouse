@@ -14,7 +14,9 @@ function projectEventCreateListener() {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--blue">
                     <p>Create Project</p>
-                    <i id="alertBtnClose" class="fas fa-times"></i>
+                    <svg id="alertBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
+                    </svg>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -32,7 +34,7 @@ function projectEventCreateListener() {
                         </select>
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn btn--blue" type="submit">
+                        <input class="btn blue" type="submit">
                     </div>
                 </form>
             </div>
@@ -48,15 +50,17 @@ function projectEventCreateListener() {
             // storing user given values in them
             let projectName = String(document.getElementById("alertProjectName").value);
             let projectColor = String(document.getElementById("alertProjectColor").value);
-            // object creation
-            let newProject = { "name": projectName, "color": projectColor };
-            newProject = new project(newProject);
-            userProjects.push(newProject);
-            // Project info DOM
-            createProjectTopBarDom(newProject);
-            // Create the default Project Overview Tab
-            createOverviewDOM(newProject);
-            saveStorage();
+            if (projectName != "") {
+                // object creation
+                let newProject = { "name": projectName, "color": projectColor };
+                newProject = new project(newProject);
+                userProjects.push(newProject);
+                // Project info DOM
+                createProjectTopBarDom(newProject);
+                // Create the default Project Overview Tab
+                createOverviewDOM(newProject);
+                saveStorage();
+            }
         });
     });    
 }
@@ -90,7 +94,9 @@ function tasksEventsListeners () {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Task</p>
-                    <i id="alertBtnClose" class="fas fa-times"></i>
+                    <svg id="alertBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
+                    </svg>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -106,7 +112,7 @@ function tasksEventsListeners () {
                         <textarea id="alertTaskDescription" class="textarea" name="description" id=""></textarea>
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
+                        <input class="btn ${lastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -156,7 +162,8 @@ function tasksEventsListeners () {
                         if (tabProperties.id == lastLocation.tabId) {
                             let i = 0;
                             tabProperties.tasks.forEach(taskProperties => {
-                                if (taskProperties.id == event.target.parentNode.parentNode.parentNode.id) {
+                                // console.log(event.target.parentNode.parentNode.parentNode.id);
+                                if (taskProperties.id == event.target.parentNode.parentNode.parentNode.parentNode.id) {
                                     tabProperties.tasks.splice(i, 1);
                                     saveStorage();
                                 }
@@ -180,7 +187,7 @@ function tasksEventsListeners () {
                     projectProperties.tabs.forEach( tabProperties => {
                         if (tabProperties.id == lastLocation.tabId) {
                             tabProperties.tasks.forEach( taskProperties => {
-                                if (taskProperties.id == event.target.parentNode.parentNode.parentNode.id) {
+                                if (taskProperties.id == event.target.parentNode.parentNode.parentNode.parentNode.id) {
                                     if (taskProperties.doneState === false) {
                                         taskProperties.doneState = true;
                                     }
@@ -209,7 +216,9 @@ function goalsEventsListeners() {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Goal</p>
-                    <i id="alertBtnClose" class="fas fa-times"></i>
+                    <svg id="alertBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
+                    </svg>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -217,7 +226,7 @@ function goalsEventsListeners() {
                         <input id="alertGoalName" class="input" type="text" name="name">
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
+                        <input class="btn ${lastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -261,7 +270,7 @@ function goalsEventsListeners() {
                         if (tabProperties.id == lastLocation.tabId) {
                             let i = 0;
                             tabProperties.goals.forEach( goalProperties => {
-                                if (goalProperties.id == event.target.parentNode.id) {
+                                if (goalProperties.id == event.target.parentNode.parentNode.id) {
                                     tabProperties.goals.splice(i, 1);
                                     saveStorage();
                                 }
@@ -284,7 +293,7 @@ function goalsEventsListeners() {
                     projectProperties.tabs.forEach( tabProperties => {
                         if (tabProperties.id == lastLocation.tabId) {
                             tabProperties.goals.forEach( goalProperties => {
-                                if (goalProperties.id == event.target.parentNode.id) {
+                                if (goalProperties.id == event.target.parentNode.parentNode.id) {
                                     if (goalProperties.doneState === false) {
                                         goalProperties.doneState = true;
                                     }
@@ -313,7 +322,9 @@ function remindersEventListeners() {
             <div class="alert__ctr">
                 <div class="alert__info alert__info--${lastLocation.projectColor}">
                     <p>Create Reminder</p>
-                    <i id="alertBtnClose" class="fas fa-times"></i>
+                    <svg id="alertBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
+                    </svg>
                 </div>
                 <form id="alertForm" class="alert__form" action="">
                     <div class="alert__form__input">
@@ -325,7 +336,7 @@ function remindersEventListeners() {
                         <input id="reminderDueDate" class="input" type="text" name="dueDate" placeholder="dd/mm/yyyy">
                     </div>
                     <div class="alert__form__buttons">
-                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
+                        <input class="btn ${lastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
