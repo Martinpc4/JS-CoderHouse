@@ -1,12 +1,12 @@
-// @ Define data arrays
+// * Define data arrays
 
 let userProjects = [];
 let lastLocation = {projectStatus : undefined, projectId : undefined, projectColor : undefined, generalOverviewStatus : undefined, specificTabStatus : undefined, tabId : undefined};
 
-// @ Storage Data Functions
-
+// * Storage Data Functions
+// Retrieve Storage Function
 function retrieveStorage() {
-    // - Retrieving projects data and storing them in userProject array
+    // Retrieving projects data and storing them in userProject array
     if (JSON.parse(localStorage.getItem("userProjects")) != undefined) {
         let projects = JSON.parse(localStorage.getItem("userProjects"));
         projects.forEach(projectProperties => {
@@ -26,7 +26,7 @@ function retrieveStorage() {
                     newTab.reminders = [];
         
                     if (tabProperties.tasks != undefined) {
-                        // * Create instances of tasks < tabs < projects
+                        // Create instances of tasks < tabs < projects
                         tabProperties.tasks.forEach(taskProperties => {
                             if (taskProperties.dueDate != false) {
                                 taskProperties.dueDate = new Date(taskProperties.dueDate);
@@ -40,7 +40,7 @@ function retrieveStorage() {
                         });
                     }
                     if (tabProperties.goals != undefined) {
-                        // * Create instances of goals < tabs < projects
+                        // Create instances of goals < tabs < projects
                         tabProperties.goals.forEach(goalProperties => {
                             let newGoal = new goal(goalProperties);
                             // asign a random Id in case it doesn't have it yet
@@ -51,7 +51,7 @@ function retrieveStorage() {
                         });
                     }
                     if (tabProperties.reminders != undefined) {
-                        // * Create instances of reminders < tabs < projects
+                        // Create instances of reminders < tabs < projects
                         tabProperties.reminders.forEach(reminderProperties => {
                             if (reminderProperties.dueDate != false) {
                                 reminderProperties.dueDate = new Date(reminderProperties.dueDate);
@@ -71,8 +71,8 @@ function retrieveStorage() {
         });
     }
 
-    // - Aside DOM Creation
-    // * Create the fav projects container
+    // Aside DOM Creation
+    // Create the fav projects container
     userProjects.forEach( projectProperties => {
         if (projectProperties.fav === true) {
             const asideCtr = document.getElementById("asideCtr");
@@ -80,7 +80,7 @@ function retrieveStorage() {
             favPrjCtr.className = "fav-prjs";
             favPrjCtr.innerHTML = `
             <div class="fav-prjs__title">
-                <p>Favorites</p>
+                <p>Favourites</p>
             </div>
             <div id="favProjectContainer" class="fav-prjs__prj-ctr">
             </div>
@@ -88,7 +88,7 @@ function retrieveStorage() {
             asideCtr.appendChild(favPrjCtr);
         }
     });
-    // * Add the existing projects to both projects container
+    // Add the existing projects to both projects container
     const favProjectContainer = document.getElementById("favProjectContainer");
     const projectContainer = document.getElementById("projectContainer");
     userProjects.forEach(projectProperties => {
@@ -115,12 +115,11 @@ function retrieveStorage() {
             favProjectContainer.appendChild(favProjectDom);
         }
     });
-
-    // - Set aside events listeners
+    // Set aside events listeners
     projectEventCreateListener();
     projectEventOpenListener();
 
-    // - Retrieving user last known location and restoring it
+    // Retrieving user last known location and restoring it
     if (JSON.parse(localStorage.getItem("lastLocation")) != undefined) {
         lastLocation = JSON.parse(localStorage.getItem("lastLocation"));
         if (lastLocation.projectStatus === true) {
@@ -142,6 +141,7 @@ function retrieveStorage() {
         }
     }
 }
+// Save Storage Function
 function saveStorage() {    
     localStorage.setItem("userProjects", JSON.stringify(userProjects)); // userPorjects-related data
     localStorage.setItem("lastLocation", JSON.stringify(lastLocation)); // user last known location data

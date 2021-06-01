@@ -1,13 +1,11 @@
-// @ Projects Events Listeners
-
-// - Event Listener Create Project (+)
+// * Projects Events Listeners
+// (Event Listener) - Create Project (+)
 function projectEventCreateListener() {
-    // ! Create a new project (+)
+    // Create a new project (+)
     document.getElementById("prjsBtnCreate").addEventListener("click", () => {
         const mainCtr = document.getElementById("mainCtr");
         mainCtr.innerHTML = "";
-
-        // * Create alert dom
+        // Create alert dom
         let alertDom = document.createElement("div");
         alertDom.className = "alert";
         alertDom.innerHTML = `
@@ -40,11 +38,11 @@ function projectEventCreateListener() {
             </div>
         `;
         mainCtr.appendChild(alertDom);
-        // * Close alert
+        // Close alert
         document.getElementById("alertBtnClose").addEventListener("click", () => {
             saveStorage();
         });
-        // * Capture data
+        // Capture data
         document.getElementById("alertForm").addEventListener("submit", (event) => {
             event.preventDefault();
             // storing user given values in them
@@ -64,9 +62,10 @@ function projectEventCreateListener() {
         });
     });    
 }
-// - Event Listener Open Project
+
+// (Event Listener) - Open Project from Aside
 function projectEventOpenListener () {
-    // ! Open a Project from Aside Btns
+    // Open a Project from Aside Btns
     let projectBtns = document.getElementsByClassName("prjs__prjs-ctr__prj");
     for (const ProjectBtn of projectBtns) {
         ProjectBtn.addEventListener("click", (event) => {
@@ -82,9 +81,9 @@ function projectEventOpenListener () {
     }
 }
 
-// @ Tasks Events Listeners
+// * Tasks Events Listeners
 function tasksEventsListeners () {
-    // - Event for creating a task (btn +)
+    // (Event Listener) - Creating a task (+)
     document.getElementById("taskBtnCreate").addEventListener("click", (event) => {
         // * Alert creation (DOM)
         let alertDom = document.createElement("div");
@@ -119,14 +118,11 @@ function tasksEventsListeners () {
         `;
         const mainCtr = document.getElementById("mainCtr");
         mainCtr.appendChild(alertDom);
-
-        // * Close Alert (Event)
-
+        // (Event Listener) - Close Alert
         document.getElementById("alertBtnClose").addEventListener("click", () => {
             mainCtr.removeChild(alertDom);
         });
-
-        // * Capture alert data (Event)
+        // (Event Listener) - Capture alert data
         document.getElementById("alertForm").addEventListener("submit", (event) => {
             event.preventDefault();
             // task object instance creation
@@ -152,7 +148,7 @@ function tasksEventsListeners () {
         });
     });
 
-    // - Delete a Task
+    // (Event Listener) - Delete a Task (trash)
     let btnsTaskDelete = document.getElementsByClassName("btnTaskDelete");
     for (const task of btnsTaskDelete) {
         task.addEventListener("click", (event) => {
@@ -162,7 +158,6 @@ function tasksEventsListeners () {
                         if (tabProperties.id == lastLocation.tabId) {
                             let i = 0;
                             tabProperties.tasks.forEach(taskProperties => {
-                                // console.log(event.target.parentNode.parentNode.parentNode.id);
                                 if (taskProperties.id == event.target.parentNode.parentNode.parentNode.parentNode.id) {
                                     tabProperties.tasks.splice(i, 1);
                                     saveStorage();
@@ -178,7 +173,7 @@ function tasksEventsListeners () {
         });
     }
 
-    // - Complete a Task
+    // (Event Listener) - Complete a Task (check)
     let btnsTaskComplete = document.getElementsByClassName("btnTaskComplete");
     for (const task of btnsTaskComplete) {
         task.addEventListener("click", (event) => {
@@ -205,11 +200,11 @@ function tasksEventsListeners () {
     }
 }
 
-// @ Goals Events Listeners
+// * Goals Events Listeners
 function goalsEventsListeners() {
-    // * Create a Goal
+    // (Event Listener) - Create a Goal (+)
     document.getElementById("goalBtnCreate").addEventListener("click", () => {
-        // - DOM Alert
+        // Create Alert DOM
         let alertDom = document.createElement("div");
         alertDom.className = "alert";
         alertDom.innerHTML = `
@@ -233,13 +228,11 @@ function goalsEventsListeners() {
         `;
         const mainCtr = document.getElementById("mainCtr");
         mainCtr.appendChild(alertDom);
-
-        // * Event Close Alert
+        // (Event Listener) - Event Close Alert
         document.getElementById("alertBtnClose").addEventListener("click", () => {
             mainCtr.removeChild(alertDom);
         });
-
-        // * Capture alert data (Event)
+        // (Event Listener) - Capture alert data
         document.getElementById("alertForm").addEventListener("submit", (event) => {
             event.preventDefault();
             // storing user given values in them
@@ -260,7 +253,8 @@ function goalsEventsListeners() {
             });
         });
     });
-    // - Delete a Goal
+
+    // (Event Listener) - Delete a Goal (Trash)
     let btnGoalDelete = document.getElementsByClassName("btnGoalDelete");
     for (const goal of btnGoalDelete) {
         goal.addEventListener("click", (event) => {
@@ -284,7 +278,8 @@ function goalsEventsListeners() {
             });
         });
     }
-    // - Complete a Goal
+
+    // (Event Listener) - Complete a Goal (check)
     let btnGoalComplete = document.getElementsByClassName("btnGoalComplete");
     for (const goal of btnGoalComplete) {
         goal.addEventListener("click", (event) => {
@@ -311,11 +306,11 @@ function goalsEventsListeners() {
     }
 }
 
-// @ Reminders Events Listeners
+// * Reminders Events Listeners
 function remindersEventListeners() {
-    // - Create a Reminder
+    // (Event Listener) - Create a Reminder (+)
     document.getElementById("reminderBtnCreate").addEventListener("click", () => {
-        // * DOM Alert
+        // Create Alert DOM
         let alertDom = document.createElement("div");
         alertDom.className = "alert";
         alertDom.innerHTML = `
@@ -343,13 +338,11 @@ function remindersEventListeners() {
         `;
         const mainCtr = document.getElementById("mainCtr");
         mainCtr.appendChild(alertDom);
-
-        // * Event Close Alert
+        // (Event Listener) - Close Alert
         document.getElementById("alertBtnClose").addEventListener("click", () => {
             mainCtr.removeChild(alertDom);
         });
-
-        // * Event Capture Data
+        // (Event Listener) - Capture Data
         document.getElementById("alertForm").addEventListener("submit", (event) => {
             event.preventDefault();
             // storing user given values in them
@@ -374,7 +367,8 @@ function remindersEventListeners() {
             }
         });
     });
-    // - Delete Reminder
+
+    // (Event Listener) - Delete Reminder (trash)
     let btnsReminderDelete = document.getElementsByClassName("btnReminderDelete");
     for (const reminder of btnsReminderDelete) {
         reminder.addEventListener("click", (event) => {
@@ -399,7 +393,7 @@ function remindersEventListeners() {
             });
         });
     }
-    // - Complete Reminder
+    // (Event Listener) - Complete Reminder (check)
     let btnsReminderComplete = document.getElementsByClassName("btnReminderComplete");
     for (const reminder of btnsReminderComplete) {
         reminder.addEventListener("click", (event) => {

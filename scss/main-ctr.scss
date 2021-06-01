@@ -275,19 +275,30 @@
                 grid-column: 1 / 2;
                 grid-row: 2 / 3;
                 // flexbox
-                display: flex;
-                flex-flow: row nowrap;
+                display: grid;
+                grid-template-columns: auto max-content;
+                grid-template-rows: 1fr;
                 justify-content: center;
-                align-content: center;
-                &--delayed {
-                    p {
-                        color: #{$semantic-quintinary};
+                align-items: center;
+                column-gap: 3px;
+                &__color-ctr {
+                    height: 10px;
+                    width: 10px;
+                    border-radius: 50%;
+                    // grid son
+                    grid-column: 1 / 2;
+                    grid-row: 1 / 2;
+                    &--delayed {
+                        background-color: #{$semantic-quintinary};
+                    }
+                    &--onTrack {
+                        background-color: #{$semantic-tertiary};
                     }
                 }
-                &--onTime {
-                    p {
-                        color: #{$semantic-tertiary};
-                    }
+                p {
+                    // grid son
+                    grid-column: 2 / 3;
+                    grid-row: 1 / 2;
                 }
             }
         }
@@ -678,7 +689,7 @@
         display: grid;
         grid-template-columns: 1fr;
         align-content: flex-start;
-        row-gap: 8px;
+        row-gap: 10px;
         //box modeling
         padding: 10px;
         border-top: #{$border-main};
@@ -686,10 +697,11 @@
             // grid father
             display: grid;
             grid-template-columns: 6px 1fr;
+            box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.04);
+            border-radius: 5px;
             &__bar {
                 height: 100%;
                 width: 100%;
-                background-color: #{$semantic-quaternary};
                 border-top-left-radius: 5px;
                 border-bottom-left-radius: 5px;
             }
@@ -708,7 +720,7 @@
                 height: 100%;
                 border-top-right-radius: 5px;
                 border-bottom-right-radius: 5px;
-                background-color: rgb(247, 247, 247);
+                background-color: #{$task-background};
             }
             &__title {
                 // grid son

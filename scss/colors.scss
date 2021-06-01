@@ -37,7 +37,7 @@ $semantic-quintinary: #DD7155;
 // ! Backgrounds
 $background-aside: rgb(23, 32, 42);
 $background-aside--hover: #1f2735;
-$background-main: #f5f5f5;
+$background-main: #f8f9fa;
 $background-main--blur: rgba(245,245,245,0.5);
 // $background-aside: #161B25;
 // $background-aside--hover: #1f2735;
@@ -73,7 +73,11 @@ $overview-font-text: rgba(0, 0, 0, 0.7);
 $overview-font-text--hover: rgba(0, 0, 0, 0.8);
 
 
-// ! Reminder Status
+// ! Reminders
+// * Status
 $reminder-onTime: #6AAC46;
 $reminder-overDue: #DD7155;
 $reminder-nextSeven:#E69541;
+// ! Tasks
+// * Backgrounds
+$task-background: #F3F5F7;
