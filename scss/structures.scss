@@ -22,6 +22,22 @@
     // border
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 3px;
+    &--orange {
+        background-color: #{$semantic-quaternary-btn};
+    }
+    &--red {
+        background-color: #{$semantic-quintinary-btn};
+    }
+    &--blue {
+        background-color: #{$semantic-primary-btn};
+    }
+    &--purple {
+        background-color: #{$semantic-secondary-btn};
+    }
+    &--green {
+        background-color: #{$semantic-tertiary-btn};
+    }
+    
 }
 .textarea {
     // border

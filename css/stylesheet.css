@@ -450,6 +450,7 @@ body {
 .aside__other ul li p {
   font-size: 1rem;
   color: #bbbbbb;
+  cursor: pointer;
 }
 
 .prjs-ctr {

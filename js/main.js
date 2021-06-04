@@ -198,23 +198,23 @@ function createProjectTopBarDom(projectProperties) {
     // Create Config event listener
     document.getElementById("prjBtnConfig").addEventListener("click", () => {
         let alertDom = document.createElement("div");
-        alertDom.className = "alert";
+        alertDom.className = "alertMin";
         alertDom.innerHTML = `
-            <div class="alert__ctr">
-                <div class="alert__info alert__info--${lastLocation.projectColor}">
+            <div class="alertMin__ctr">
+                <div class="alertMin__info alertMin__info--${lastLocation.projectColor}">
                     <p>${projectProperties.name}</p>
-                    <svg id="alertBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <svg id="alertMinBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
                     </svg>
                 </div>
-                <form id="alertForm" class="alert__form" action="">
-                    <div class="alert__form__input">
+                <form id="alertMinForm" class="alertMin__form" action="">
+                    <div class="alertMin__form__input">
                         <label for="name">Change name</label>
-                        <input id="alertProjectNewName" class="input" type="text" name="name">
+                        <input id="alertMinProjectNewName" class="input" type="text" name="name">
                     </div>
-                    <div class="alert__form__input">
+                    <div class="alertMin__form__input">
                         <label for="color">Change color</label>
-                        <select name="color" class="select" id="alertProjectNewColor">
+                        <select name="color" class="select" id="alertMinProjectNewColor">
                             <option value="orange">Orange</option>
                             <option value="blue">Blue</option>
                             <option value="green">Green</option>
@@ -222,9 +222,9 @@ function createProjectTopBarDom(projectProperties) {
                             <option value="red">Red</option>
                         </select>
                     </div>
-                    <div class="alert__form__buttons">
-                        <input class="btn ${lastLocation.projectColor}" type="submit" value="Save">
-                        <input id="alertProjectBtnDelete" class="btn ${lastLocation.projectColor}" type="button" value="Delete Project">
+                    <div class="alertMin__form__buttons">
+                        <input class="btn btn--${lastLocation.projectColor}" type="submit" value="Save">
+                        <input id="alertMinProjectBtnDelete" class="btn btn--${lastLocation.projectColor}" type="button" value="Delete Project">
                     </div>
                 </form>
             </div>
@@ -233,20 +233,20 @@ function createProjectTopBarDom(projectProperties) {
         mainCtr.appendChild(alertDom);
 
         // Event Close Alert
-        document.getElementById("alertBtnClose").addEventListener("click", () => {
+        document.getElementById("alertMinBtnClose").addEventListener("click", () => {
             mainCtr.removeChild(alertDom);
         });
 
         // Capture alert data (Config)
-        document.getElementById("alertForm").addEventListener("submit", (event) => {
+        document.getElementById("alertMinForm").addEventListener("submit", (event) => {
             event.preventDefault();
             // change name
-            let alertProjectNewName = String(document.getElementById("alertProjectNewName").value);
+            let alertProjectNewName = String(document.getElementById("alertMinProjectNewName").value);
             if ((projectProperties.name != alertProjectNewName) && !(alertProjectNewName === "")) {
                 projectProperties.name = alertProjectNewName;
             }
             // change color
-            let alertProjectNewColor = String(document.getElementById("alertProjectNewColor").value);
+            let alertProjectNewColor = String(document.getElementById("alertMinProjectNewColor").value);
             if (projectProperties.color != alertProjectNewColor) {
                 projectProperties.color = alertProjectNewColor;
                 lastLocation.projectColor = alertProjectNewColor;
@@ -255,7 +255,7 @@ function createProjectTopBarDom(projectProperties) {
         });
 
         // Event delete project (btn)
-        document.getElementById("alertProjectBtnDelete").addEventListener("click", () => {
+        document.getElementById("alertMinProjectBtnDelete").addEventListener("click", () => {
             let i = 0;
             userProjects.forEach(prjProperties => {
                 if (prjProperties.id == projectProperties.id) {
@@ -402,7 +402,7 @@ function createOverviewDOM(projectProperties) {
             </div>
         </div>
         <div class="prj-status">
-            <div class="prj-status__time">
+            <div class="prj-status__time" style="display:none;">
                 <div class="prj-status__time__hdr">
                     <p>Status</p>
                 </div>
@@ -418,7 +418,7 @@ function createOverviewDOM(projectProperties) {
                         </div>
                 `}
             </div>
-            <div class="prj-status__completed">
+            <div class="prj-status__completed" style="display:none;">
                 <div class="prj-status__completed__hdr">
                     <p>Completed</p>
                 </div>
@@ -426,7 +426,7 @@ function createOverviewDOM(projectProperties) {
                     <p>${completedTotal}/${totalExisting}</p>
                 </div>
             </div>
-            <div class="prj-status__percentage">
+            <div class="prj-status__percentage" style="display:none;">
                 <div class="prj-status__percentage__data">
                     <div class="prj-status__percentage__data__ctr">
                         <p>${completedPrjPercentage}%</p>
@@ -439,26 +439,32 @@ function createOverviewDOM(projectProperties) {
         </div>
     `;
     mainCtr.appendChild(prjOverview);
+
+    // Jq Stats Animations
+    $(".prj-status__time").fadeIn();
+    $(".prj-status__completed").fadeIn();
+    $(".prj-status__percentage").slideDown("slow");
+
     // Event Listener - Create Tab
     document.getElementById("overviewBtnTabsCreate").addEventListener("click", () => {
         // Alert creation (DOM)
         let alertDom = document.createElement("div");
-        alertDom.className = "alert";
+        alertDom.className = "alertMin";
         alertDom.innerHTML = `
-            <div class="alert__ctr">
-                <div class="alert__info alert__info--${lastLocation.projectColor}">
+            <div class="alertMin__ctr">
+                <div class="alertMin__info alertMin__info--${lastLocation.projectColor}">
                     <p>Create new Tab</p>
                     <svg id="alertBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
                     </svg>
                 </div>
-                <form id="alertForm" class="alert__form" action="">
-                    <div class="alert__form__input">
+                <form id="alertMinForm" class="alertMin__form" action="">
+                    <div class="alertMin__form__input">
                         <label for="name">Name</label>
                         <input id="alertTabName" class="input" type="text" name="name">
                     </div>
-                    <div class="alert__form__buttons">
-                        <input class="btn ${lastLocation.projectColor}" type="submit">
+                    <div class="alertMin__form__buttons">
+                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -470,7 +476,7 @@ function createOverviewDOM(projectProperties) {
             mainCtr.removeChild(alertDom);
         });
         // Capture data
-        document.getElementById("alertForm").addEventListener("submit", (event) => {
+        document.getElementById("alertMinForm").addEventListener("submit", (event) => {
             event.preventDefault();
             // storing user given values in them
             let tabName = String(document.getElementById("alertTabName").value);
@@ -645,8 +651,11 @@ function createTabDom(tabProperties) {
 // * (Funciones DOM) - Tasks, Goals and Reminders
 
 // Tasks DOM Creation
-function createTaskDom(newTask) {
+function createTaskDom(newTask, display) {
     let domTask = document.createElement("div");
+    if (display === true) {
+        domTask.style = "display: none;";
+    }
     domTask.className = "task"
     domTask.id = `${newTask.id}`;
     domTask.innerHTML = `
@@ -677,13 +686,16 @@ function createTaskDom(newTask) {
             </div>
         </div>
     `;
-    const domTaskctr = document.getElementById("tasksCtr");
-    domTaskctr.appendChild(domTask);
+    const domTaskCtr = document.getElementById("tasksCtr");
+    domTaskCtr.appendChild(domTask);
 }
 
 // Goals DOM Creation
-function createGoalDom(newGoal) {
+function createGoalDom(newGoal, display) {
     let domGoal = document.createElement("div");
+    if (display === true) {
+        domGoal.style = "display: none;";
+    }
     domGoal.className = "goal";
     domGoal.id = `${newGoal.id}`;
     domGoal.innerHTML = `
@@ -710,8 +722,11 @@ function createGoalDom(newGoal) {
 }
 
 // Reminders DOM Creation
-function createReminderDom(newReminder) {
+function createReminderDom(newReminder, display) {
     let domReminder = document.createElement("div");
+    if (display === true) {
+        domReminder.style = "display: none;";
+    }
     domReminder.className = "reminders";
     domReminder.id = `${newReminder.id}`;
     domReminder.innerHTML = `

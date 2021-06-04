@@ -1,7 +1,14 @@
 // * Define data arrays
-
+let appConfig = {};
 let userProjects = [];
-let lastLocation = {projectStatus : undefined, projectId : undefined, projectColor : undefined, generalOverviewStatus : undefined, specificTabStatus : undefined, tabId : undefined};
+let lastLocation = {
+    projectStatus : undefined,
+    projectId : undefined,
+    projectColor : undefined,
+    generalOverviewStatus : undefined,
+    specificTabStatus : undefined,
+    tabId : undefined
+};
 
 // * Storage Data Functions
 // Retrieve Storage Function
@@ -70,7 +77,7 @@ function retrieveStorage() {
             userProjects.push(newProject);
         });
     }
-
+    
     // Aside DOM Creation
     // Create the fav projects container
     userProjects.forEach( projectProperties => {
@@ -118,6 +125,7 @@ function retrieveStorage() {
     // Set aside events listeners
     projectEventCreateListener();
     projectEventOpenListener();
+    configEventListener();
 
     // Retrieving user last known location and restoring it
     if (JSON.parse(localStorage.getItem("lastLocation")) != undefined) {
@@ -140,11 +148,17 @@ function retrieveStorage() {
             });
         }
     }
+    // Retrieving app Config
+    if (JSON.parse(localStorage.getItem("appConfig")) != undefined) {
+        appConfig = JSON.parse(localStorage.getItem("appConfig"));
+    }
+    console.log(appConfig);
 }
 // Save Storage Function
 function saveStorage() {    
     localStorage.setItem("userProjects", JSON.stringify(userProjects)); // userPorjects-related data
     localStorage.setItem("lastLocation", JSON.stringify(lastLocation)); // user last known location data
+    localStorage.setItem("appConfig", JSON.stringify(appConfig)); // user app data
     location.reload(); // refresh the page
 }
 
