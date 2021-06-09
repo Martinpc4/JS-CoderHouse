@@ -145,10 +145,12 @@ function onTime(date) {
     }
 }
 
-// * (Funciones DOM) - Top Bar
+// ! Funciones de DOM
 
-// Create Project Top Bar  DOM
-function createProjectTopBarDom(projectProperties) {
+// * (DOM Functions) - Menu
+
+// (DOM Function) Home Section
+function createHomeTopBar () {
     // Create Top Bar Ctr
     const topBarCtr = document.getElementById("topBarCtr");
     topBarCtr.innerHTML = "";
@@ -158,6 +160,100 @@ function createProjectTopBarDom(projectProperties) {
     topBarInfoCtr.className = "top-bar__title-ctr";
     topBarInfoCtr.id = "topBarInfoCtr";
     topBarInfoCtr.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M11.03 2.59a1.5 1.5 0 011.94 0l7.5 6.363a1.5 1.5 0 01.53 1.144V19.5a1.5 1.5 0 01-1.5 1.5h-5.75a.75.75 0 01-.75-.75V14h-2v6.25a.75.75 0 01-.75.75H4.5A1.5 1.5 0 013 19.5v-9.403c0-.44.194-.859.53-1.144l7.5-6.363zM12 3.734l-7.5 6.363V19.5h5v-6.25a.75.75 0 01.75-.75h3.5a.75.75 0 01.75.75v6.25h5v-9.403L12 3.734z"/>
+        </svg>
+        <p>Home</p>
+    `;
+    topBarCtr.appendChild(topBarInfoCtr);
+}
+function createHomeMainCtr () {
+    // create the DOM
+    $("#mainCtr").innerHTML = "";
+    $("#mainCtr").prepend(`
+        <div class="menu-section">
+            <div class="menu-section__random-quote">
+            </div>
+            <div id="menuSectionHomePrjStatsCtr" class="menu-section__prjs-stats">
+            </div>
+        </div>
+    `);
+
+
+    let totalTGRCompleted = 0;
+    let totalTGR = 0;
+    userProjects.forEach( projectProperties => {
+        projectProperties.tabs.forEach( tabProperties => {
+            tabProperties.tasks.forEach( taskProperties => {
+                totalTGR += 1;
+                if (taskProperties.doneState === true) {
+                    totalTGRCompleted += 1;
+                }
+            });
+            tabProperties.goals.forEach( goalProperties => {
+                totalTGR += 1;
+                if (goalProperties.doneState === true) {
+                    totalTGRCompleted += 1;
+                }
+            });
+            tabProperties.reminders.forEach( reminderProperties => {
+                totalTGR += 1;
+                if (reminderProperties.doneState === true) {
+                    totalTGRCompleted += 1;
+                }
+            });
+        });
+        $("#menuSectionHomePrjStatsCtr").append(`
+            <div class="menu-section__prjs-stats__prj">
+                <div class="menu-section__prjs-stats__prj__data border-${projectProperties.color}">
+                    <p>${isNaN((totalTGR * 100)/totalTGRCompleted) ? 100 : (totalTGR * 100)/totalTGRCompleted}%</p>
+                </div>
+                <div class="menu-section__prjs-stats__prj__name">
+                    <p>${projectProperties.name}</p>
+                </div>
+            </div>
+        `);
+    });
+
+    // Random Advice Component
+    $.get("https://quotes.rest/qod",function (data, textStatus) {
+        let randomQuote = data.contents.quotes.quote;
+        $(".menu-section__random-quote").prepend(`
+            <p>"${randomQuote}"</p>
+        `);
+        }
+    );
+}
+
+
+
+// * (DOM Functions) - Project DOM
+
+// (Top Bar) - Prj Navigation Bar
+function createProjectTopBarDom(projectProperties) {
+    // Create Top Bar Ctr
+    const topBarCtr = document.getElementById("topBarCtr");
+    topBarCtr.innerHTML = "";
+
+    // Create topBarInfoCtr
+
+    // Obtain the project status
+    let prjOnTime = undefined;
+    projectProperties.tabs.forEach(tabProperties => {
+        if (tabProperties.overview === false) {
+            tabProperties.tasks.forEach(taskProperties => {
+                if (taskProperties.onTime === false) {
+                    prjOnTime = false;
+                }
+            });
+        }
+    });
+    // Generate the DOM
+    const topBarInfoCtr = document.createElement("div");
+    topBarInfoCtr.className = "top-bar__title-ctr";
+    topBarInfoCtr.id = "topBarInfoCtr";
+    topBarInfoCtr.innerHTML = `
+        <p>${projectProperties.name}</p>
         ${projectProperties.fav === false ? `
             <svg id="prjBtnFav" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"/>
@@ -167,7 +263,15 @@ function createProjectTopBarDom(projectProperties) {
                 <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
             </svg>
         `}
-        <p>${projectProperties.name}</p>
+        <div class="top-bar__title-ctr__prj-status">
+            ${prjOnTime === false ? `
+                <div class="top-bar__title-ctr__prj-status__color background-red"></div>
+                <p class="top-bar__title-ctr__prj-status__text">Delayed</p>
+                `:`
+                <div class="top-bar__title-ctr__prj-status__color background-green"></div>
+                <p class="top-bar__title-ctr__prj-status__text">On track</p>
+            `}
+        </div>
     `;
     topBarCtr.appendChild(topBarInfoCtr);
     // Create the event listener to set a project as favourite
@@ -302,13 +406,12 @@ function createProjectTopBarDom(projectProperties) {
         });
     }
 }
-
-// * (Funciones DOM) - Main Container
-
-// Create Project Overview Tab DOM
+// (Main Ctr) Prj Overview Tab DOM
 function createOverviewDOM(projectProperties) {
     // Save last location
     if ((lastLocation.generalOverviewStatus === false) || (lastLocation.projectId != projectProperties.id)) {
+        lastLocation.menuSection = false;
+        lastLocation.menuSectionName = undefined;
         lastLocation.generalOverviewStatus = true;
         lastLocation.projectStatus = true;
         lastLocation.projectId = projectProperties.id;
@@ -316,58 +419,6 @@ function createOverviewDOM(projectProperties) {
         lastLocation.specificTabStatus = false;
         lastLocation.tabId = undefined;
         saveStorage();
-    }
-
-    // (Project Status Component)
-    // Obtain the project status
-    let prjOnTime = undefined;
-    projectProperties.tabs.forEach(tabProperties => {
-        if (tabProperties.overview === false) {
-            tabProperties.tasks.forEach(taskProperties => {
-                if (taskProperties.onTime === false) {
-                    prjOnTime = false;
-                }
-            });
-        }
-    });
-    // Generate the number of completed tasks and goals in the project
-    let completedTotal = 0;
-    let totalExisting = 0;
-    projectProperties.tabs.forEach(tabProperties => {
-        if (tabProperties.overview === false) {
-            tabProperties.tasks.forEach(taskProperties => {
-                if (taskProperties.doneState === true) {
-                    completedTotal++;
-                    totalExisting++;
-                }
-                else {
-                    totalExisting++;
-                }
-            });
-            tabProperties.goals.forEach(goalProperties => {
-                if (goalProperties.doneState === true) {
-                    completedTotal++;
-                    totalExisting++
-                }
-                else {
-                    totalExisting++;
-                }
-            });
-            tabProperties.reminders.forEach(reminderProperties => {
-                if (reminderProperties.doneState === true) {
-                    completedTotal++;
-                    totalExisting++;
-                }
-                else {
-                    totalExisting++;
-                }
-            });
-        }
-    });
-    // Generate the percentage of completed tasks and goals in the project
-    let completedPrjPercentage = Math.floor((completedTotal * 100) / totalExisting);
-    if (isNaN(completedPrjPercentage)) {
-        completedPrjPercentage = 0;
     }
 
     // Generate Overview Components DOM
@@ -401,49 +452,8 @@ function createOverviewDOM(projectProperties) {
             <div id="overviewPrjStatsTabCtr" class="tabs-stat__ctr">
             </div>
         </div>
-        <div class="prj-status">
-            <div class="prj-status__time" style="display:none;">
-                <div class="prj-status__time__hdr">
-                    <p>Status</p>
-                </div>
-                ${prjOnTime === false ? `
-                        <div class="prj-status__time__status">
-                            <div class="prj-status__time__status__color-ctr prj-status__time__status__color-ctr--delayed"></div>
-                            <p>Delayed</p>
-                        </div>
-                    `: `
-                        <div class="prj-status__time__status">
-                            <div class="prj-status__time__status__color-ctr prj-status__time__status__color-ctr--onTrack"></div>
-                            <p>On track</p>
-                        </div>
-                `}
-            </div>
-            <div class="prj-status__completed" style="display:none;">
-                <div class="prj-status__completed__hdr">
-                    <p>Completed</p>
-                </div>
-                <div class="prj-status__completed__data">
-                    <p>${completedTotal}/${totalExisting}</p>
-                </div>
-            </div>
-            <div class="prj-status__percentage" style="display:none;">
-                <div class="prj-status__percentage__data">
-                    <div class="prj-status__percentage__data__ctr">
-                        <p>${completedPrjPercentage}%</p>
-                    </div>
-                </div>
-                <div class="prj-status__percentage__hdr">
-                    <p>completed</p>
-                </div>
-            </div>
-        </div>
     `;
     mainCtr.appendChild(prjOverview);
-
-    // Jq Stats Animations
-    $(".prj-status__time").fadeIn();
-    $(".prj-status__completed").fadeIn();
-    $(".prj-status__percentage").slideDown("slow");
 
     // Event Listener - Create Tab
     document.getElementById("overviewBtnTabsCreate").addEventListener("click", () => {
@@ -571,12 +581,14 @@ function createOverviewDOM(projectProperties) {
     });
 }
 
-// Create Specific Tab DOM
+// (Main Ctr) - Prj Specific Tab DOM
 function createTabDom(tabProperties) {
     // Save last location
     if (lastLocation.specificTabStatus === false) {
         userProjects.forEach(projectProperties => {
             if (projectProperties.id == tabProperties.tabOf) {
+                lastLocation.menuSection = false;
+                lastLocation.menuSectionName = undefined;
                 lastLocation.projectStatus = true;
                 lastLocation.projectId = projectProperties.id;
                 lastLocation.projectColor = projectProperties.color;
@@ -648,7 +660,7 @@ function createTabDom(tabProperties) {
     tasksEventsListeners();
 }
 
-// * (Funciones DOM) - Tasks, Goals and Reminders
+// * (DOM Functions) - Tasks, Goals and Reminders
 
 // Tasks DOM Creation
 function createTaskDom(newTask, display) {
@@ -689,7 +701,6 @@ function createTaskDom(newTask, display) {
     const domTaskCtr = document.getElementById("tasksCtr");
     domTaskCtr.appendChild(domTask);
 }
-
 // Goals DOM Creation
 function createGoalDom(newGoal, display) {
     let domGoal = document.createElement("div");
@@ -720,7 +731,6 @@ function createGoalDom(newGoal, display) {
     const goal_ctr = document.getElementById("goalsCtr");
     goal_ctr.appendChild(domGoal);
 }
-
 // Reminders DOM Creation
 function createReminderDom(newReminder, display) {
     let domReminder = document.createElement("div");

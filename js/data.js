@@ -2,6 +2,8 @@
 let appConfig = {};
 let userProjects = [];
 let lastLocation = {
+    menuSection : undefined,
+    menuSectionName : undefined,
     projectStatus : undefined,
     projectId : undefined,
     projectColor : undefined,
@@ -105,7 +107,7 @@ function retrieveStorage() {
             projectDom.className = "prjs__prjs-ctr__prj";
             projectDom.id = `${projectProperties.id}`;
             projectDom.innerHTML = `
-                <div class="prjs__prjs-ctr__prj__color ${projectProperties.color}"></div>
+                <div class="prjs__prjs-ctr__prj__color background-${projectProperties.color}"></div>
                 <p>${projectProperties.name}</p>
             `;
             projectContainer.appendChild(projectDom);
@@ -116,16 +118,16 @@ function retrieveStorage() {
             favProjectDom.className = "prjs__prjs-ctr__prj";
             favProjectDom.id = `${projectProperties.id}`;
             favProjectDom.innerHTML = `
-                <div class="prjs__prjs-ctr__prj__color ${projectProperties.color}"></div>
+                <div class="prjs__prjs-ctr__prj__color background-${projectProperties.color}"></div>
                 <p>${projectProperties.name}</p>
             `;
             favProjectContainer.appendChild(favProjectDom);
         }
     });
     // Set aside events listeners
-    projectEventCreateListener();
-    projectEventOpenListener();
-    configEventListener();
+    asideProjectsEventListeners();
+    asideOtherEventListeners();
+    asideMenuEventListeners();
 
     // Retrieving user last known location and restoring it
     if (JSON.parse(localStorage.getItem("lastLocation")) != undefined) {
@@ -147,13 +149,19 @@ function retrieveStorage() {
                 }
             });
         }
+        else if (lastLocation.menuSection === true) {
+            if (lastLocation.menuSectionName == "menu") {
+                createHomeTopBar();
+                createHomeMainCtr();
+            }
+        }
     }
     // Retrieving app Config
     if (JSON.parse(localStorage.getItem("appConfig")) != undefined) {
         appConfig = JSON.parse(localStorage.getItem("appConfig"));
     }
-    console.log(appConfig);
 }
+
 // Save Storage Function
 function saveStorage() {    
     localStorage.setItem("userProjects", JSON.stringify(userProjects)); // userPorjects-related data

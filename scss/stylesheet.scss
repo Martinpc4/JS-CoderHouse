@@ -17,22 +17,38 @@ body {
     grid-template-rows: 100vh;
 }
 
-// ! Semantic Colors
-// Estas clases van a dar color a containers
-.red {
+// ! Generic Colors
+// background
+.background-red {
     background-color: #{$semantic-quintinary};
 }
-.blue {
+.background-blue {
     background-color: #{$semantic-primary};
 }
-.purple {
+.background-purple {
     background-color: #{$semantic-secondary};
 }
-.green {
+.background-green {
     background-color: #{$semantic-tertiary};
 }
-.orange {
+.background-orange {
     background-color: #{$semantic-quaternary};
+}
+// boders
+.border-red {
+    border: #{$semantic-quintinary} 2px solid !important;
+}
+.border-blue {
+    border: #{$semantic-primary} 2px solid !important;
+}
+.border-purple {
+    border: #{$semantic-secondary} 2px solid !important;
+}
+.border-green {
+    border: #{$semantic-tertiary} 2px solid !important;
+}
+.border-orange {
+    border: #{$semantic-quaternary} 2px solid !important;
 }
 
 // !ASIDE

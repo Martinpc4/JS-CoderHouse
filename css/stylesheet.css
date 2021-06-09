@@ -21,24 +21,44 @@ body {
       grid-template-rows: 100vh;
 }
 
-.red {
+.background-red {
   background-color: #DD7155;
 }
 
-.blue {
+.background-blue {
   background-color: #1D8CA6;
 }
 
-.purple {
+.background-purple {
   background-color: #7C73AE;
 }
 
-.green {
+.background-green {
   background-color: #6AAC46;
 }
 
-.orange {
+.background-orange {
   background-color: #E69541;
+}
+
+.border-red {
+  border: #DD7155 2px solid !important;
+}
+
+.border-blue {
+  border: #1D8CA6 2px solid !important;
+}
+
+.border-purple {
+  border: #7C73AE 2px solid !important;
+}
+
+.border-green {
+  border: #6AAC46 2px solid !important;
+}
+
+.border-orange {
+  border: #E69541 2px solid !important;
 }
 
 .aside {

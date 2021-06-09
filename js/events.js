@@ -1,7 +1,28 @@
-// * App events Listeners
-// (Event Listener) - Configuration
-function configEventListener() {
-    $("#configBtnOpen").on("click", () => {
+// * Aside Event Listeners
+
+// (Event Listener) - Menu
+function asideMenuEventListeners () {
+    $("#AsideMenuHomeBtn").click(() => {
+        // save last location (when loaded, it will open there the home section)
+        lastLocation.menuSection = true;
+        lastLocation.menuSectionName = "menu";
+        lastLocation.projectStatus = false;
+        lastLocation.projectId = undefined;
+        lastLocation.projectColor = undefined;
+        lastLocation.generalOverviewStatus = undefined;
+        lastLocation.specificTabStatus = undefined;
+        lastLocation.tabId = undefined;
+        saveStorage();
+    });
+}
+
+// (Event Listener) - Other
+function asideOtherEventListeners() {
+    $("#asideOtherFeedbackBtn").on("click", function () {
+        console.log("Ping");
+        // TODO Finish the configuration of the feedback btn
+    });
+    $("#asideOtherConfigBtn").on("click", () => {
         // prepend the alert config dom
         $("body").prepend(`
             <div class="alertMax">
@@ -42,10 +63,9 @@ function configEventListener() {
     });
 }
 
-// * Projects Events Listeners
-// (Event Listener) - Create Project (+)
-function projectEventCreateListener() {
-    // Create a new project (+)
+// (Event Listener) - Projects
+function asideProjectsEventListeners() {
+    // Create a new project from btn (+)
     document.getElementById("prjsBtnCreate").addEventListener("click", () => {
         const mainCtr = document.getElementById("mainCtr");
         mainCtr.innerHTML = "";
@@ -105,10 +125,7 @@ function projectEventCreateListener() {
             }
         });
     });
-}
 
-// (Event Listener) - Open Project from Aside
-function projectEventOpenListener() {
     // Open a Project from Aside Btns
     let projectBtns = document.getElementsByClassName("prjs__prjs-ctr__prj");
     for (const ProjectBtn of projectBtns) {
