@@ -151,8 +151,8 @@ function retrieveStorage() {
         }
         else if (lastLocation.menuSection === true) {
             if (lastLocation.menuSectionName == "menu") {
-                createHomeTopBar();
-                createHomeMainCtr();
+                createDashboardTopBar();
+                createDashboardMainCtr();
             }
         }
     }

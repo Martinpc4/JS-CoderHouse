@@ -2,8 +2,8 @@
 
 // (Event Listener) - Menu
 function asideMenuEventListeners () {
-    $("#AsideMenuHomeBtn").click(() => {
-        // save last location (when loaded, it will open there the home section)
+    $("#AsideMenuDashboardBtn").click(() => {
+        // save last location (when loaded, it will open there the Dashboard section)
         lastLocation.menuSection = true;
         lastLocation.menuSectionName = "menu";
         lastLocation.projectStatus = false;

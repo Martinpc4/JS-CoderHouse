@@ -474,16 +474,16 @@
   grid-row: 1 / 2;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 40%;
-      grid-template-columns: 1fr 40%;
+  -ms-grid-columns: 1fr 30%;
+      grid-template-columns: 1fr 30%;
   -ms-grid-rows: (max-content)[3];
       grid-template-rows: repeat(3, -webkit-max-content);
       grid-template-rows: repeat(3, max-content);
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  -ms-flex-line-pack: center;
-      align-content: center;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
 }
 
 .menu-section__random-quote {
@@ -511,6 +511,7 @@
 }
 
 .menu-section__random-quote p {
+  padding: 20px 10px;
   font-style: italic;
 }
 
@@ -523,8 +524,8 @@
   grid-row: 2 / 3;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (1fr)[3];
-      grid-template-columns: repeat(3, 1fr);
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -554,6 +555,9 @@
       -ms-flex-align: center;
           align-items: center;
   row-gap: 5px;
+  padding: 5px;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(21, 27, 38, 0.07);
+          box-shadow: 0 1px 4px 0 rgba(21, 27, 38, 0.07);
 }
 
 .menu-section__prjs-stats__prj__name p {

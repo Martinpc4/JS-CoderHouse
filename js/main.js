@@ -149,8 +149,8 @@ function onTime(date) {
 
 // * (DOM Functions) - Menu
 
-// (DOM Function) Home Section
-function createHomeTopBar () {
+// (DOM Function) Dashboard Section
+function createDashboardTopBar () {
     // Create Top Bar Ctr
     const topBarCtr = document.getElementById("topBarCtr");
     topBarCtr.innerHTML = "";
@@ -160,21 +160,21 @@ function createHomeTopBar () {
     topBarInfoCtr.className = "top-bar__title-ctr";
     topBarInfoCtr.id = "topBarInfoCtr";
     topBarInfoCtr.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-            <path fill-rule="evenodd" d="M11.03 2.59a1.5 1.5 0 011.94 0l7.5 6.363a1.5 1.5 0 01.53 1.144V19.5a1.5 1.5 0 01-1.5 1.5h-5.75a.75.75 0 01-.75-.75V14h-2v6.25a.75.75 0 01-.75.75H4.5A1.5 1.5 0 013 19.5v-9.403c0-.44.194-.859.53-1.144l7.5-6.363zM12 3.734l-7.5 6.363V19.5h5v-6.25a.75.75 0 01.75-.75h3.5a.75.75 0 01.75.75v6.25h5v-9.403L12 3.734z"/>
-        </svg>
-        <p>Home</p>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+        <path fill-rule="evenodd" d="M12.876.64a1.75 1.75 0 00-1.75 0l-8.25 4.762a1.75 1.75 0 00-.875 1.515v9.525c0 .625.334 1.203.875 1.515l8.25 4.763a1.75 1.75 0 001.75 0l8.25-4.762a1.75 1.75 0 00.875-1.516V6.917a1.75 1.75 0 00-.875-1.515L12.876.639zm-1 1.298a.25.25 0 01.25 0l7.625 4.402-7.75 4.474-7.75-4.474 7.625-4.402zM3.501 7.64v8.803c0 .09.048.172.125.216l7.625 4.402v-8.947L3.501 7.64zm9.25 13.421l7.625-4.402a.25.25 0 00.125-.216V7.639l-7.75 4.474v8.947z"></path>
+    </svg>
+        <p>Dashboard</p>
     `;
     topBarCtr.appendChild(topBarInfoCtr);
 }
-function createHomeMainCtr () {
+function createDashboardMainCtr () {
     // create the DOM
     $("#mainCtr").innerHTML = "";
     $("#mainCtr").prepend(`
         <div class="menu-section">
             <div class="menu-section__random-quote">
             </div>
-            <div id="menuSectionHomePrjStatsCtr" class="menu-section__prjs-stats">
+            <div id="menuSectionDashboardPrjStatsCtr" class="menu-section__prjs-stats">
             </div>
         </div>
     `);
@@ -203,7 +203,7 @@ function createHomeMainCtr () {
                 }
             });
         });
-        $("#menuSectionHomePrjStatsCtr").append(`
+        $("#menuSectionDashboardPrjStatsCtr").append(`
             <div class="menu-section__prjs-stats__prj">
                 <div class="menu-section__prjs-stats__prj__data border-${projectProperties.color}">
                     <p>${isNaN((totalTGR * 100)/totalTGRCompleted) ? 100 : (totalTGR * 100)/totalTGRCompleted}%</p>
@@ -216,13 +216,22 @@ function createHomeMainCtr () {
     });
 
     // Random Advice Component
-    $.get("https://quotes.rest/qod",function (data, textStatus) {
-        let randomQuote = data.contents.quotes.quote;
-        $(".menu-section__random-quote").prepend(`
-            <p>"${randomQuote}"</p>
-        `);
+    $.get("https://api.quotable.io/quotes?tags=inspirational|inspiration?maxLength=50",function (data, statusCode) {
+        if (statusCode == "success") {
+            let quoteNumber = Math.floor(Math.random() * (data.results.length - 1) + 1);
+            console.log(quoteNumber);
+            let randomQuote = String('"' + data.results[quoteNumber].content + '" -' + data.results[quoteNumber].author);
+            $(".menu-section__random-quote").prepend(`
+                <p>${randomQuote}</p>
+            `);
         }
-    );
+        else if (statusCode != "success") {
+            console.log("Dashboard inspirational quote (error: " + statusCode + ")");
+            $(".menu-section__random-quote").prepend(`
+                <p>Quote error</p>
+            `);
+        }
+    });
 }
 
 
