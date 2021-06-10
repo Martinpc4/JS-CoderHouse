@@ -1,149 +1,5 @@
 // * Clases
-class project {
-    constructor(projectProperties) {
-        this.id = projectProperties.id === undefined ? randomId(userProjects) : projectProperties.id;
-        this.name = projectProperties.name;
-        this.tabs = projectProperties.tabs === undefined ? defaultTabs(this.id) : projectProperties.tabs;
-        this.color = projectProperties.color === undefined ? "red" : projectProperties.color;
-        this.fav = projectProperties.fav === undefined ? false : projectProperties.fav;
-    }
-}
-class tab {
-    constructor(tabProperties) {
-        this.tabOf = tabProperties.tabOf;
-        this.id = tabProperties.id;
-        this.name = tabProperties.name;
-        this.overview = tabProperties.overview === undefined ? false : tabProperties.overview;
-        this.tasks = tabProperties.tasks;
-        this.goals = tabProperties.goals;
-        this.reminders = tabProperties.reminders;
-    }
-}
-class task {
-    constructor(taskProperties) {
-        this.id = taskProperties.id;
-        this.name = taskProperties.name;
-        this.dueDate = taskProperties.dueDate;
-        this.description = taskProperties.description;
-        this.doneState = taskProperties.doneState === undefined ? false : taskProperties.doneState;
-        this.onTime = this.doneState === false ? onTime(this.dueDate) : true;
-    }
-}
-class goal {
-    constructor(goalProperties) {
-        this.id = goalProperties.id;
-        this.name = goalProperties.name;
-        this.doneState = goalProperties.doneState === undefined ? false : goalProperties.doneState;
-    }
-}
-class reminder {
-    constructor(reminderProperties) {
-        this.id = reminderProperties.id;
-        this.name = reminderProperties.name;
-        this.dueDate = reminderProperties.dueDate;
-        this.doneState = reminderProperties.doneState === undefined ? false : reminderProperties.doneState;
-        this.onTime = this.doneState === false ? onTime(this.dueDate) : true;
-    }
-}
 
-// * Funciones de Clase
-function defaultTabs(projectId) {
-    let defaultTabsArray = [];
-    let overview = {
-        tabOf: `${projectId}`,
-        id: randomId([]),
-        name: "Overview",
-        goals: undefined,
-        tasks: undefined,
-        reminders: undefined,
-        overview: true,
-    };
-    overview = new tab(overview);
-    defaultTabsArray.push(overview);
-    return (defaultTabsArray);
-}
-function randomId(array) {
-    let i = 0;
-    let state = true;
-    if (array.length == 0) {
-        id = Math.floor(Math.random() * (100000 - 1) + 1);
-    }
-    else {
-        while (state === true) {
-            id = Math.floor(Math.random() * (100000 - 1) + 1);
-            for (object of array) {
-                if (object.id == id) {
-                    break;
-                }
-                else if (object.id != id) {
-                    if (array.length == i) {
-                        continue;
-                    }
-                    else {
-                        state = false;
-                        break;
-                    }
-                }
-                i++;
-            }
-        }
-    }
-    return id;
-}
-
-
-// * Funciones multi-uso
-
-function parseDate(date) {
-    console.log(date);
-    if (date === "") {
-        return false;
-    }
-    else {
-        date = String(date);
-        date = date.replaceAll(" ", "");
-        let dateArray = date.split("/");
-        let newDate = new Date(dateArray[2], (dateArray[1] - 1), dateArray[0])
-        return newDate;
-    }
-}
-function onTime(date) {
-    if (date != false) {
-        const todayDate = new Date();
-        const todayMonth = (Number(todayDate.getMonth()) + 1);
-        const todayDay = Number(todayDate.getDate());
-        const todayYear = Number(todayDate.getFullYear());
-    
-        if (todayYear < Number(date.getFullYear())) {
-            return true;
-        }
-        else if (todayYear > Number(date.getFullYear())) {
-            return false;
-        }
-        else if (todayYear == Number(date.getFullYear())) {
-            if (todayMonth < Number((date.getMonth() + 1))) {
-                return true;
-            }
-            else if (todayMonth > Number((date.getMonth() + 1))) {
-                return false;
-            }
-            else if (todayMonth == Number((date.getMonth() + 1))) {
-                if (todayDay < Number(date.getDate())) {
-                    return true
-                }
-                else if (todayDay > Number(date.getDate())) {
-                    return false;
-                }
-                else if (todayDay == Number(date.getDate())) {
-                    return true;
-                }
-            }
-        }
-    }
-    else {
-        return true;
-    }
-}
 
 // ! Funciones de DOM
 
@@ -182,7 +38,7 @@ function createDashboardMainCtr () {
 
     let totalTGRCompleted = 0;
     let totalTGR = 0;
-    userProjects.forEach( projectProperties => {
+    userData.projects.forEach( projectProperties => {
         projectProperties.tabs.forEach( tabProperties => {
             tabProperties.tasks.forEach( taskProperties => {
                 totalTGR += 1;
@@ -219,7 +75,6 @@ function createDashboardMainCtr () {
     $.get("https://api.quotable.io/quotes?tags=inspirational|inspiration?maxLength=50",function (data, statusCode) {
         if (statusCode == "success") {
             let quoteNumber = Math.floor(Math.random() * (data.results.length - 1) + 1);
-            console.log(quoteNumber);
             let randomQuote = String('"' + data.results[quoteNumber].content + '" -' + data.results[quoteNumber].author);
             $(".menu-section__random-quote").prepend(`
                 <p>${randomQuote}</p>
@@ -285,15 +140,15 @@ function createProjectTopBarDom(projectProperties) {
     topBarCtr.appendChild(topBarInfoCtr);
     // Create the event listener to set a project as favourite
     document.getElementById("prjBtnFav").addEventListener("click", () => {
-        userProjects.forEach(projectProperties => {
-            if (projectProperties.id == lastLocation.projectId) {
+        userData.projects.forEach(projectProperties => {
+            if (projectProperties.id == userData.userLastLocation.projectId) {
                 if (projectProperties.fav == true) {
                     projectProperties.fav = false;
                 }
                 else if (projectProperties.fav == false) {
                     projectProperties.fav = true;
                 }
-                saveStorage();
+                saveDataToDB();
             }
         });
     });
@@ -314,7 +169,7 @@ function createProjectTopBarDom(projectProperties) {
         alertDom.className = "alertMin";
         alertDom.innerHTML = `
             <div class="alertMin__ctr">
-                <div class="alertMin__info alertMin__info--${lastLocation.projectColor}">
+                <div class="alertMin__info alertMin__info--${userData.userLastLocation.projectColor}">
                     <p>${projectProperties.name}</p>
                     <svg id="alertMinBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
@@ -336,8 +191,8 @@ function createProjectTopBarDom(projectProperties) {
                         </select>
                     </div>
                     <div class="alertMin__form__buttons">
-                        <input class="btn btn--${lastLocation.projectColor}" type="submit" value="Save">
-                        <input id="alertMinProjectBtnDelete" class="btn btn--${lastLocation.projectColor}" type="button" value="Delete Project">
+                        <input class="btn btn--${userData.userLastLocation.projectColor}" type="submit" value="Save">
+                        <input id="alertMinProjectBtnDelete" class="btn btn--${userData.userLastLocation.projectColor}" type="button" value="Delete Project">
                     </div>
                 </form>
             </div>
@@ -362,18 +217,18 @@ function createProjectTopBarDom(projectProperties) {
             let alertProjectNewColor = String(document.getElementById("alertMinProjectNewColor").value);
             if (projectProperties.color != alertProjectNewColor) {
                 projectProperties.color = alertProjectNewColor;
-                lastLocation.projectColor = alertProjectNewColor;
+                userData.userLastLocation.projectColor = alertProjectNewColor;
             }
-            saveStorage();
+            saveDataToDB();
         });
 
         // Event delete project (btn)
         document.getElementById("alertMinProjectBtnDelete").addEventListener("click", () => {
             let i = 0;
-            userProjects.forEach(prjProperties => {
+            userData.projects.forEach(prjProperties => {
                 if (prjProperties.id == projectProperties.id) {
-                    userProjects.splice(i, 1);
-                    saveStorage();
+                    userData.projects.splice(i, 1);
+                    saveDataToDB();
                 }
                 else {
                     i++;
@@ -400,7 +255,7 @@ function createProjectTopBarDom(projectProperties) {
     const TabLinks = document.getElementsByClassName("top-bar__tabs-ctr__tab");
     for (const TabLink of TabLinks) {
         TabLink.addEventListener("click", (event) => {
-            userProjects.forEach(projectProperties => {
+            userData.projects.forEach(projectProperties => {
                 projectProperties.tabs.forEach(tabProperties => {
                     if (tabProperties.id == event.target.parentNode.id) {
                         if (tabProperties.overview === false) {
@@ -418,19 +273,21 @@ function createProjectTopBarDom(projectProperties) {
 // (Main Ctr) Prj Overview Tab DOM
 function createOverviewDOM(projectProperties) {
     // Save last location
-    if ((lastLocation.generalOverviewStatus === false) || (lastLocation.projectId != projectProperties.id)) {
-        lastLocation.menuSection = false;
-        lastLocation.menuSectionName = undefined;
-        lastLocation.generalOverviewStatus = true;
-        lastLocation.projectStatus = true;
-        lastLocation.projectId = projectProperties.id;
-        lastLocation.projectColor = projectProperties.color;
-        lastLocation.specificTabStatus = false;
-        lastLocation.tabId = undefined;
-        saveStorage();
+    if ((userData.userLastLocation.generalOverviewStatus === false) || (userData.userLastLocation.projectId != projectProperties.id)) {
+        userData.userLastLocation = new lastLocation({
+            "menuSection" : false,
+            "menuSectionName" : undefined,
+            "generalOverviewStatus" : true,
+            "projectStatus" : true,
+            "projectId" : projectProperties.id,
+            "projectColor" : projectProperties.color,
+            "specificTabStatus" : false,
+            "tabId" : undefined
+        });
+        saveDataToDB();
     }
 
-    // Generate Overview Components DOM
+   1 // Generate Overview Components DOM
     const mainCtr = document.getElementById("mainCtr");
     mainCtr.innerHTML = "";
     let prjOverview = document.createElement("div");
@@ -471,7 +328,7 @@ function createOverviewDOM(projectProperties) {
         alertDom.className = "alertMin";
         alertDom.innerHTML = `
             <div class="alertMin__ctr">
-                <div class="alertMin__info alertMin__info--${lastLocation.projectColor}">
+                <div class="alertMin__info alertMin__info--${userData.userLastLocation.projectColor}">
                     <p>Create new Tab</p>
                     <svg id="alertBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
@@ -483,7 +340,7 @@ function createOverviewDOM(projectProperties) {
                         <input id="alertTabName" class="input" type="text" name="name">
                     </div>
                     <div class="alertMin__form__buttons">
-                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
+                        <input class="btn btn--${userData.userLastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -501,13 +358,13 @@ function createOverviewDOM(projectProperties) {
             let tabName = String(document.getElementById("alertTabName").value);
             if (tabName != "") {
                 // tab object creation
-                let newTab = { "name": tabName, "tabOf": lastLocation.projectId, "overview": false, };
+                let newTab = { "name": tabName, "tabOf": userData.userLastLocation.projectId, "overview": false, };
                 newTab = new tab(newTab);
                 // adding the new tab to the project
-                userProjects.forEach(projectProperties => {
-                    if (projectProperties.id == lastLocation.projectId) {
+                userData.projects.forEach(projectProperties => {
+                    if (projectProperties.id == userData.userData.userLastLocation.projectId) {
                         projectProperties.tabs.push(newTab);
-                        saveStorage();
+                        saveDataToDB();
                     }
                 });
             }
@@ -571,13 +428,13 @@ function createOverviewDOM(projectProperties) {
         // Delete Tab - Event Listener
         for (const overviewBtnTabDelete of document.getElementsByClassName("overviewBtnsTabsDelete")) {
             overviewBtnTabDelete.addEventListener("click", (event) => {
-                userProjects.forEach(projectProperties => {
-                    if (projectProperties.id == lastLocation.projectId) {
+                userData.projects.forEach(projectProperties => {
+                    if (projectProperties.id == userData.userData.userLastLocation.projectId) {
                         let i = 0;
                         projectProperties.tabs.forEach(tabProperties => {
                             if (tabProperties.id == event.target.parentNode.parentNode.id) {
                                 projectProperties.tabs.splice(i, 1);
-                                saveStorage();
+                                saveDataToDB();
                             }
                             else {
                                 i++;
@@ -593,18 +450,20 @@ function createOverviewDOM(projectProperties) {
 // (Main Ctr) - Prj Specific Tab DOM
 function createTabDom(tabProperties) {
     // Save last location
-    if (lastLocation.specificTabStatus === false) {
-        userProjects.forEach(projectProperties => {
+    if ((userData.userLastLocation.tabId != tabProperties.id) || (userData.userLastLocation.specificTabStatus === false)) {
+        userData.projects.forEach(projectProperties => {
             if (projectProperties.id == tabProperties.tabOf) {
-                lastLocation.menuSection = false;
-                lastLocation.menuSectionName = undefined;
-                lastLocation.projectStatus = true;
-                lastLocation.projectId = projectProperties.id;
-                lastLocation.projectColor = projectProperties.color;
-                lastLocation.generalOverviewStatus = false;
-                lastLocation.specificTabStatus = true;
-                lastLocation.tabId = tabProperties.id;
-                saveStorage();
+                userData.userLastLocation = new lastLocation({
+                    "menuSection" : false,
+                    "menuSectionName" : undefined,
+                    "generalOverviewStatus" : false,
+                    "projectStatus" : true,
+                    "projectId" : projectProperties.id,
+                    "projectColor" : projectProperties.color,
+                    "specificTabStatus" : true,
+                    "tabId" : tabProperties.id
+                });
+                saveDataToDB();
             }
         });
     }
@@ -654,124 +513,20 @@ function createTabDom(tabProperties) {
     `;
 
     // Generate existing Tasks, Goals and Reminders DOM
-    tabProperties.tasks.forEach(taskProperties => {
-        createTaskDom(taskProperties);
-    });
-    tabProperties.goals.forEach(goalProperties => {
-        createGoalDom(goalProperties);
-    });
-    tabProperties.reminders.forEach(reminderProperties => {
-        createReminderDom(reminderProperties);
-    });
-    // Generates the events listener for all generated Tasks, Goals and Reminders DOM
-    goalsEventsListeners();
-    remindersEventListeners();
-    tasksEventsListeners();
-}
+    $("#mainCtr").ready(function () {
+        tabProperties.tasks.forEach(taskProperties => {
+            taskProperties.generateDOM(false);
+        });
+        tabProperties.goals.forEach(goalProperties => {
+            goalProperties.generateDOM(false);
+        });
+        tabProperties.reminders.forEach(reminderProperties => {
+            reminderProperties.generateDOM(false);
+        });
 
-// * (DOM Functions) - Tasks, Goals and Reminders
-
-// Tasks DOM Creation
-function createTaskDom(newTask, display) {
-    let domTask = document.createElement("div");
-    if (display === true) {
-        domTask.style = "display: none;";
-    }
-    domTask.className = "task"
-    domTask.id = `${newTask.id}`;
-    domTask.innerHTML = `
-        <div class="task__bar ${lastLocation.projectColor}"></div>
-        <div class="task__ctr">
-            <p class="task__title">${newTask.name}</p>
-            <p class="task__dueDate">
-                ${newTask.dueDate === false ? "" : String(newTask.dueDate.getDate()) + `/` + String(newTask.dueDate.getMonth() + 1) + `/` + String(newTask.dueDate.getFullYear())}
-            </p>
-            <p class="task__description">${newTask.description}</p>
-            <div class="task__actions">
-                <div class="task__actions-complete">
-                    ${newTask.doneState === false ? `
-                        <svg class="btnTaskComplete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M12 2.5a9.5 9.5 0 100 19 9.5 9.5 0 000-19zM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12z"/>
-                        </svg>
-                    ` : `
-                        <svg class="btnTaskComplete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                            <path d="M17.28 9.28a.75.75 0 00-1.06-1.06l-5.97 5.97-2.47-2.47a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l6.5-6.5z"/><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"/>
-                        </svg>
-                    `}
-                </div>
-                <div class="task__actions-delete">
-                    <svg class="btnTaskDelete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M16 1.75V3h5.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75zm-6.5 0a.25.25 0 01.25-.25h4.5a.25.25 0 01.25.25V3h-5V1.75z"/><path d="M4.997 6.178a.75.75 0 10-1.493.144L4.916 20.92a1.75 1.75 0 001.742 1.58h10.684a1.75 1.75 0 001.742-1.581l1.413-14.597a.75.75 0 00-1.494-.144l-1.412 14.596a.25.25 0 01-.249.226H6.658a.25.25 0 01-.249-.226L4.997 6.178z"/><path d="M9.206 7.501a.75.75 0 01.793.705l.5 8.5A.75.75 0 119 16.794l-.5-8.5a.75.75 0 01.705-.793zm6.293.793A.75.75 0 1014 8.206l-.5 8.5a.75.75 0 001.498.088l.5-8.5z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-    `;
-    const domTaskCtr = document.getElementById("tasksCtr");
-    domTaskCtr.appendChild(domTask);
-}
-// Goals DOM Creation
-function createGoalDom(newGoal, display) {
-    let domGoal = document.createElement("div");
-    if (display === true) {
-        domGoal.style = "display: none;";
-    }
-    domGoal.className = "goal";
-    domGoal.id = `${newGoal.id}`;
-    domGoal.innerHTML = `
-        <div class="goal__actions-complete">
-            ${newGoal.doneState === false ? `
-                <svg class="btnGoalComplete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                    <path fill-rule="evenodd" d="M12 2.5a9.5 9.5 0 100 19 9.5 9.5 0 000-19zM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12z"/>
-                </svg>
-            ` : `
-                <svg class="btnGoalComplete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                    <path d="M17.28 9.28a.75.75 0 00-1.06-1.06l-5.97 5.97-2.47-2.47a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l6.5-6.5z"/><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"/>
-                </svg>
-            `}
-        </div>
-        <p class="goal__title">${newGoal.name}</p>
-        <div class="goal__actions-delete">
-            <svg class="btnGoalDelete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                <path fill-rule="evenodd" d="M16 1.75V3h5.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75zm-6.5 0a.25.25 0 01.25-.25h4.5a.25.25 0 01.25.25V3h-5V1.75z"/><path d="M4.997 6.178a.75.75 0 10-1.493.144L4.916 20.92a1.75 1.75 0 001.742 1.58h10.684a1.75 1.75 0 001.742-1.581l1.413-14.597a.75.75 0 00-1.494-.144l-1.412 14.596a.25.25 0 01-.249.226H6.658a.25.25 0 01-.249-.226L4.997 6.178z"/><path d="M9.206 7.501a.75.75 0 01.793.705l.5 8.5A.75.75 0 119 16.794l-.5-8.5a.75.75 0 01.705-.793zm6.293.793A.75.75 0 1014 8.206l-.5 8.5a.75.75 0 001.498.088l.5-8.5z"/>
-            </svg>
-        </div>
-    `;
-    const goal_ctr = document.getElementById("goalsCtr");
-    goal_ctr.appendChild(domGoal);
-}
-// Reminders DOM Creation
-function createReminderDom(newReminder, display) {
-    let domReminder = document.createElement("div");
-    if (display === true) {
-        domReminder.style = "display: none;";
-    }
-    domReminder.className = "reminders";
-    domReminder.id = `${newReminder.id}`;
-    domReminder.innerHTML = `
-            <div class="reminders__actions-complete">
-                ${newReminder.doneState === false ? `
-                    <svg class="btnReminderComplete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M12 2.5a9.5 9.5 0 100 19 9.5 9.5 0 000-19zM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12z"/>
-                    </svg>
-                ` : `
-                    <svg class="btnReminderComplete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <path d="M17.28 9.28a.75.75 0 00-1.06-1.06l-5.97 5.97-2.47-2.47a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l6.5-6.5z"/><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"/>
-                    </svg>
-                `}
-            </div>
-            ${newReminder.onTime === true ? `<div class="reminders__status reminders__status--onTime"></div>` : `<div class="reminders__status reminders__status--overdue"></div>`
-        }
-            <p class="reminders__title">${newReminder.name}</p>
-            <p class="reminders__dueDate">${newReminder.dueDate === false ? "" : String(newReminder.dueDate.getDate()) + "/" + String(newReminder.dueDate.getMonth() + 1) + "/" + String(newReminder.dueDate.getFullYear())
-        }</p>
-            <div class="reminders__actions-delete">
-                <svg class="btnReminderDelete" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                    <path fill-rule="evenodd" d="M16 1.75V3h5.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75zm-6.5 0a.25.25 0 01.25-.25h4.5a.25.25 0 01.25.25V3h-5V1.75z"/><path d="M4.997 6.178a.75.75 0 10-1.493.144L4.916 20.92a1.75 1.75 0 001.742 1.58h10.684a1.75 1.75 0 001.742-1.581l1.413-14.597a.75.75 0 00-1.494-.144l-1.412 14.596a.25.25 0 01-.249.226H6.658a.25.25 0 01-.249-.226L4.997 6.178z"/><path d="M9.206 7.501a.75.75 0 01.793.705l.5 8.5A.75.75 0 119 16.794l-.5-8.5a.75.75 0 01.705-.793zm6.293.793A.75.75 0 1014 8.206l-.5 8.5a.75.75 0 001.498.088l.5-8.5z"/>
-                </svg>
-            </div>
-        `;
-
-    const reminders_ctr = document.getElementById("remindersCtr");
-    reminders_ctr.appendChild(domReminder);
+        // Generates the events listener for all generated Tasks, Goals and Reminders DOM
+        goalsEventsListeners();
+        remindersEventListeners();
+        tasksEventsListeners();
+    });
 }

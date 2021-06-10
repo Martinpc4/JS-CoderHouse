@@ -4,15 +4,20 @@
 function asideMenuEventListeners () {
     $("#AsideMenuDashboardBtn").click(() => {
         // save last location (when loaded, it will open there the Dashboard section)
-        lastLocation.menuSection = true;
-        lastLocation.menuSectionName = "menu";
-        lastLocation.projectStatus = false;
-        lastLocation.projectId = undefined;
-        lastLocation.projectColor = undefined;
-        lastLocation.generalOverviewStatus = undefined;
-        lastLocation.specificTabStatus = undefined;
-        lastLocation.tabId = undefined;
-        saveStorage();
+        userData.userLastLocation = new lastLocation({
+            "menuSection" : true,
+            "menuSectionName" : "menu",
+            "generalOverviewStatus" : false,
+            "projectStatus" : false,
+            "projectId" : undefined,
+            "projectColor" : undefined,
+            "specificTabStatus" : false,
+            "tabId" : undefined
+        });
+        saveDataToDB();
+
+        createDashboardTopBar();
+        createDashboardMainCtr();
     });
 }
 
@@ -55,10 +60,10 @@ function asideOtherEventListeners() {
         // capture data submited by user
         $("#alertMaxConfigForm").submit((event) => {
             event.preventDefault();
-            if ($("#alertMaxTheme").val() != appConfig.theme) {
-                appConfig.theme = $("#alertMaxTheme").val();
+            if ($("#alertMaxTheme").val() != userConfig.theme) {
+                userConfig.theme = $("#alertMaxTheme").val();
             }
-            saveStorage();
+            saveDataToDB();
         });
     });
 }
@@ -104,7 +109,7 @@ function asideProjectsEventListeners() {
         mainCtr.appendChild(alertMinDom);
         // Close alertMin
         document.getElementById("alertMinBtnClose").addEventListener("click", () => {
-            saveStorage();
+            mainCtr.removeChild(alertMinDom);
         });
         // Capture data
         document.getElementById("alertMinForm").addEventListener("submit", (event) => {
@@ -116,12 +121,12 @@ function asideProjectsEventListeners() {
                 // object creation
                 let newProject = { "name": projectName, "color": projectColor };
                 newProject = new project(newProject);
-                userProjects.push(newProject);
+                userData.projects.push(newProject);
                 // Project info DOM
                 createProjectTopBarDom(newProject);
                 // Create the default Project Overview Tab
                 createOverviewDOM(newProject);
-                saveStorage();
+                saveDataToDB();
             }
         });
     });
@@ -130,7 +135,7 @@ function asideProjectsEventListeners() {
     let projectBtns = document.getElementsByClassName("prjs__prjs-ctr__prj");
     for (const ProjectBtn of projectBtns) {
         ProjectBtn.addEventListener("click", (event) => {
-            userProjects.forEach(projectProperties => {
+            userData.projects.forEach(projectProperties => {
                 if (projectProperties.id == event.target.parentNode.id) {
                     // * Project info DOM
                     createProjectTopBarDom(projectProperties);
@@ -151,7 +156,7 @@ function tasksEventsListeners() {
         alertMinDom.className = "alertMin";
         alertMinDom.innerHTML = `
             <div class="alertMin__ctr">
-                <div class="alertMin__info alertMin__info--${lastLocation.projectColor}">
+                <div class="alertMin__info alertMin__info--${userData.userLastLocation.projectColor}">
                     <p>Create Task</p>
                     <svg id="alertMinBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
@@ -171,7 +176,7 @@ function tasksEventsListeners() {
                         <textarea id="alertMinTaskDescription" class="textarea" name="description" id=""></textarea>
                     </div>
                     <div class="alertMin__form__buttons">
-                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
+                        <input class="btn btn--${userData.userLastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -194,16 +199,16 @@ function tasksEventsListeners() {
             if ((newTask.name != "") && (newTask.description != "")) {
                 newTask = new task(newTask);
                 // add the task
-                userProjects.forEach(projectProperties => {
-                    if (projectProperties.id == lastLocation.projectId) {
+                userData.projects.forEach(projectProperties => {
+                    if (projectProperties.id == userData.userLastLocation.projectId) {
                         projectProperties.tabs.forEach(tabProperties => {
-                            if (tabProperties.id == lastLocation.tabId) {
+                            if (tabProperties.id == userData.userLastLocation.tabId) {
                                 tabProperties.tasks.push(newTask);
                                 $(".alertMin").remove();
                                 createTaskDom(newTask, true);
                                 $(`#${newTask.id}`).fadeIn();
                                 setTimeout(() => {
-                                    saveStorage();
+                                    saveDataToDB();
                                 }, 400);
                             }
                         });
@@ -217,17 +222,17 @@ function tasksEventsListeners() {
     let btnsTaskDelete = document.getElementsByClassName("btnTaskDelete");
     for (const task of btnsTaskDelete) {
         task.addEventListener("click", (event) => {
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
+            userData.projects.forEach(projectProperties => {
+                if (projectProperties.id == userData.userLastLocation.projectId) {
                     projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
+                        if (tabProperties.id == userData.userLastLocation.tabId) {
                             let i = 0;
                             tabProperties.tasks.forEach(taskProperties => {
                                 if (taskProperties.id == event.target.parentNode.parentNode.parentNode.parentNode.id) {
                                     tabProperties.tasks.splice(i, 1);
                                     $(`#${taskProperties.id}`).fadeOut();
                                     setTimeout(() => {
-                                        saveStorage();
+                                        saveDataToDB();
                                     }, 400);
                                 }
                                 else {
@@ -245,10 +250,10 @@ function tasksEventsListeners() {
     let btnsTaskComplete = document.getElementsByClassName("btnTaskComplete");
     for (const task of btnsTaskComplete) {
         task.addEventListener("click", (event) => {
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
+            userData.projects.forEach(projectProperties => {
+                if (projectProperties.id == userData.userLastLocation.projectId) {
                     projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
+                        if (tabProperties.id == userData.userLastLocation.tabId) {
                             tabProperties.tasks.forEach(taskProperties => {
                                 if (taskProperties.id == event.target.parentNode.parentNode.parentNode.parentNode.id) {
                                     if (taskProperties.doneState === false) {
@@ -257,7 +262,7 @@ function tasksEventsListeners() {
                                     else if (taskProperties.doneState === true) {
                                         taskProperties.doneState = false;
                                     }
-                                    saveStorage();
+                                    saveDataToDB();
                                 }
                             });
                         }
@@ -277,7 +282,7 @@ function goalsEventsListeners() {
         alertMinDom.className = "alertMin";
         alertMinDom.innerHTML = `
             <div class="alertMin__ctr">
-                <div class="alertMin__info alertMin__info--${lastLocation.projectColor}">
+                <div class="alertMin__info alertMin__info--${userData.userLastLocation.projectColor}">
                     <p>Create Goal</p>
                     <svg id="alertMinBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
@@ -289,7 +294,7 @@ function goalsEventsListeners() {
                         <input id="alertMinGoalName" class="input" type="text" name="name">
                     </div>
                     <div class="alertMin__form__buttons">
-                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
+                        <input class="btn btn--${userData.userLastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -309,16 +314,16 @@ function goalsEventsListeners() {
             let newGoal = { "name": goalName };
             newGoal = new goal(newGoal);
             // add the task
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
+            userData.projects.forEach(projectProperties => {
+                if (projectProperties.id == userData.userLastLocation.projectId) {
                     projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
+                        if (tabProperties.id == userData.userLastLocation.tabId) {
                             tabProperties.goals.push(newGoal);
                             $(".alertMin").remove().delay(1000);
                             createGoalDom(newGoal, true);
                             $(`#${newGoal.id}`).fadeIn();
                             setTimeout(() => {
-                                saveStorage();
+                                saveDataToDB();
                             }, 400);
                         }
                     });
@@ -331,17 +336,17 @@ function goalsEventsListeners() {
     let btnGoalDelete = document.getElementsByClassName("btnGoalDelete");
     for (const goal of btnGoalDelete) {
         goal.addEventListener("click", (event) => {
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
+            userData.projects.forEach(projectProperties => {
+                if (projectProperties.id == userData.userLastLocation.projectId) {
                     projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
+                        if (tabProperties.id == userData.userLastLocation.tabId) {
                             let i = 0;
                             tabProperties.goals.forEach(goalProperties => {
                                 if (goalProperties.id == event.target.parentNode.parentNode.id) {
                                     tabProperties.goals.splice(i, 1);
                                     $(`#${goalProperties.id}`).fadeOut();
                                     setTimeout(() => {
-                                        saveStorage();
+                                        saveDataToDB();
                                     }, 400);
                                 }
                                 else {
@@ -359,10 +364,10 @@ function goalsEventsListeners() {
     let btnGoalComplete = document.getElementsByClassName("btnGoalComplete");
     for (const goal of btnGoalComplete) {
         goal.addEventListener("click", (event) => {
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
+            userData.projects.forEach(projectProperties => {
+                if (projectProperties.id == userData.userLastLocation.projectId) {
                     projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
+                        if (tabProperties.id == userData.userLastLocation.tabId) {
                             tabProperties.goals.forEach(goalProperties => {
                                 if (goalProperties.id == event.target.parentNode.parentNode.id) {
                                     if (goalProperties.doneState === false) {
@@ -371,7 +376,7 @@ function goalsEventsListeners() {
                                     else if (goalProperties.doneState === true) {
                                         goalProperties.doneState = false;
                                     }
-                                    saveStorage();
+                                    saveDataToDB();
                                 }
                             });
                         }
@@ -391,7 +396,7 @@ function remindersEventListeners() {
         alertMinDom.className = "alertMin";
         alertMinDom.innerHTML = `
             <div class="alertMin__ctr">
-                <div class="alertMin__info alertMin__info--${lastLocation.projectColor}">
+                <div class="alertMin__info alertMin__info--${userData.userLastLocation.projectColor}">
                     <p>Create Reminder</p>
                     <svg id="alertMinBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
@@ -407,7 +412,7 @@ function remindersEventListeners() {
                         <input id="reminderDueDate" class="input" type="text" name="dueDate" placeholder="dd/mm/yyyy">
                     </div>
                     <div class="alertMin__form__buttons">
-                        <input class="btn btn--${lastLocation.projectColor}" type="submit">
+                        <input class="btn btn--${userData.userLastLocation.projectColor}" type="submit">
                     </div>
                 </form>
             </div>
@@ -430,16 +435,16 @@ function remindersEventListeners() {
             if (newReminder.name != "") {
                 newReminder = new reminder(newReminder);
                 // add the reminder
-                userProjects.forEach(projectProperties => {
-                    if (projectProperties.id == lastLocation.projectId) {
+                userData.projects.forEach(projectProperties => {
+                    if (projectProperties.id == userData.userLastLocation.projectId) {
                         projectProperties.tabs.forEach(tabProperties => {
-                            if (tabProperties.id == lastLocation.tabId) {
+                            if (tabProperties.id == userData.userLastLocation.tabId) {
                                 tabProperties.reminders.push(newReminder);
                                 $(".alertMin").remove().delay(1000);
                                 createReminderDom(newReminder, true);
                                 $(`#${newReminder.id}`).fadeIn();
                                 setTimeout(() => {
-                                    saveStorage();
+                                    saveDataToDB();
                                 }, 400);
                             }
                         });
@@ -453,18 +458,17 @@ function remindersEventListeners() {
     let btnsReminderDelete = document.getElementsByClassName("btnReminderDelete");
     for (const reminder of btnsReminderDelete) {
         reminder.addEventListener("click", (event) => {
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
+            userData.projects.forEach(projectProperties => {
+                if (projectProperties.id == userData.userLastLocation.projectId) {
                     projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
+                        if (tabProperties.id == userData.userLastLocation.tabId) {
                             let i = 0;
                             tabProperties.reminders.forEach(reminderProperties => {
-                                console.log(tabProperties.reminders);
                                 if (reminderProperties.id == event.target.parentNode.parentNode.id) {
                                     tabProperties.reminders.splice(i, 1);
                                     $(`#${reminderProperties.id}`).fadeOut();
                                     setTimeout(() => {
-                                        saveStorage();
+                                        saveDataToDB();
                                     }, 400);
                                 }
                                 else {
@@ -481,10 +485,10 @@ function remindersEventListeners() {
     let btnsReminderComplete = document.getElementsByClassName("btnReminderComplete");
     for (const reminder of btnsReminderComplete) {
         reminder.addEventListener("click", (event) => {
-            userProjects.forEach(projectProperties => {
-                if (projectProperties.id == lastLocation.projectId) {
+            userData.projects.forEach(projectProperties => {
+                if (projectProperties.id == userData.userLastLocation.projectId) {
                     projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == lastLocation.tabId) {
+                        if (tabProperties.id == userData.userLastLocation.tabId) {
                             tabProperties.reminders.forEach(reminderProperties => {
                                 if (reminderProperties.id == event.target.parentNode.parentNode.id) {
                                     if (reminderProperties.doneState === false) {
@@ -493,7 +497,7 @@ function remindersEventListeners() {
                                     else if (reminderProperties.doneState === true) {
                                         reminderProperties.doneState = false;
                                     }
-                                    saveStorage();
+                                    saveDataToDB();
                                 }
                             });
                         }
