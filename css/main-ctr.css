@@ -1344,7 +1344,7 @@
   padding: 10px;
 }
 
-.reminders__ctr .reminders {
+.reminders__ctr .reminder {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
@@ -1359,7 +1359,7 @@
           column-gap: 5px;
 }
 
-.reminders__ctr .reminders__status {
+.reminders__ctr .reminder__status {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
@@ -1371,15 +1371,15 @@
   border-radius: 2px;
 }
 
-.reminders__ctr .reminders__status--overdue {
+.reminders__ctr .reminder__status--overdue {
   background-color: #DD7155;
 }
 
-.reminders__ctr .reminders__status--onTime {
+.reminders__ctr .reminder__status--onTime {
   background-color: #6AAC46;
 }
 
-.reminders__ctr .reminders__title {
+.reminders__ctr .reminder__title {
   -ms-grid-column: 3;
   -ms-grid-column-span: 1;
   grid-column: 3 / 4;
@@ -1391,7 +1391,7 @@
   font-size: 1rem;
 }
 
-.reminders__ctr .reminders__dueDate {
+.reminders__ctr .reminder__dueDate {
   -ms-grid-column: 3;
   -ms-grid-column-span: 1;
   grid-column: 3 / 4;
@@ -1403,7 +1403,7 @@
   font-size: 0.8rem;
 }
 
-.reminders__ctr .reminders__actions-complete {
+.reminders__ctr .reminder__actions-complete {
   -ms-grid-column: 1;
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
@@ -1419,16 +1419,16 @@
       align-content: center;
 }
 
-.reminders__ctr .reminders__actions-complete svg {
+.reminders__ctr .reminder__actions-complete svg {
   cursor: pointer;
 }
 
-.reminders__ctr .reminders:hover .reminders__actions-delete {
+.reminders__ctr .reminder:hover .reminder__actions-delete {
   display: -ms-grid;
   display: grid;
 }
 
-.reminders__ctr .reminders__actions-delete {
+.reminders__ctr .reminder__actions-delete {
   -ms-grid-column: 4;
   -ms-grid-column-span: 1;
   grid-column: 4 / 5;
@@ -1446,7 +1446,7 @@
           justify-content: center;
 }
 
-.reminders__ctr .reminders__actions-delete svg {
+.reminders__ctr .reminder__actions-delete svg {
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;

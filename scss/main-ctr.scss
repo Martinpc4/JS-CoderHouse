@@ -892,7 +892,7 @@
         // box modeling
         border-top: #{$border-main};
         padding: 10px;
-        .reminders {
+        .reminder {
             // grid son
             grid-column: 1 / 2;
             grid-row: auto;
@@ -948,7 +948,7 @@
                     cursor: pointer;
                 }
             }
-            &:hover .reminders__actions-delete {
+            &:hover .reminder__actions-delete {
                 display: grid;
             }
             &__actions-delete {

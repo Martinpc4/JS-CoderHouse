@@ -14,6 +14,7 @@ $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej
                 let newProject = new project(projectProperties);
                 newProject.tabs = [];
 
+                // * Format and instance the projects data
                 if (projectProperties.tabs != undefined) {
                     // Give the number format to id's
                     projectProperties.tabs.forEach(tabProperties => {
@@ -87,6 +88,8 @@ $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej
                 userProjects.push(newProject);
             });
 
+            // * Format and instance the data from userLastLocation
+
             // * Instance the user from MongoDB
             userData = new user({
                 // user sensitive data
@@ -102,7 +105,8 @@ $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej
             // Callback function to save the data retrieved into the global variable called "userData"
             createUserData(userData);
 
-            // * Fav projects container DOM
+            // * Generates projects and possibly fav proyects containers DOM
+            // Checks if there is a favourite proyect, if there is, it generates the fav projects container
             userData.projects.forEach(projectProperties => {
                 if (projectProperties.fav === true) {
                     const asideCtr = document.getElementById("asideCtr");
@@ -118,8 +122,7 @@ $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej
                     asideCtr.appendChild(favPrjCtr);
                 }
             });
-
-            // * Fill both (fav and not fav) containers with projects (DOM)
+            // Fills both (fav and not fav) containers with projects (DOM)
             const favProjectContainer = document.getElementById("favProjectContainer");
             const projectContainer = document.getElementById("projectContainer");
             userData.projects.forEach(projectProperties => {
@@ -147,35 +150,14 @@ $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej
                 }
             });
 
-            // *Set aside events listeners
+            // * Set aside events listeners
             asideProjectsEventListeners();
             asideOtherEventListeners();
             asideMenuEventListeners();
 
-            // * Retrieves the user's last location
-            if (userData.userLastLocation === true) {
-                userData.projects.forEach(projectProperties => {
-                    if (projectProperties.id == lastLocation.projectId) {
-                        createProjectTopBarDom(projectProperties);
-                        if (userData.userLastLocation.generalOverviewStatus === true) {
-                            createOverviewDOM(projectProperties);
-                        }
-                        else if ((userData.userLastLocation.generalOverviewStatus === false) && (userData.userLastLocation.specificTabStatus === true)) {
-                            projectProperties.tabs.forEach(tabProperties => {
-                                if (tabProperties.id == lastLocation.tabId) {
-                                    createTabDom(tabProperties);
-                                }
-                            });
-                        }
-                    }
-                });
-            }
-            else if (userData.userLastLocation.menuSection === true) {
-                if (userData.userLastLocation.menuSectionName == "menu") {
-                    createDashboardTopBar();
-                    createDashboardMainCtr();
-                }
-            }
+            // * Creates the DOM of the user's Dashboard
+            createDashboardMainCtr();
+            createDashboardTopBar();
         }
         else if (data == null) {
             console.log("INVALID USERNAME OR PASSWORD");
@@ -188,33 +170,39 @@ function createUserData(userDataProperties) {
 }
 
 function saveDataToDB() {
-    // userData.userLastLocation = new lastLocation({
-    //     "menuSection" : false,
-    //     "menuSectionName" : undefined,
-    //     "generalOverviewStatus" : true,
-    //     "projectStatus" : true,
-    //     "projectId" : undefined,
-    //     "projectColor" : undefined,
-    //     "specificTabStatus" : false,
-    //     "tabId" : undefined
-    // });
-    // userData.projects = [
-    //     {
-    //         "id": 42504, "name": "UCEMA", "fav": true, "color": "red", "tabs": [
-    //             { "tabOf": 42504, "id": 50297, "name": "Overview", "overview": true, "tasks": [], "goals": [], "reminders": [] },
-    //             { "tabOf": 42504, "id": 74927, "name": "Fundamentos de informatica", "tasks": [], "goals": [], "reminders": [] }
-    //         ]
-    //     },
-    //     {
-    //         "id": 4250412321, "name": "CoderHouse", "fav": false, "color": "orange", "tabs": [
-    //             { "tabOf": 4250412321, "id": 50297, "name": "Overview", "overview": true, "tasks": [], "goals": [], "reminders": [] },
-    //             { "tabOf": 4250412321, "id": 74927, "name": "JavaScript", "tasks": [], "goals": [], "reminders": [] }
-    //         ]
-    //     }
-    // ]q
+    // * Sent data to DB
     $.post("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej/service/TaskTabs-API/incoming_webhook/webhook-projects-data?secret=TasksTabs-API-3548653s47df8sd4g78ftjh636f786hadf",
-        { "userId": "684324812383548613", "userLastLocation": JSON.stringify(userData.userLastLocation), "projects": JSON.stringify(userData.projects) },
-        function (data, textStatus, jqXHR) {
-        }
+    { "userId": "684324812383548613", "userLastLocation": JSON.stringify(userData.userLastLocation), "projects": JSON.stringify(userData.projects) },
+    function (data, textStatus, jqXHR) {
+    }
     );
+    // * Save data in Local Storage
+    localStorage.setItem("userProjects", JSON.stringify(userData.projects));
+    localStorage.setItem("userLastLocation", JSON.stringify(userData.userLastLocation));
 };
+
+
+// userData.userLastLocation = new lastLocation({
+//     "menuSection" : false,
+//     "menuSectionName" : undefined,
+//     "generalOverviewStatus" : true,
+//     "projectStatus" : true,
+//     "projectId" : undefined,
+//     "projectColor" : undefined,
+//     "specificTabStatus" : false,
+//     "tabId" : undefined
+// });
+// userData.projects = [
+//     {
+//         "id": 42504, "name": "UCEMA", "fav": true, "color": "red", "tabs": [
+//             { "tabOf": 42504, "id": 50297, "name": "Overview", "overview": true, "tasks": [], "goals": [], "reminders": [] },
+//             { "tabOf": 42504, "id": 74927, "name": "Fundamentos de informatica", "tasks": [], "goals": [], "reminders": [] }
+//         ]
+//     },
+//     {
+//         "id": 4250412321, "name": "CoderHouse", "fav": false, "color": "orange", "tabs": [
+//             { "tabOf": 4250412321, "id": 50297, "name": "Overview", "overview": true, "tasks": [], "goals": [], "reminders": [] },
+//             { "tabOf": 4250412321, "id": 74927, "name": "JavaScript", "tasks": [], "goals": [], "reminders": [] }
+//         ]
+//     }
+// ]q

@@ -6,7 +6,7 @@
 // * (DOM Functions) - Menu
 
 // (DOM Function) Dashboard Section
-function createDashboardTopBar () {
+function createDashboardTopBar() {
     // Create Top Bar Ctr
     const topBarCtr = document.getElementById("topBarCtr");
     topBarCtr.innerHTML = "";
@@ -23,7 +23,7 @@ function createDashboardTopBar () {
     `;
     topBarCtr.appendChild(topBarInfoCtr);
 }
-function createDashboardMainCtr () {
+function createDashboardMainCtr() {
     // create the DOM
     $("#mainCtr").innerHTML = "";
     $("#mainCtr").prepend(`
@@ -38,21 +38,21 @@ function createDashboardMainCtr () {
 
     let totalTGRCompleted = 0;
     let totalTGR = 0;
-    userData.projects.forEach( projectProperties => {
-        projectProperties.tabs.forEach( tabProperties => {
-            tabProperties.tasks.forEach( taskProperties => {
+    userData.projects.forEach(projectProperties => {
+        projectProperties.tabs.forEach(tabProperties => {
+            tabProperties.tasks.forEach(taskProperties => {
                 totalTGR += 1;
                 if (taskProperties.doneState === true) {
                     totalTGRCompleted += 1;
                 }
             });
-            tabProperties.goals.forEach( goalProperties => {
+            tabProperties.goals.forEach(goalProperties => {
                 totalTGR += 1;
                 if (goalProperties.doneState === true) {
                     totalTGRCompleted += 1;
                 }
             });
-            tabProperties.reminders.forEach( reminderProperties => {
+            tabProperties.reminders.forEach(reminderProperties => {
                 totalTGR += 1;
                 if (reminderProperties.doneState === true) {
                     totalTGRCompleted += 1;
@@ -62,7 +62,7 @@ function createDashboardMainCtr () {
         $("#menuSectionDashboardPrjStatsCtr").append(`
             <div class="menu-section__prjs-stats__prj">
                 <div class="menu-section__prjs-stats__prj__data border-${projectProperties.color}">
-                    <p>${isNaN((totalTGR * 100)/totalTGRCompleted) ? 100 : (totalTGR * 100)/totalTGRCompleted}%</p>
+                    <p>${isNaN((totalTGR * 100) / totalTGRCompleted) ? 100 : (totalTGR * 100) / totalTGRCompleted}%</p>
                 </div>
                 <div class="menu-section__prjs-stats__prj__name">
                     <p>${projectProperties.name}</p>
@@ -72,7 +72,7 @@ function createDashboardMainCtr () {
     });
 
     // Random Advice Component
-    $.get("https://api.quotable.io/quotes?tags=inspirational|inspiration?maxLength=50",function (data, statusCode) {
+    $.get("https://api.quotable.io/quotes?tags=inspirational|inspiration?maxLength=50", function (data, statusCode) {
         if (statusCode == "success") {
             let quoteNumber = Math.floor(Math.random() * (data.results.length - 1) + 1);
             let randomQuote = String('"' + data.results[quoteNumber].content + '" -' + data.results[quoteNumber].author);
@@ -95,23 +95,25 @@ function createDashboardMainCtr () {
 
 // (Top Bar) - Prj Navigation Bar
 function createProjectTopBarDom(projectProperties) {
+    // Set user last location
+    if ((userData.userLastLocation.projectId != projectProperties.id) || (userData.userLastLocation.menuSection == true)) {
+        userData.userLastLocation.menuSection = false;
+        userData.userLastLocation.menuSectionName = undefined;
+        userData.userLastLocation.projectStatus = true;
+        userData.userLastLocation.projectId = projectProperties.id;
+        userData.userLastLocation.projectColor = projectProperties.color;
+        // saveDataToDB();
+    }
+
     // Create Top Bar Ctr
+    $("#topBarCtr").empty();
     const topBarCtr = document.getElementById("topBarCtr");
-    topBarCtr.innerHTML = "";
 
     // Create topBarInfoCtr
 
-    // Obtain the project status
-    let prjOnTime = undefined;
-    projectProperties.tabs.forEach(tabProperties => {
-        if (tabProperties.overview === false) {
-            tabProperties.tasks.forEach(taskProperties => {
-                if (taskProperties.onTime === false) {
-                    prjOnTime = false;
-                }
-            });
-        }
-    });
+    // Check the project status
+    projectProperties.onTime = projectProperties.checkOnTime();
+
     // Generate the DOM
     const topBarInfoCtr = document.createElement("div");
     topBarInfoCtr.className = "top-bar__title-ctr";
@@ -128,10 +130,10 @@ function createProjectTopBarDom(projectProperties) {
             </svg>
         `}
         <div class="top-bar__title-ctr__prj-status">
-            ${prjOnTime === false ? `
+            ${projectProperties.onTime === false ? `
                 <div class="top-bar__title-ctr__prj-status__color background-red"></div>
                 <p class="top-bar__title-ctr__prj-status__text">Delayed</p>
-                `:`
+                `: `
                 <div class="top-bar__title-ctr__prj-status__color background-green"></div>
                 <p class="top-bar__title-ctr__prj-status__text">On track</p>
             `}
@@ -251,13 +253,13 @@ function createProjectTopBarDom(projectProperties) {
         topBarTabsCtr.appendChild(newTab);
     });
     topBarCtr.appendChild(topBarTabsCtr);
+
     // Create event listeners for each tab
-    const TabLinks = document.getElementsByClassName("top-bar__tabs-ctr__tab");
-    for (const TabLink of TabLinks) {
-        TabLink.addEventListener("click", (event) => {
-            userData.projects.forEach(projectProperties => {
+    $(".top-bar__tabs-ctr__tab").on("click", function (e) {
+        userData.projects.forEach(projectProperties => {
+            if (projectProperties.id == userData.userLastLocation.projectId) {
                 projectProperties.tabs.forEach(tabProperties => {
-                    if (tabProperties.id == event.target.parentNode.id) {
+                    if (tabProperties.id == e.target.parentNode.id) {
                         if (tabProperties.overview === false) {
                             createTabDom(tabProperties);
                         }
@@ -266,28 +268,29 @@ function createProjectTopBarDom(projectProperties) {
                         }
                     }
                 });
-            });
+            }
         });
-    }
+    });
 }
-// (Main Ctr) Prj Overview Tab DOM
+
+// * (Main Ctr) Prj Overview Tab DOM
 function createOverviewDOM(projectProperties) {
     // Save last location
     if ((userData.userLastLocation.generalOverviewStatus === false) || (userData.userLastLocation.projectId != projectProperties.id)) {
         userData.userLastLocation = new lastLocation({
-            "menuSection" : false,
-            "menuSectionName" : undefined,
-            "generalOverviewStatus" : true,
-            "projectStatus" : true,
-            "projectId" : projectProperties.id,
-            "projectColor" : projectProperties.color,
-            "specificTabStatus" : false,
-            "tabId" : undefined
+            "menuSection": false,
+            "menuSectionName": undefined,
+            "generalOverviewStatus": true,
+            "projectStatus": true,
+            "projectId": projectProperties.id,
+            "projectColor": projectProperties.color,
+            "specificTabStatus": false,
+            "tabId": undefined
         });
         saveDataToDB();
     }
 
-   1 // Generate Overview Components DOM
+    1 // Generate Overview Components DOM
     const mainCtr = document.getElementById("mainCtr");
     mainCtr.innerHTML = "";
     let prjOverview = document.createElement("div");
@@ -357,14 +360,22 @@ function createOverviewDOM(projectProperties) {
             // storing user given values in them
             let tabName = String(document.getElementById("alertTabName").value);
             if (tabName != "") {
-                // tab object creation
-                let newTab = { "name": tabName, "tabOf": userData.userLastLocation.projectId, "overview": false, };
-                newTab = new tab(newTab);
                 // adding the new tab to the project
                 userData.projects.forEach(projectProperties => {
-                    if (projectProperties.id == userData.userData.userLastLocation.projectId) {
+                    if (projectProperties.id == userData.userLastLocation.projectId) {
+                        // creates a random id for the tab
+                        let tabId = randomId(projectProperties.tabs);
+                        // tab object creation
+                        let newTab = { "name": tabName, "tabOf": userData.userLastLocation.projectId, "id": tabId, "overview": false, };
+                        newTab = new tab(newTab);
                         projectProperties.tabs.push(newTab);
+                        // saves data in the db
                         saveDataToDB();
+                        // removes the alert
+                        $(".alertMin").remove();
+                        // creates DOM of the new Tab
+                        createOverviewDOM(projectProperties);
+                        createProjectTopBarDom(projectProperties);
                     }
                 });
             }
@@ -381,21 +392,27 @@ function createOverviewDOM(projectProperties) {
             let goalsNotFinished = 0;
             let remindersNotFinished = 0;
 
-            tabProperties.tasks.forEach(taskProperties => {
-                if (taskProperties.doneState == false) {
-                    tasksNotFinished++;
-                }
-            });
-            tabProperties.goals.forEach(goalProperties => {
-                if (goalProperties.doneState == false) {
-                    goalsNotFinished++;
-                }
-            });
-            tabProperties.reminders.forEach(reminderProperties => {
-                if (reminderProperties.doneState == false) {
-                    remindersNotFinished++;
-                }
-            });
+            if (tabProperties.tasks != undefined) {
+                tabProperties.tasks.forEach(taskProperties => {
+                    if (taskProperties.doneState == false) {
+                        tasksNotFinished++;
+                    }
+                });
+            }
+            if (tabProperties.goals != undefined) {
+                tabProperties.goals.forEach(goalProperties => {
+                    if (goalProperties.doneState == false) {
+                        goalsNotFinished++;
+                    }
+                });
+            }
+            if (tabProperties.reminders != undefined) {
+                tabProperties.reminders.forEach(reminderProperties => {
+                    if (reminderProperties.doneState == false) {
+                        remindersNotFinished++;
+                    }
+                });
+            }
             // Create the DOM for a new tab
             let newTab = document.createElement("div");
             newTab.className = "tabs-stat__ctr__tab";
@@ -429,12 +446,14 @@ function createOverviewDOM(projectProperties) {
         for (const overviewBtnTabDelete of document.getElementsByClassName("overviewBtnsTabsDelete")) {
             overviewBtnTabDelete.addEventListener("click", (event) => {
                 userData.projects.forEach(projectProperties => {
-                    if (projectProperties.id == userData.userData.userLastLocation.projectId) {
+                    if (projectProperties.id == userData.userLastLocation.projectId) {
                         let i = 0;
                         projectProperties.tabs.forEach(tabProperties => {
                             if (tabProperties.id == event.target.parentNode.parentNode.id) {
                                 projectProperties.tabs.splice(i, 1);
                                 saveDataToDB();
+                                createOverviewDOM(projectProperties);
+                                createProjectTopBarDom(projectProperties);
                             }
                             else {
                                 i++;
@@ -454,14 +473,14 @@ function createTabDom(tabProperties) {
         userData.projects.forEach(projectProperties => {
             if (projectProperties.id == tabProperties.tabOf) {
                 userData.userLastLocation = new lastLocation({
-                    "menuSection" : false,
-                    "menuSectionName" : undefined,
-                    "generalOverviewStatus" : false,
-                    "projectStatus" : true,
-                    "projectId" : projectProperties.id,
-                    "projectColor" : projectProperties.color,
-                    "specificTabStatus" : true,
-                    "tabId" : tabProperties.id
+                    "menuSection": false,
+                    "menuSectionName": undefined,
+                    "generalOverviewStatus": false,
+                    "projectStatus": true,
+                    "projectId": projectProperties.id,
+                    "projectColor": projectProperties.color,
+                    "specificTabStatus": true,
+                    "tabId": tabProperties.id
                 });
                 saveDataToDB();
             }
@@ -469,9 +488,8 @@ function createTabDom(tabProperties) {
     }
 
     // Generate Specific Tab DOM
-    const mainCtr = document.getElementById("mainCtr");
-    mainCtr.innerHTML = "";
-    mainCtr.innerHTML = `
+    document.getElementById("mainCtr").innerHTML = "";
+    $("#mainCtr").append(`
         <div id="${tabProperties.id}" class="Goals-Tasks-Reminders-Ctr">
             <div class="goals">
                 <div class="goals__info">
@@ -510,10 +528,10 @@ function createTabDom(tabProperties) {
                 </div>
             </div>
         </div>
-    `;
+    `);
 
     // Generate existing Tasks, Goals and Reminders DOM
-    $("#mainCtr").ready(function () {
+    $(`#${tabProperties.id}`).ready(function () {
         tabProperties.tasks.forEach(taskProperties => {
             taskProperties.generateDOM(false);
         });
@@ -523,10 +541,30 @@ function createTabDom(tabProperties) {
         tabProperties.reminders.forEach(reminderProperties => {
             reminderProperties.generateDOM(false);
         });
-
         // Generates the events listener for all generated Tasks, Goals and Reminders DOM
         goalsEventsListeners();
-        remindersEventListeners();
         tasksEventsListeners();
+        remindersEventListeners();
+    });
+
+}
+
+
+function reloadTab() {
+    // Remove the current Tab Dom
+    $("#mainCtr").empty();
+    $("#topBarCtr").empty();
+
+    // Create the updated Tab DOM and Project Tab DOM
+    userData.projects.forEach(projectProperties => {
+        if (projectProperties.id == userData.userLastLocation.projectId) {
+            createProjectTopBarDom(projectProperties);
+
+            projectProperties.tabs.forEach(tabProperties => {
+                if (tabProperties.id == userData.userLastLocation.tabId) {
+                    createTabDom(tabProperties);
+                }
+            });
+        }
     });
 }
