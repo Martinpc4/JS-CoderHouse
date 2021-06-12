@@ -10,4 +10,4 @@ Este proyecto consiste en una aplicación del tipo "task manager" llamada _TaskT
 
 ### About this Project
 This is my final project for the JavaScript course on [CoderHouse](https://www.coderhouse.com), which is a part of the full-stack web developer career.
-This proyect consists of an web-developed app, a "task manager" type, called _TaskTabs_ that was built with JavaScript and jQuery. In order to store data, I sleected a NoSQL database, MongoDB. Please, before interacting in anyway with the project, read the license carefully, wich can be found in the file "license.md".
+This proyect consists of an web-developed app, a "task manager" type, called _TaskTabs_ that was built with JavaScript and jQuery. In order to store data, I slected a NoSQL database, MongoDB. Please, before interacting in anyway with the project, read the license carefully, wich can be found in the file "license.md".
