@@ -387,7 +387,6 @@ function goalsEventsListeners() {
 function remindersEventListeners() {
     // * Create a Reminder (+)
     $("#reminderBtnCreate").on("click", function () {
-        console.log("PING");
         // Create alertMin DOM
         $("#mainCtr").append(`
             <div class="alertMin">

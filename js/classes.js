@@ -45,6 +45,13 @@ class project {
                         }
                     });
                 }
+                if (tabProperties.reminders != undefined) {
+                    tabProperties.reminders.forEach(reminderProperties => {
+                        if (((onTime(reminderProperties.dueDate)) === false) && (reminderProperties.doneState === false)) {
+                            isThere = true;
+                        }
+                    });
+                }
             }
         });
 
@@ -154,12 +161,14 @@ class goal {
         `);
     }
     complete() {
+        console.log(this.doneState);
         if (this.doneState === true) {
             this.doneState = false;
         }
         else if (this.doneState === false) {
             this.doneState = true;
         }
+        console.log(this.doneState);
         saveDataToDB();
         reloadTab();
     }
@@ -171,6 +180,15 @@ class reminder {
         this.dueDate = reminderProperties.dueDate;
         this.doneState = reminderProperties.doneState === undefined ? false : reminderProperties.doneState;
         this.onTime = this.doneState === false ? onTime(this.dueDate) : true;
+    }
+    checkOnTime() {
+        if (this.doneState === true) {
+            this.onTime = true;
+        }
+        else if ((this.doneState === false) && (onTime(this.dueDate)) !== (this.onTime)) {
+            this.onTime = onTime(this.dueDate);
+            saveDataToDB();
+        }
     }
     generateDOM(display) {
         $("#remindersCtr").append(`
@@ -204,6 +222,7 @@ class reminder {
         else if (this.doneState === false) {
             this.doneState = true;
         }
+        this.checkOnTime();
         saveDataToDB();
         reloadTab();
     }

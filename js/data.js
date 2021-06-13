@@ -1,6 +1,5 @@
 // ! App Data Collections
 let userData = {}; // includes id, name, last name, projects, config
-let test = {};
 
 // ! Retrieve storage from Mongo DB 
 $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej/service/TaskTabs-API/incoming_webhook/webhook-user-data?secret=TaskTabs-user-data-fdsg68j7hfjl56468sert4y68ty3jk7safg",
@@ -87,8 +86,6 @@ $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej
                 }
                 userProjects.push(newProject);
             });
-
-            // * Format and instance the data from userLastLocation
 
             // * Instance the user from MongoDB
             userData = new user({

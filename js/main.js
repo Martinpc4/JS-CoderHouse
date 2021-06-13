@@ -1,5 +1,6 @@
 // ! General DOM Functions
 
+// * Reaload the last tab the user visited
 function reloadTab() {
     // Remove the current Tab Dom
     $("#mainCtr").empty();
@@ -21,6 +22,7 @@ function reloadTab() {
     });
 }
 
+// * Reaload Aside Project containers function
 function realoadAsidePrjs() {
     $("#favProjectContainer").empty();
     $("#projectContainer").empty();
@@ -93,33 +95,43 @@ function createDashboardMainCtr() {
         </div>
     `);
 
-    let totalTGRCompleted = 0;
-    let totalTGR = 0;
     userData.projects.forEach(projectProperties => {
+        let totalTGRCompleted = 0;
+        let totalTGR = 0;
+
         projectProperties.tabs.forEach(tabProperties => {
-            tabProperties.tasks.forEach(taskProperties => {
-                totalTGR += 1;
-                if (taskProperties.doneState === true) {
-                    totalTGRCompleted += 1;
+            if (tabProperties.overview === false) {
+                if (tabProperties.tasks != undefined) {
+                    tabProperties.tasks.forEach(taskProperties => {
+                        totalTGR += 1;
+                        if (taskProperties.doneState === true) {
+                            totalTGRCompleted += 1;
+                        }
+                    });
                 }
-            });
-            tabProperties.goals.forEach(goalProperties => {
-                totalTGR += 1;
-                if (goalProperties.doneState === true) {
-                    totalTGRCompleted += 1;
+                if (tabProperties.goals != undefined) {
+                    tabProperties.goals.forEach(goalProperties => {
+                        totalTGR += 1;
+                        if (goalProperties.doneState === true) {
+                            totalTGRCompleted += 1;
+                        }
+                    });
                 }
-            });
-            tabProperties.reminders.forEach(reminderProperties => {
-                totalTGR += 1;
-                if (reminderProperties.doneState === true) {
-                    totalTGRCompleted += 1;
+                if (tabProperties.reminders != undefined) {
+                    tabProperties.reminders.forEach(reminderProperties => {
+                        totalTGR += 1;
+                        if (reminderProperties.doneState === true) {
+                            totalTGRCompleted += 1;
+                        }
+                    });
                 }
-            });
+            }
         });
+
         $("#menuSectionDashboardPrjStatsCtr").append(`
             <div class="menu-section__prjs-stats__prj">
                 <div class="menu-section__prjs-stats__prj__data border-${projectProperties.color}">
-                    <p>${isNaN((totalTGR * 100) / totalTGRCompleted) ? 100 : (totalTGR * 100) / totalTGRCompleted}%</p>
+                    <p>${isNaN((totalTGRCompleted * 100) / totalTGR) ? 100 : Math.floor((totalTGRCompleted * 100) / totalTGR)}%</p>
                 </div>
                 <div class="menu-section__prjs-stats__prj__name">
                     <p>${projectProperties.name}</p>
