@@ -65,9 +65,9 @@ class tab {
         this.id = tabProperties.id;
         this.name = tabProperties.name;
         this.overview = tabProperties.overview === undefined ? false : tabProperties.overview;
-        this.tasks = tabProperties.tasks;
-        this.goals = tabProperties.goals;
-        this.reminders = tabProperties.reminders;
+        this.tasks = tabProperties.tasks == undefined ? [] : tabProperties.tasks;
+        this.goals = tabProperties.goals == undefined ? [] : tabProperties.goals;
+        this.reminders = tabProperties.reminders == undefined ? [] : tabProperties.reminders;
     }
 }
 // Wed Dec 31 1969 21:00:00 GMT-0300 (-03)

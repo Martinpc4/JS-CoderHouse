@@ -106,49 +106,7 @@ $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej
             createUserData(userData);
 
             // * Generates projects and possibly fav proyects containers DOM
-            // Checks if there is a favourite proyect, if there is, it generates the fav projects container
-            userData.projects.forEach(projectProperties => {
-                if (projectProperties.fav === true) {
-                    const asideCtr = document.getElementById("asideCtr");
-                    let favPrjCtr = document.createElement("div");
-                    favPrjCtr.className = "fav-prjs";
-                    favPrjCtr.innerHTML = `
-                        <div class="fav-prjs__title">
-                            <p>Favourites</p>
-                        </div>
-                        <div id="favProjectContainer" class="fav-prjs__prj-ctr">
-                        </div>
-                    `;
-                    asideCtr.appendChild(favPrjCtr);
-                }
-            });
-            // Fills both (fav and not fav) containers with projects (DOM)
-            const favProjectContainer = document.getElementById("favProjectContainer");
-            const projectContainer = document.getElementById("projectContainer");
-            userData.projects.forEach(projectProperties => {
-                // projects ctr
-                if (projectProperties.fav === false) {
-                    let projectDom = document.createElement("div");
-                    projectDom.className = "prjs__prjs-ctr__prj";
-                    projectDom.id = `${projectProperties.id}`;
-                    projectDom.innerHTML = `
-                        <div class="prjs__prjs-ctr__prj__color background-${projectProperties.color}"></div>
-                        <p>${projectProperties.name}</p>
-                    `;
-                    projectContainer.appendChild(projectDom);
-                }
-                // fav projects ctr
-                if (projectProperties.fav === true) {
-                    let favProjectDom = document.createElement("div");
-                    favProjectDom.className = "prjs__prjs-ctr__prj";
-                    favProjectDom.id = `${projectProperties.id}`;
-                    favProjectDom.innerHTML = `
-                        <div class="prjs__prjs-ctr__prj__color background-${projectProperties.color}"></div>
-                        <p>${projectProperties.name}</p>
-                    `;
-                    favProjectContainer.appendChild(favProjectDom);
-                }
-            });
+            realoadAsidePrjs();
 
             // * Set aside events listeners
             asideProjectsEventListeners();

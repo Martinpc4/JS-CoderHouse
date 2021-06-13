@@ -9,12 +9,56 @@ function reloadTab() {
     userData.projects.forEach(projectProperties => {
         if (projectProperties.id == userData.userLastLocation.projectId) {
             createProjectTopBarDom(projectProperties);
-
             projectProperties.tabs.forEach(tabProperties => {
-                if (tabProperties.id == userData.userLastLocation.tabId) {
+                if (userData.userLastLocation.generalOverviewStatus === true) {
+                    createOverviewDOM(projectProperties);
+                }
+                else if ((tabProperties.id == userData.userLastLocation.tabId) && (userData.userLastLocation.generalOverviewStatus === false)) {
                     createTabDom(tabProperties);
                 }
             });
+        }
+    });
+}
+
+function realoadAsidePrjs() {
+    $("#favProjectContainer").empty();
+    $("#projectContainer").empty();
+    // Checks if there is a favourite proyect, if there is, it generates the fav projects container
+    userData.projects.forEach(projectProperties => {
+        if (projectProperties.fav === true) {
+            const asideCtr = document.getElementById("asideCtr");
+            let favPrjCtr = document.createElement("div");
+            favPrjCtr.className = "fav-prjs";
+            favPrjCtr.innerHTML = `
+                <div class="fav-prjs__title">
+                    <p>Favourites</p>
+                </div>
+                <div id="favProjectContainer" class="fav-prjs__prj-ctr">
+                </div>
+            `;
+            asideCtr.appendChild(favPrjCtr);
+        }
+    });
+    // Fills both (fav and not fav) containers with projects (DOM)
+    userData.projects.forEach(projectProperties => {
+        // projects ctr
+        if (projectProperties.fav === false) {
+            $("#projectContainer").append(`
+            <div id="${projectProperties.id}" class="prjs__prjs-ctr__prj">
+            <div class="prjs__prjs-ctr__prj__color background-${projectProperties.color}"></div>
+            <p>${projectProperties.name}</p>
+            </div>
+            `);
+        }
+        // fav projects ctr
+        if (projectProperties.fav === true) {
+            $("#favProjectContainer").append(`
+                <div id="${projectProperties.id}" class="prjs__prjs-ctr__prj">
+                    <div class="prjs__prjs-ctr__prj__color background-${projectProperties.color}"></div>
+                    <p>${projectProperties.name}</p>
+                </div>
+            `);
         }
     });
 }
@@ -157,7 +201,7 @@ function createProjectTopBarDom(projectProperties) {
                 }
                 saveDataToDB();
             }
-        }); 
+        });
     });
 
     // Create topBarInfoActionsCtr
@@ -209,7 +253,7 @@ function createProjectTopBarDom(projectProperties) {
         });
 
         // Capture alert data (Config)
-        $("#alertMinForm").submit(function (e) { 
+        $("#alertMinForm").submit(function (e) {
             e.preventDefault();
             // change name
             let alertProjectNewName = String($("#alertMinProjectNewName").val());
@@ -223,6 +267,10 @@ function createProjectTopBarDom(projectProperties) {
                 userData.userLastLocation.projectColor = alertProjectNewColor;
             }
             saveDataToDB();
+            $(".alertMin").remove();
+            // reload the containers with the updated data
+            reloadTab();
+            realoadAsidePrjs();
         });
 
         // Event delete project (btn)
@@ -246,7 +294,7 @@ function createProjectTopBarDom(projectProperties) {
     `);
     projectProperties.tabs.forEach(projectTab => {
         $("#topBarTabsCtr").append(`
-            <div id="${projectTab.id}" class="top-bar__tabs-ctr__tab tab-link tab-link--${projectProperties.color}}">
+            <div id="${projectTab.id}" class="top-bar__tabs-ctr__tab tab-link tab-link--${projectProperties.color}">
                 <p>${projectTab.name}</p>
             </div>
         `);
@@ -288,7 +336,8 @@ function createOverviewDOM(projectProperties) {
         saveDataToDB();
     }
 
-    1 // Generate Overview Components DOM
+    // Generate Overview Components DOM
+    $("#mainCtr").empty();
     $("#mainCtr").append(`
         <div class="prj-overview">
             <div class="tabs-stat">
@@ -350,7 +399,7 @@ function createOverviewDOM(projectProperties) {
         });
 
         // Capture data
-        $("#alertMinForm").submit(function (e) { 
+        $("#alertMinForm").submit(function (e) {
             e.preventDefault();
             // storing user given values in them
             let tabName = String($("#alertTabName").val());
@@ -435,24 +484,26 @@ function createOverviewDOM(projectProperties) {
             `);
         }
 
-        // Delete Tab - Event Listener
-        $("#overviewBtnsTabsDelete").on("click", function (e) {
-            userData.projects.forEach(projectProperties => {
-                if (projectProperties.id == userData.userLastLocation.projectId) {
-                    let i = 0;
-                    projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == e.target.parentNode.parentNode.id) {
-                            projectProperties.tabs.splice(i, 1);
-                            saveDataToDB();
-                            createOverviewDOM(projectProperties);
-                            createProjectTopBarDom(projectProperties);
-                        }
-                        else {
-                            i++;
-                        }
-                    });
-                }
-            });
+    });
+
+    // Delete Tab - Event Listener
+    $(".overviewBtnsTabsDelete").on("click", function (e) {
+        console.log("POING DELETE");
+        userData.projects.forEach(projectProperties => {
+            if (projectProperties.id == userData.userLastLocation.projectId) {
+                let i = 0;
+                projectProperties.tabs.forEach(tabProperties => {
+                    if (tabProperties.id == e.target.parentNode.parentNode.id) {
+                        projectProperties.tabs.splice(i, 1);
+                        saveDataToDB();
+                        createOverviewDOM(projectProperties);
+                        createProjectTopBarDom(projectProperties);
+                    }
+                    else {
+                        i++;
+                    }
+                });
+            }
         });
     });
 }
@@ -523,15 +574,21 @@ function createTabDom(tabProperties) {
 
     // Generate existing Tasks, Goals and Reminders DOM
     $(`#${tabProperties.id}`).ready(function () {
-        tabProperties.tasks.forEach(taskProperties => {
-            taskProperties.generateDOM(false);
-        });
-        tabProperties.goals.forEach(goalProperties => {
-            goalProperties.generateDOM(false);
-        });
-        tabProperties.reminders.forEach(reminderProperties => {
-            reminderProperties.generateDOM(false);
-        });
+        if (tabProperties.tasks != undefined) {
+            tabProperties.tasks.forEach(taskProperties => {
+                taskProperties.generateDOM(false);
+            });
+        }
+        if (tabProperties.goals != undefined) {
+            tabProperties.goals.forEach(goalProperties => {
+                goalProperties.generateDOM(false);
+            });
+        }
+        if (tabProperties.reminders != undefined) {
+            tabProperties.reminders.forEach(reminderProperties => {
+                reminderProperties.generateDOM(false);
+            });
+        }
         // Generates the events listener for all generated Tasks, Goals and Reminders DOM
         goalsEventsListeners();
         tasksEventsListeners();
