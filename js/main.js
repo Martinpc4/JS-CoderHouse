@@ -39,7 +39,7 @@ function createDashboardTopBar() {
 // Create dashboard MainCtr
 function createDashboardMainCtr() {
     // create the DOM
-    $("#mainCtr").empty());
+    $("#mainCtr").empty();
     $("#mainCtr").prepend(`
         <div class="menu-section">
             <div class="menu-section__random-quote">
