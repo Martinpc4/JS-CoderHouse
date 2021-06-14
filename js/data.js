@@ -99,20 +99,23 @@ $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej
                 "userConfig": data.userConfig,
                 "userLastLocation": data.userLastLocation
             });
-            // Callback function to save the data retrieved into the global variable called "userData"
-            createUserData(userData);
-
+            createUserData(userData); // function to save the data retrieved into the global variable called "userData"
+            
             // * Generates projects and possibly fav proyects containers DOM
             realoadAsidePrjs();
-
+            
             // * Set aside events listeners
             asideProjectsEventListeners();
             asideOtherEventListeners();
             asideMenuEventListeners();
-
-            // * Creates the DOM of the user's Dashboard
+            
+            // * Creates the DOM of the user's Dashboard (default)
             createDashboardMainCtr();
             createDashboardTopBar();
+            
+            // * Retrieve userLastLocation
+            userData.userLastLocation = new lastLocation(data.userLastLocation);
+            // saveDataToDB();
         }
         else if (data == null) {
             console.log("INVALID USERNAME OR PASSWORD");

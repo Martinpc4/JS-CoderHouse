@@ -1,5 +1,6 @@
 // ! Classes
 
+// * Last Location Class
 class lastLocation {
     constructor(lastLocationProperties) {
         this.menuSection = lastLocationProperties.menuSection;
@@ -11,7 +12,42 @@ class lastLocation {
         this.specificTabStatus = lastLocationProperties.specificTabStatus;
         this.tabId = lastLocationProperties.tabId;
     }
+    // Set a specific project as last location (with everything in undefined or false for later re-use)
+    specificProject(projectProperties) {
+        this.menuSection = false;
+        this.menuSectionName = undefined;
+        this.generalOverviewStatus = false;
+        this.projectStatus = true;
+        this.projectId = projectProperties.id;
+        this.projectColor = projectProperties.color;
+        this.specificTabStatus = false;
+        this.tabId = undefined;
+    }
+    // Set a specifica tab of a project as last location
+    specificTab(projectProperties, tabProperties) {
+        this.specificProject(projectProperties);
+        this.specificTabStatus = true;
+        this.tabId = tabProperties.id;
+    }
+    // Set an overview tab of a project as last location
+    overviewTab(projectProperties) {
+        this.specificProject(projectProperties);
+        this.generalOverviewStatus = true;
+    }
+    // Set a menu section to the last location
+    menuSection(sectionProperties) {
+        this.menuSection = true;
+        this.menuSectionName = String(sectionProperties.menuSectionName);
+        this.generalOverviewStatus = false;
+        this.projectStatus = false;
+        this.projectId = undefined;
+        this.projectColor = undefined;
+        this.specificTabStatus = false;
+        this.tabId = undefined;
+    }
 }
+
+// * Users Class
 class user {
     constructor(userProperties) {
         this.userId = userProperties.userId;
@@ -22,6 +58,8 @@ class user {
         this.userLastLocation = userProperties.userLastLocation;
     }
 }
+
+// * Projects Class
 class project {
     constructor(projectProperties) {
         this.id = projectProperties.id === undefined ? randomId(userData.projects) : projectProperties.id;
@@ -66,18 +104,21 @@ class project {
         }
     }
 }
+
+// * Tabs Class
 class tab {
     constructor(tabProperties) {
         this.tabOf = tabProperties.tabOf;
         this.id = tabProperties.id;
         this.name = tabProperties.name;
         this.overview = tabProperties.overview === undefined ? false : tabProperties.overview;
-        this.tasks = tabProperties.tasks == undefined ? [] : tabProperties.tasks;
-        this.goals = tabProperties.goals == undefined ? [] : tabProperties.goals;
-        this.reminders = tabProperties.reminders == undefined ? [] : tabProperties.reminders;
+        this.tasks = tabProperties.tasks == undefined ? (this.overview === false ? [] : undefined) : tabProperties.tasks;
+        this.goals = tabProperties.goals == undefined ? (this.overview === false ? [] : undefined) : tabProperties.goals;
+        this.reminders = tabProperties.reminders == undefined ? (this.overview === false ? [] : undefined) : tabProperties.reminders;
     }
 }
-// Wed Dec 31 1969 21:00:00 GMT-0300 (-03)
+
+// * Tasks Class
 class task {
     constructor(taskProperties) {
         this.id = taskProperties.id;
@@ -131,6 +172,8 @@ class task {
         reloadTab();
     }
 }
+
+// * Goals Class
 class goal {
     constructor(goalProperties) {
         this.id = goalProperties.id;
@@ -161,18 +204,18 @@ class goal {
         `);
     }
     complete() {
-        console.log(this.doneState);
         if (this.doneState === true) {
             this.doneState = false;
         }
         else if (this.doneState === false) {
             this.doneState = true;
         }
-        console.log(this.doneState);
         saveDataToDB();
         reloadTab();
     }
 }
+
+// * Reminders Class
 class reminder {
     constructor(reminderProperties) {
         this.id = reminderProperties.id;

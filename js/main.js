@@ -26,22 +26,26 @@ function reloadTab() {
 function realoadAsidePrjs() {
     $("#favProjectContainer").empty();
     $("#projectContainer").empty();
-    // Checks if there is a favourite proyect, if there is, it generates the fav projects container
+    // Checks if there is a favourite proyect. If there is, it generates the fav projects container, if there aren't any, it removes the fav prj ctr
+    let isThereFav = false;
     userData.projects.forEach(projectProperties => {
         if (projectProperties.fav === true) {
-            const asideCtr = document.getElementById("asideCtr");
-            let favPrjCtr = document.createElement("div");
-            favPrjCtr.className = "fav-prjs";
-            favPrjCtr.innerHTML = `
-                <div class="fav-prjs__title">
-                    <p>Favourites</p>
+            isThereFav = true;
+            $("#asideCtr").append(`
+                <div class="fav-prjs">
+                    <div class="fav-prjs__title">
+                        <p>Favourites</p>
+                    </div>
+                    <div id="favProjectContainer" class="fav-prjs__prj-ctr">
+                    </div>
                 </div>
-                <div id="favProjectContainer" class="fav-prjs__prj-ctr">
-                </div>
-            `;
-            asideCtr.appendChild(favPrjCtr);
+            `);
         }
     });
+    if (isThereFav === false) {
+        $(".fav-prjs").remove();
+    }
+
     // Fills both (fav and not fav) containers with projects (DOM)
     userData.projects.forEach(projectProperties => {
         // projects ctr
@@ -141,7 +145,7 @@ function createDashboardMainCtr() {
     });
 
     // Random Advice Component
-    $.get("https://api.quotable.io/quotes?tags=inspirational|inspiration?maxLength=50", function (data, statusCode) {
+    $.get("https://api.quotable.io/quotes?tags=inspirational|inspiration?maxLength=25", function (data, statusCode) {
         if (statusCode == "success") {
             let quoteNumber = Math.floor(Math.random() * (data.results.length - 1) + 1);
             let randomQuote = String('"' + data.results[quoteNumber].content + '" -' + data.results[quoteNumber].author);
@@ -164,12 +168,8 @@ function createDashboardMainCtr() {
 function createProjectTopBarDom(projectProperties) {
     // Set user last location
     if ((userData.userLastLocation.projectId != projectProperties.id) || (userData.userLastLocation.menuSection == true)) {
-        userData.userLastLocation.menuSection = false;
-        userData.userLastLocation.menuSectionName = undefined;
-        userData.userLastLocation.projectStatus = true;
-        userData.userLastLocation.projectId = projectProperties.id;
-        userData.userLastLocation.projectColor = projectProperties.color;
-        // saveDataToDB();
+        userData.userLastLocation.specificProject(projectProperties);
+        saveDataToDB();
     }
 
     // Check the project status
@@ -211,6 +211,8 @@ function createProjectTopBarDom(projectProperties) {
                 else if (projectProperties.fav == false) {
                     projectProperties.fav = true;
                 }
+                reloadTab();
+                realoadAsidePrjs();
                 saveDataToDB();
             }
         });
@@ -335,16 +337,7 @@ function createProjectTopBarDom(projectProperties) {
 function createOverviewDOM(projectProperties) {
     // Save last location
     if ((userData.userLastLocation.generalOverviewStatus === false) || (userData.userLastLocation.projectId != projectProperties.id)) {
-        userData.userLastLocation = new lastLocation({
-            "menuSection": false,
-            "menuSectionName": undefined,
-            "generalOverviewStatus": true,
-            "projectStatus": true,
-            "projectId": projectProperties.id,
-            "projectColor": projectProperties.color,
-            "specificTabStatus": false,
-            "tabId": undefined
-        });
+        userData.userLastLocation.overviewTab(projectProperties);
         saveDataToDB();
     }
 
@@ -526,16 +519,7 @@ function createTabDom(tabProperties) {
     if ((userData.userLastLocation.tabId != tabProperties.id) || (userData.userLastLocation.specificTabStatus === false)) {
         userData.projects.forEach(projectProperties => {
             if (projectProperties.id == tabProperties.tabOf) {
-                userData.userLastLocation = new lastLocation({
-                    "menuSection": false,
-                    "menuSectionName": undefined,
-                    "generalOverviewStatus": false,
-                    "projectStatus": true,
-                    "projectId": projectProperties.id,
-                    "projectColor": projectProperties.color,
-                    "specificTabStatus": true,
-                    "tabId": tabProperties.id
-                });
+                userData.userLastLocation.specificTab(projectProperties, tabProperties);
                 saveDataToDB();
             }
         });

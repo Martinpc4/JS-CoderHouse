@@ -325,6 +325,7 @@ function goalsEventsListeners() {
                "name": goalName
            };
            newGoal = new goal(newGoal);
+           console.log(newGoal);
            // Add the goal
            userData.projects.forEach(projectProperties => {
                if (projectProperties.id == userData.userLastLocation.projectId) {

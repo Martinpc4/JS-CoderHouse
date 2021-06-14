@@ -390,7 +390,6 @@
             row-gap: 5px;
             //box modeling
             padding: 5px;
-            box-shadow: 0 1px 4px 0 rgba(21, 27, 38, 0.07);
             &__name {
                 p {
                     font-size: 1rem;
@@ -519,9 +518,6 @@
                 align-content: center;
                 column-gap: 10px;
                 &:hover {
-                    p {
-                        color: #{$semantic-quaternary};
-                    }
                     svg {
                         display: block;
                     }
