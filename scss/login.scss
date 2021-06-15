@@ -1,0 +1,105 @@
+@import "colors.scss";
+
+body {
+    // box modeling
+    height: 100vh;
+    width: 100vw;
+    // grid father
+    display: grid;
+    grid-template-columns: .6fr 1fr;
+    grid-template-rows: 1fr;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.banner {
+    // grid son
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    // flexbox
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    img {
+        width: 70%;
+    }
+}
+.login {
+    // grid son
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    // box modeling
+    height: 35Vh;
+    width: 100%;
+    // borders
+    background-color: #1D8CA6;
+    border-top-left-radius: 10rem;
+    border-bottom-left-radius: 10rem;
+    // grid father
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    grid-template-rows: 1fr;
+    align-items: center;
+    &__icon {
+        // flexbox
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        // box modeling
+        margin-left: 20px;
+        height: 100%;
+        padding: 20%;
+        svg {
+            height: max-content;
+            fill: white;
+        }
+    }
+    &__form {
+        // grid father
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+    }
+}
+
+.register {
+    // grid son
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    // box modeling
+    height: 35Vh;
+    width: 100%;
+    // borders
+    background-color: #1D8CA6;
+    border-top-left-radius: 10rem;
+    border-bottom-left-radius: 10rem;
+    // grid father
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    grid-template-rows: 1fr;
+    align-items: center;
+    &__icon {
+        // flexbox
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        // box modeling
+        margin-left: 30px;
+        height: 100%;
+        padding: 20%;
+        svg {
+            height: max-content;
+            fill: white;
+        }
+    }
+    &__form {
+        // grid father
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 20px;
+        row-gap: 10px;
+    }
+}

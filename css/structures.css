@@ -1,19 +1,35 @@
-.input {
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 1px;
-  outline: none;
-  height: 30px;
-  width: 100%;
-  padding: 5px 5px;
+.label {
+  color: #1f1f1f;
+  display: block;
   font-size: 1rem;
+  line-height: 18px;
+  margin-bottom: 5px;
+}
+
+.input {
+  outline: none;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 1rem;
+  line-height: 20px;
+  border: 1px solid #bdbdbd;
+  border-radius: 2px;
 }
 
 .btn {
-  padding: 5px 10px;
   cursor: pointer;
-  font-size: .9rem;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 1rem;
+  line-height: 24px;
+  font-weight: 500;
+  color: white;
+  border: none;
   border-radius: 3px;
+  padding: 6px 15px;
+  text-align: center;
+  -webkit-transition: background-color 250ms ease-out 0s, color 250ms ease-out 0s, -webkit-box-shadow 250ms ease-out 0s;
+  transition: background-color 250ms ease-out 0s, color 250ms ease-out 0s, -webkit-box-shadow 250ms ease-out 0s;
+  transition: background-color 250ms ease-out 0s, box-shadow 250ms ease-out 0s, color 250ms ease-out 0s;
+  transition: background-color 250ms ease-out 0s, box-shadow 250ms ease-out 0s, color 250ms ease-out 0s, -webkit-box-shadow 250ms ease-out 0s;
 }
 
 .btn--orange {

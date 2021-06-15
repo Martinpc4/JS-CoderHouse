@@ -3,8 +3,9 @@ let userData = {}; // includes id, name, last name, projects, config
 
 // ! Retrieve storage from Mongo DB 
 $.get("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej/service/TaskTabs-API/incoming_webhook/webhook-user-data?secret=TaskTabs-user-data-fdsg68j7hfjl56468sert4y68ty3jk7safg",
-    { "userName": "testing-user", "userPassword": "testing-password" },
+    { "userId" : JSON.parse(localStorage.getItem("userData")).userId},
     function (data, textStatus, jqXHR) {
+        localStorage.setItem("userData", JSON.stringify({"userId" : "60c25fb70f6965fbb440d9ae"}))
         if (data != null) {
             // * Instance the data from MongoDB to classes from the app
             let userProjects = [];
@@ -129,11 +130,11 @@ function createUserData(userDataProperties) {
 
 function saveDataToDB() {
     // * Sent data to DB
-    $.post("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej/service/TaskTabs-API/incoming_webhook/webhook-projects-data?secret=TasksTabs-API-3548653s47df8sd4g78ftjh636f786hadf",
-    { "userId": "684324812383548613", "userLastLocation": JSON.stringify(userData.userLastLocation), "projects": JSON.stringify(userData.projects) },
-    function (data, textStatus, jqXHR) {
-    }
-    );
+    // $.post("https://webhooks.mongodb-realm.com/api/client/v2.0/app/tasktabs-api-hqqej/service/TaskTabs-API/incoming_webhook/webhook-projects-data?secret=TasksTabs-API-3548653s47df8sd4g78ftjh636f786hadf",
+    // { "userId": "684324812383548613", "userLastLocation": JSON.stringify(userData.userLastLocation), "projects": JSON.stringify(userData.projects) },
+    // function (data, textStatus, jqXHR) {
+    // }
+    // );
     // * Save data in Local Storage
     localStorage.setItem("userProjects", JSON.stringify(userData.projects));
     localStorage.setItem("userLastLocation", JSON.stringify(userData.userLastLocation));
