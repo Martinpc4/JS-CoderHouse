@@ -79,7 +79,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-left: 20px;
+  margin-left: 30px;
   height: 100%;
   padding: 20%;
 }
@@ -143,9 +143,7 @@ body {
 }
 
 .register__icon svg {
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
+  height: 100%;
   fill: white;
 }
 

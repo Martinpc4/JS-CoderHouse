@@ -58,10 +58,12 @@ function asideOtherEventListeners() {
             $(".alertMax").remove();
         });
         // Capture data submited by user
+        console.log(userData.userConfig.theme);
         $("#alertMaxConfigForm").submit((e) => {
             e.preventDefault();
-            if ($("#alertMaxTheme").val() != userConfig.theme) {
+            if ($("#alertMaxTheme").val() != userData.userConfig.theme) {
                 userData.userConfig.theme = $("#alertMaxTheme").val();
+                console.log(userData.userConfig.theme);
             }
             saveDataToDB();
         });
