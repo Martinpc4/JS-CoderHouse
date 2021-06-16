@@ -23,7 +23,41 @@ function asideMenuEventListeners () {
 function asideOtherEventListeners() {
     // * Feedback
     $("#asideOtherFeedbackBtn").on("click", function () {
-        // TODO Finish the configuration of the feedback btn
+        $("body").prepend(`
+            <div class="alertMax">
+                <div class="alertMax__ctr">
+                    <div class="alertMax__info">
+                        <p>Feedback!</p>
+                        <svg id="alertMaxBtnClose" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M5.72 5.72a.75.75 0 011.06 0L12 10.94l5.22-5.22a.75.75 0 111.06 1.06L13.06 12l5.22 5.22a.75.75 0 11-1.06 1.06L12 13.06l-5.22 5.22a.75.75 0 01-1.06-1.06L10.94 12 5.72 6.78a.75.75 0 010-1.06z"/>
+                        </svg>
+                    </div>
+                    <form id="alertMaxFeedbackForm" class="alertMax__form" action="">
+                        <div class="alertMax__form__input">
+                            <label for="topicName">Topic</label>
+                            <input id="alertMaxTopicName" class="input" type="text" name="topicName" placeholder="Bug report...">
+                        </div>
+                        <div class="alertMax__form__input" style="grid-column: 1 / 3 !important;">
+                            <label for="userMessage">Message</label>
+                            <textarea id="alertMaxUserMessage" class="textarea" name="userMessage" placeholder="Describe the issue"></textarea>
+                        </div>
+                        <div class="alertMax__form__buttons" style="grid-column: 1 / 3 !important;">
+                            <input class="btn btn--blue" type="submit" value="Save">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `);
+        // Close feedback alert
+        $("#alertMaxBtnClose").on("click", () => {
+            $(".alertMax").remove();
+        });
+        // Capture user data from feedback
+        $("#alertMaxFeedbackForm").submit(function (e) { 
+            e.preventDefault();
+            const userTopicName = $("#alertMaxTopicName").val();
+            const userMesasage = $("#alertMaxUserMessage").val();
+        });
     });
 
     // * Configuration
@@ -39,6 +73,18 @@ function asideOtherEventListeners() {
                         </svg>
                     </div>
                     <form id="alertMaxConfigForm" class="alertMax__form" action="">
+                        <div class="alertMax__form__input">
+                            <label for="userName">Name</label>
+                            <input id="alertMaxUserName" class="input" type="text" name="userName" placeholder="${userData.name}">
+                        </div>
+                        <div class="alertMax__form__input">
+                            <label for="userLastName">Lastname</label>
+                            <input id="alertMaxUserLastName" class="input" type="text" name="userLastName" placeholder="${userData.lastName}">
+                        </div>
+                        <div class="alertMax__form__input">
+                            <label for="userEmail">Email</label>
+                            <input id="alertMaxUserEmail" class="input" type="text" name="userEmail" placeholder="${userData.email}">
+                        </div>
                         <div class="alertMax__form__input">
                             <label for="theme">Theme</label>
                             <select name="theme" id="alertMaxTheme" class="select">
@@ -58,14 +104,34 @@ function asideOtherEventListeners() {
             $(".alertMax").remove();
         });
         // Capture data submited by user
-        console.log(userData.userConfig.theme);
         $("#alertMaxConfigForm").submit((e) => {
             e.preventDefault();
+
+            const userName = $("#alertMaxUserName").val();
+            const userLastName = $("#alertMaxUserLastName").val();
+            const userEmail = $("#alertMaxUserEmail").val();
+
+            // If the user name entered is not empty and different from the one that is currently assign, it replaces it
+            if ((userName != "") && (userName != userData.name)) {
+                userData.name = userName;
+            }
+            // If the lastname entered is not empty and different from the one that is currently assign, it replaces it
+            if ((userLastName != "") && (userLastName != userData.lastName)) {
+                userData.lastName = userLastName;
+            }
+            // If the email entered is not empty and different from the one that is currently assign, it replaces it
+            if ((userEmail != "") && (userEmail != userData.email)) {
+                userData.email = userEmail;
+            }
+
             if ($("#alertMaxTheme").val() != userData.userConfig.theme) {
                 userData.userConfig.theme = $("#alertMaxTheme").val();
-                console.log(userData.userConfig.theme);
             }
+
+            // save data to db
             saveDataToDB();
+            // removes the alert max dom
+            $(".alertMax").remove();
         });
     });
 }

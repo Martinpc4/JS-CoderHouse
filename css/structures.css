@@ -26,10 +26,7 @@
   border-radius: 3px;
   padding: 6px 15px;
   text-align: center;
-  -webkit-transition: background-color 250ms ease-out 0s, color 250ms ease-out 0s, -webkit-box-shadow 250ms ease-out 0s;
-  transition: background-color 250ms ease-out 0s, color 250ms ease-out 0s, -webkit-box-shadow 250ms ease-out 0s;
   transition: background-color 250ms ease-out 0s, box-shadow 250ms ease-out 0s, color 250ms ease-out 0s;
-  transition: background-color 250ms ease-out 0s, box-shadow 250ms ease-out 0s, color 250ms ease-out 0s, -webkit-box-shadow 250ms ease-out 0s;
 }
 
 .btn--orange {
@@ -53,15 +50,17 @@
 }
 
 .textarea {
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  border-radius: 1px;
-  height: 75px;
+  border: 1px solid #bdbdbd;
+  border-radius: 2px;
   width: 100%;
-  padding: 5px 5px;
+  padding: 8px 12px;
+  height: 75px;
   font-size: 1rem;
+  line-height: 20px;
   outline: none;
   resize: none;
   overflow: auto;
+  outline: none;
 }
 
 .select {
@@ -73,4 +72,3 @@
   padding: 5px 5px;
   font-size: .9rem;
 }
-/*# sourceMappingURL=structures.css.map */

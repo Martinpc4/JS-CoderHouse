@@ -20,9 +20,6 @@
     border-radius: 2px;
 }
 .btn {
-    // // box modeling
-    // padding: 5px 10px;
-    // // special properties
     cursor: pointer;
     // font
     font-size: 1rem;
@@ -56,18 +53,21 @@
 }
 .textarea {
     // border
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    border-radius: 1px;
+    border: 1px solid rgb(189, 189, 189);
+    border-radius: 2px;
     // box modeling
-    height: 75px;
     width: 100%;
-    padding: 5px 5px;
-    // font
+    padding: 8px 12px;
+    height: 75px;
+    // font properties
     font-size: 1rem;
+    line-height: 20px;
     // special properties
     outline: none;
     resize: none;
     overflow: auto;
+    // special properties
+    outline: none;
 }
 .select {
     // border

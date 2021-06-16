@@ -67,6 +67,8 @@ function realoadAsidePrjs() {
             `);
         }
     });
+
+    asideProjectsEventListeners();
 }
 
 // ! Menu (DOM functions)

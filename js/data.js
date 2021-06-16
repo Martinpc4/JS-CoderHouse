@@ -93,8 +93,8 @@ if (JSON.parse(localStorage.getItem("userData")) != undefined) {
                 // * Instance the user from MongoDB
                 userData = new user({
                     // user sensitive data
-                    "userId": data.userId,
-                    "userName": data.userName,
+                    "id": data.userId,
+                    "email" : data.userEmail,
                     // user non-senitive data
                     "name": data.name,
                     "lastName": data.lastName,

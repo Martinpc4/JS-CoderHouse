@@ -50,7 +50,8 @@ class lastLocation {
 // * Users Class
 class user {
     constructor(userProperties) {
-        this.userId = userProperties.userId;
+        this.id = userProperties.id;
+        this.email = userProperties.email;
         this.name = userProperties.name;
         this.lastName = userProperties.lastName;
         this.userConfig = userProperties.userConfig;
