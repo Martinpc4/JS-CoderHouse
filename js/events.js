@@ -1,16 +1,16 @@
 // ! Menu
-function asideMenuEventListeners () {
+function asideMenuEventListeners() {
     $("#AsideMenuDashboardBtn").click(() => {
         // save last location (when loaded, it will open there the Dashboard section)
         userData.userLastLocation = new lastLocation({
-            "menuSection" : true,
-            "menuSectionName" : "menu",
-            "generalOverviewStatus" : false,
-            "projectStatus" : false,
-            "projectId" : undefined,
-            "projectColor" : undefined,
-            "specificTabStatus" : false,
-            "tabId" : undefined
+            "menuSection": true,
+            "menuSectionName": "menu",
+            "generalOverviewStatus": false,
+            "projectStatus": false,
+            "projectId": undefined,
+            "projectColor": undefined,
+            "specificTabStatus": false,
+            "tabId": undefined
         });
         saveDataToDB();
 
@@ -53,7 +53,7 @@ function asideOtherEventListeners() {
             $(".alertMax").remove();
         });
         // Capture user data from feedback
-        $("#alertMaxFeedbackForm").submit(function (e) { 
+        $("#alertMaxFeedbackForm").submit(function (e) {
             e.preventDefault();
             const userTopicName = $("#alertMaxTopicName").val();
             const userMesasage = $("#alertMaxUserMessage").val();
@@ -176,23 +176,23 @@ function asideProjectsEventListeners() {
             $(".alertMin").remove();
         });
         // Capture data
-        $("#alertMinForm").submit(function (e) { 
+        $("#alertMinForm").submit(function (e) {
             e.preventDefault();
-           // storing user given values in them
-           let projectName = String($("#alertMinProjectName").val());
-           let projectColor = String($("#alertMinProjectColor").val());
-           if (projectName !== "") {
-               // object creation from user data
-               let newProject = { "name": projectName, "color": projectColor };
-               newProject = new project(newProject);
-               userData.projects.push(newProject);
-               // Save data in DB
-               saveDataToDB();
-               // Create Project DOM
-               createProjectTopBarDom(newProject);
-               createOverviewDOM(newProject);
-               realoadAsidePrjs();
-           } 
+            // storing user given values in them
+            let projectName = String($("#alertMinProjectName").val());
+            let projectColor = String($("#alertMinProjectColor").val());
+            if (projectName !== "") {
+                // object creation from user data
+                let newProject = { "name": projectName, "color": projectColor };
+                newProject = new project(newProject);
+                userData.projects.push(newProject);
+                // Save data in DB
+                saveDataToDB();
+                // Create Project DOM
+                createProjectTopBarDom(newProject);
+                createOverviewDOM(newProject);
+                realoadAsidePrjs();
+            }
         });
     });
 
@@ -248,16 +248,16 @@ function tasksEventsListeners() {
             $(".alertMin").remove();
         });
         // Capture alertMin data
-        $("#alertMinForm").submit(function (e) { 
+        $("#alertMinForm").submit(function (e) {
             e.preventDefault();
             // Create an object with user's given data
             let newTask = {
-                "id" : randomId(() => {
+                "id": randomId(() => {
                     userData.projects.forEach(projectProperties => {
                         if (projectProperties.id == userData.userLastLocation.projectId) {
                             projectProperties.tabs.forEach(tabProperties => {
                                 if (tabProperties.id == userData.userLastLocation.tabId) {
-                                    return(tabProperties.tasks);
+                                    return (tabProperties.tasks);
                                 }
                             });
                         }
@@ -290,7 +290,7 @@ function tasksEventsListeners() {
                         });
                     }
                 });
-            } 
+            }
         });
     });
 
@@ -312,7 +312,7 @@ function tasksEventsListeners() {
                                 // reloads the tab after the jq animation
                                 setTimeout(() => {
                                     reloadTab();
-                                }, 400);
+                                }, 800);
                             }
                             else {
                                 i++;
@@ -374,41 +374,50 @@ function goalsEventsListeners() {
         });
 
         // Capture alertMin data
-        $("#alertMinForm").submit(function (e) { 
+        $("#alertMinForm").submit(function (e) {
             e.preventDefault();
-           // storing user given values in them
-           let goalName = String($("#alertMinGoalName").val());
-           // object creation with user given data
-           let newGoal = {
-               "id" : randomId(()=> {
-                   userData.projects.forEach(projectProperties => {
-                       if (projectProperties.id == userData.userLastLocation.projectId) {
-                           projectProperties.tabs.forEach(tabProperties => {
-                               if (tabProperties.id == userData.userLastLocation.tabId) {
-                                   return(tabProperties.goals);
-                               }
-                           });
-                       }
-                   });
-               }),
-               "name": goalName
-           };
-           newGoal = new goal(newGoal);
-           console.log(newGoal);
-           // Add the goal
-           userData.projects.forEach(projectProperties => {
-               if (projectProperties.id == userData.userLastLocation.projectId) {
-                   projectProperties.tabs.forEach(tabProperties => {
-                       if (tabProperties.id == userData.userLastLocation.tabId) {
-                           tabProperties.goals.push(newGoal);
-                           saveDataToDB();
-                           $(".alertMin").remove();
-                           newGoal.generateDOM(true);
-                           $(`#${newGoal.id}`).fadeIn();
-                       }
-                   });
-               }
-           });
+            // storing user given values in them
+            let goalName = String($("#alertMinGoalName").val());
+            // object creation with user given data
+            let newGoal = {
+                "id": randomId(() => {
+                    userData.projects.forEach(projectProperties => {
+                        if (projectProperties.id == userData.userLastLocation.projectId) {
+                            projectProperties.tabs.forEach(tabProperties => {
+                                if (tabProperties.id == userData.userLastLocation.tabId) {
+                                    return (tabProperties.goals);
+                                }
+                            });
+                        }
+                    });
+                }),
+                "name": goalName
+            };
+            newGoal = new goal(newGoal);
+            console.log(newGoal);
+            // Add the goal
+            userData.projects.forEach(projectProperties => {
+                if (projectProperties.id == userData.userLastLocation.projectId) {
+                    projectProperties.tabs.forEach(tabProperties => {
+                        if (tabProperties.id == userData.userLastLocation.tabId) {
+                            // add the new goal to the tab goal's array
+                            tabProperties.goals.push(newGoal);
+                            // saves the userData in the DB
+                            saveDataToDB();
+                            // removes the alert DOM
+                            $(".alertMin").remove();
+                            // generates the goal's DOM
+                            newGoal.generateDOM(true);
+                            // applies jq animation
+                            $(`#${newGoal.id}`).fadeIn();
+                            // reloads the tab after the jq animation
+                            setTimeout(() => {
+                                reloadTab();
+                            }, 500);
+                        }
+                    });
+                }
+            });
         });
     });
 
@@ -421,9 +430,17 @@ function goalsEventsListeners() {
                         let i = 0;
                         tabProperties.goals.forEach(goalProperties => {
                             if (goalProperties.id == e.target.parentNode.parentNode.id) {
+                                // removes the goal from the tab goal's array
                                 tabProperties.goals.splice(i, 1);
+                                // saves the userdata in the DB
                                 saveDataToDB();
+                                // applies jq animation
                                 $(`#${goalProperties.id}`).fadeOut(800);
+                                // reloads the tab after jq animation
+                                // reloads the tab after the jq animation
+                                setTimeout(() => {
+                                    reloadTab();
+                                }, 800);
                             }
                             else {
                                 i++;
@@ -449,7 +466,7 @@ function goalsEventsListeners() {
                     }
                 });
             }
-        }); 
+        });
     });
 }
 
@@ -489,16 +506,16 @@ function remindersEventListeners() {
             $(".alertMin").remove();
         });
         // Capture Data
-        $("#alertMinForm").submit(function (e) { 
+        $("#alertMinForm").submit(function (e) {
             e.preventDefault();
             // storing user given values in them
             let newReminder = {
-                "id" : randomId(()=> {
+                "id": randomId(() => {
                     userData.projects.forEach(projectProperties => {
                         if (projectProperties.id == userData.userLastLocation.projectId) {
                             projectProperties.tabs.forEach(tabProperties => {
                                 if (tabProperties.id == userData.userLastLocation.tabId) {
-                                    return(tabProperties.reminders);
+                                    return (tabProperties.reminders);
                                 }
                             });
                         }
@@ -515,13 +532,20 @@ function remindersEventListeners() {
                     if (projectProperties.id == userData.userLastLocation.projectId) {
                         projectProperties.tabs.forEach(tabProperties => {
                             if (tabProperties.id == userData.userLastLocation.tabId) {
+                                // adds the reminder to the tab reminder's array
                                 tabProperties.reminders.push(newReminder);
+                                // generates the DOM of the reminder
                                 newReminder.generateDOM(true);
+                                // saves the data in the DB
                                 saveDataToDB();
+                                // removes the alert DOM
                                 $(".alertMin").remove();
+                                // applies jq animation to the reminder
                                 $(`#${newReminder.id}`).fadeIn();
-                                
-                                reloadTab();
+                                // reloads the tab after the animation
+                                setTimeout(() => {
+                                    reloadTab();
+                                }, 500);
                             }
                         });
                     }
@@ -540,9 +564,16 @@ function remindersEventListeners() {
                         let i = 0;
                         tabProperties.reminders.forEach(reminderProperties => {
                             if (reminderProperties.id == e.target.parentNode.parentNode.id) {
+                                // removes the reminder from the tab reminder's array
                                 tabProperties.reminders.splice(i, 1);
+                                // saves the data to the DB
                                 saveDataToDB();
+                                // applies jq animation
                                 $(`#${reminderProperties.id}`).fadeOut(800);
+                                // reloads the tab after the jq animation
+                                setTimeout(() => {
+                                    reloadTab();
+                                }, 500);
                             }
                             else {
                                 i++;
@@ -568,6 +599,6 @@ function remindersEventListeners() {
                     }
                 });
             }
-        }); 
+        });
     });
 }

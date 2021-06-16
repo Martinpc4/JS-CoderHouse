@@ -649,7 +649,12 @@ function createTabDom(tabProperties) {
             });
         }
         if (tabProperties.goals != undefined) {
-            tabProperties.goals.forEach(goalProperties => {
+            const goalsNotDone = tabProperties.goals.filter(goalProperties => goalProperties.doneState === false);
+            goalsNotDone.forEach(goalProperties => {
+                goalProperties.generateDOM(false);
+            });
+            const goalsDone = tabProperties.goals.filter(goalProperties => goalProperties.doneState === true);
+            goalsDone.forEach(goalProperties => {
                 goalProperties.generateDOM(false);
             });
         }
