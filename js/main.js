@@ -69,6 +69,7 @@ function realoadAsidePrjs() {
         }
     });
 
+    // loads the project-related events in the aside events
     asideProjectsEventListeners();
 }
 
@@ -357,6 +358,10 @@ function createProjectTopBarDom(projectProperties) {
                 if (prjProperties.id == projectProperties.id) {
                     userData.projects.splice(i, 1);
                     saveDataToDB();
+                    $(".alertMin").remove();
+                    realoadAsidePrjs();
+                    createDashboardMainCtr();
+                    createDashboardTopBar();
                 }
                 else {
                     i++;

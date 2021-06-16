@@ -108,7 +108,6 @@ if (JSON.parse(localStorage.getItem("userData")) != undefined) {
                 realoadAsidePrjs();
                 
                 // * Set aside events listeners
-                asideProjectsEventListeners();
                 asideOtherEventListeners();
                 asideMenuEventListeners();
                 

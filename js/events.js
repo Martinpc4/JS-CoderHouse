@@ -139,7 +139,7 @@ function asideOtherEventListeners() {
 // ! Projects
 function asideProjectsEventListeners() {
     // * Create a new project from btn (+)
-    document.getElementById("prjsBtnCreate").addEventListener("click", () => {
+    $("#prjsBtnCreate").on("click", function () {
         $("#mainCtr").append(`
             <div class="alertMin">
                 <div class="alertMin__ctr">
@@ -165,7 +165,7 @@ function asideProjectsEventListeners() {
                             </select>
                         </div>
                         <div class="alertMin__form__buttons">
-                            <input class="btn btn-blue" type="submit">
+                            <input class="btn btn--blue" type="submit">
                         </div>
                     </form>
                 </div>
@@ -191,6 +191,7 @@ function asideProjectsEventListeners() {
                // Create Project DOM
                createProjectTopBarDom(newProject);
                createOverviewDOM(newProject);
+               realoadAsidePrjs();
            } 
         });
     });
