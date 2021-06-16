@@ -984,11 +984,14 @@ main {
 .tasks__ctr .task {
   display: grid;
   grid-template-columns: 6px 1fr;
+  grid-template-rows: 1fr;
   box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.04);
   border-radius: 5px;
 }
 
 .tasks__ctr .task__bar {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
   height: 100%;
   width: 100%;
   border-top-left-radius: 5px;
@@ -999,7 +1002,7 @@ main {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr max-content max-content;
   grid-template-rows: auto;
   row-gap: 10px;
   column-gap: 10px;
@@ -1014,27 +1017,27 @@ main {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   margin: 0;
-  font-size: 1.15rem;
+  font-size: 1.10rem;
 }
 
 .tasks__ctr .task__dueDate {
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
   padding: 0;
   margin: 0;
-  font-size: 1rem;
+  font-size: .95rem;
 }
 
 .tasks__ctr .task__description {
   grid-column: 1 / 4;
-  grid-row: 3 / 4;
+  grid-row: 2 / 3;
   margin: 0;
   padding: 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .tasks__ctr .task__actions {
-  grid-column: 2 / 3;
+  grid-column: 3 / 4;
   grid-row: 1 / 2;
   display: none;
   justify-content: flex-end;

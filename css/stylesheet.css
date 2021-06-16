@@ -50,4 +50,16 @@
 .border-orange {
   border: #E69541 2px solid !important;
 }
+
+.background-done {
+  background-color: #cccccc !important;
+}
+
+.fill-done {
+  fill: #cccccc !important;
+}
+
+.font-done {
+  color: #cccccc !important;
+}
 /*# sourceMappingURL=stylesheet.css.map */

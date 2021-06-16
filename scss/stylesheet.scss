@@ -44,3 +44,13 @@
 .border-orange {
     border: #{$semantic-quaternary} 2px solid !important;
 }
+
+.background-done {
+    background-color: #{$color-done} !important;
+}
+.fill-done {
+    fill: #{$color-done} !important;
+}
+.font-done {
+    color: #{$color-done} !important;
+}
