@@ -616,34 +616,18 @@ main {
   grid-row: 1 / 2;
   display: grid;
   grid-template-columns: 1fr 30%;
-  grid-template-rows: repeat(3, max-content);
+  grid-template-rows: 1fr;
   justify-content: center;
   align-content: flex-start;
 }
 
-.menu-section__random-quote {
-  grid-row: 1 / 2;
-  grid-column: 2 / 3;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid rgb(225, 230, 232);
-  border-top: 1px solid rgb(225, 230, 232);
-}
-
-.menu-section__random-quote p {
-  padding: 20px 10px;
-  font-style: italic;
-}
-
 .menu-section__prjs-stats {
   grid-column: 2 / 3;
-  grid-row: 2 / 3;
+  grid-row: 1 / 2;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
-  align-content: center;
+  align-content: flex-start;
   row-gap: 20px;
   column-gap: 20px;
   padding-top: 20px;
@@ -652,7 +636,6 @@ main {
 .menu-section__prjs-stats__prj {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(2, max-content);
   justify-content: center;
   justify-items: center;
   align-content: center;
@@ -682,6 +665,16 @@ main {
   font-size: 1.75rem;
 }
 
+.menu-section__prjs-info {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  display: grid;
+  grid-template-columns: 1 / 2;
+  grid-template-rows: repeat(3, 1fr);
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .prj-overview {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
@@ -693,7 +686,7 @@ main {
   column-gap: 1vw;
 }
 
-.prj-overview .tabs-stat {
+.tabs-stat {
   grid-column: 1 / 2;
   grid-row: 1 / 3;
   display: grid;
@@ -703,7 +696,7 @@ main {
   justify-content: flex-start;
 }
 
-.prj-overview .tabs-stat__hrds {
+.tabs-stat__hrds {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   display: grid;
@@ -715,16 +708,16 @@ main {
   padding: 0 5px;
 }
 
-.prj-overview .tabs-stat__hrds__ctr-hdr {
+.tabs-stat__hrds__ctr-hdr {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
 }
 
-.prj-overview .tabs-stat__hrds__ctr-hdr p {
+.tabs-stat__hrds__ctr-hdr p {
   font-size: 1.1rem;
 }
 
-.prj-overview .tabs-stat__hrds__type-hdr {
+.tabs-stat__hrds__type-hdr {
   grid-row: 1 / 2;
   grid-column: 2 / 3;
   display: grid;
@@ -733,17 +726,17 @@ main {
   align-content: center;
 }
 
-.prj-overview .tabs-stat__hrds__type-hdr__type {
+.tabs-stat__hrds__type-hdr__type {
   grid-row: 1 / 2;
 }
 
-.prj-overview .tabs-stat__hrds__type-hdr__type p {
+.tabs-stat__hrds__type-hdr__type p {
   text-align: center;
   font-size: 1.1rem;
   margin: 0;
 }
 
-.prj-overview .tabs-stat__hrds__actions {
+.tabs-stat__hrds__actions {
   grid-column: 3 / 4;
   grid-row: 1 / 2;
   display: flex;
@@ -752,11 +745,11 @@ main {
   align-content: center;
 }
 
-.prj-overview .tabs-stat__hrds__actions svg {
+.tabs-stat__hrds__actions svg {
   cursor: pointer;
 }
 
-.prj-overview .tabs-stat__ctr {
+.tabs-stat__ctr {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   display: grid;
@@ -767,7 +760,7 @@ main {
   padding-top: 5px;
 }
 
-.prj-overview .tabs-stat__ctr__tab {
+.tabs-stat__ctr__tab {
   grid-column: 1 / 2;
   display: grid;
   grid-template-columns: 1fr auto 26px;
@@ -776,11 +769,11 @@ main {
   column-gap: 10px;
 }
 
-.prj-overview .tabs-stat__ctr__tab:hover svg {
+.tabs-stat__ctr__tab:hover svg {
   display: block;
 }
 
-.prj-overview .tabs-stat__ctr__tab__hdr-ctr {
+.tabs-stat__ctr__tab__hdr-ctr {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   display: grid;
@@ -789,17 +782,17 @@ main {
   align-content: center;
 }
 
-.prj-overview .tabs-stat__ctr__tab__hdr-ctr__hdr {
+.tabs-stat__ctr__tab__hdr-ctr__hdr {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
 }
 
-.prj-overview .tabs-stat__ctr__tab__hdr-ctr__hdr p {
+.tabs-stat__ctr__tab__hdr-ctr__hdr p {
   font-size: 1rem;
   margin: 0;
 }
 
-.prj-overview .tabs-stat__ctr__tab__types {
+.tabs-stat__ctr__tab__types {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   display: grid;
@@ -808,17 +801,17 @@ main {
   align-content: center;
 }
 
-.prj-overview .tabs-stat__ctr__tab__types__type {
+.tabs-stat__ctr__tab__types__type {
   grid-row: 1 / 2;
 }
 
-.prj-overview .tabs-stat__ctr__tab__types__type p {
+.tabs-stat__ctr__tab__types__type p {
   font-size: 1rem;
   margin: 0;
   text-align: center;
 }
 
-.prj-overview .tabs-stat__ctr__tab__actions {
+.tabs-stat__ctr__tab__actions {
   grid-column: 3 / 4;
   grid-row: 1 / 2;
   display: flex;
@@ -827,7 +820,7 @@ main {
   align-content: center;
 }
 
-.prj-overview .tabs-stat__ctr__tab__actions svg {
+.tabs-stat__ctr__tab__actions svg {
   display: none;
   cursor: pointer;
 }

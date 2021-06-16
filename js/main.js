@@ -95,12 +95,89 @@ function createDashboardMainCtr() {
     $("#mainCtr").empty();
     $("#mainCtr").prepend(`
         <div class="menu-section">
-            <div class="menu-section__random-quote">
-            </div>
             <div id="menuSectionDashboardPrjStatsCtr" class="menu-section__prjs-stats">
+            </div>
+            <div id="menuSectionDashboardPrjInfo" calss="menu-section__prjs-info">
             </div>
         </div>
     `);
+
+    userData.projects.forEach(projectProperties => {
+        $("#menuSectionDashboardPrjInfo").append(`
+            <div class="tabs-stat">
+                <div class="tabs-stat__hrds">
+                    <div class="tabs-stat__hrds__ctr-hdr">
+                        <p>${projectProperties.name}'s Tabs</p>
+                    </div>
+                    <div class="tabs-stat__hrds__type-hdr">
+                        <div class="tabs-stat__hrds__type-hdr__type">
+                            <p>Tasks</p>
+                        </div>
+                        <div class="tabs-stat__hrds__type-hdr__type">
+                            <p>Goals</p>
+                        </div>
+                        <div class="tabs-stat__hrds__type-hdr__type">
+                            <p>Reminders</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="menuSectionDashboardPrjInfoCtr-${projectProperties.id}" class="tabs-stat__ctr">
+                </div>
+            </div>
+        `);
+        // Fill the overview projects container
+        projectProperties.tabs.forEach(tabProperties => {
+            if (tabProperties.overview === false) {
+                // Count the amount of tasks, goals and reminders that are not finished
+                let tasksNotFinished = 0;
+                let goalsNotFinished = 0;
+                let remindersNotFinished = 0;
+
+                if (tabProperties.tasks != undefined) {
+                    tabProperties.tasks.forEach(taskProperties => {
+                        if (taskProperties.doneState == false) {
+                            tasksNotFinished++;
+                        }
+                    });
+                }
+                if (tabProperties.goals != undefined) {
+                    tabProperties.goals.forEach(goalProperties => {
+                        if (goalProperties.doneState == false) {
+                            goalsNotFinished++;
+                        }
+                    });
+                }
+                if (tabProperties.reminders != undefined) {
+                    tabProperties.reminders.forEach(reminderProperties => {
+                        if (reminderProperties.doneState == false) {
+                            remindersNotFinished++;
+                        }
+                    });
+                }
+                // Create the DOM for a new tab
+                $(`#menuSectionDashboardPrjInfoCtr-${projectProperties.id}`).append(`
+                    <div id="${tabProperties.id}" class="tabs-stat__ctr__tab">
+                        <div class="tabs-stat__ctr__tab__hdr-ctr">
+                            <div class="tabs-stat__ctr__tab__hdr-ctr__hdr">
+                                <p>${tabProperties.name}</p>
+                            </div>
+                        </div>
+                        <div class="tabs-stat__ctr__tab__types">
+                            <div class="tabs-stat__ctr__tab__types__type">
+                                <p>${tasksNotFinished}</p>
+                            </div>
+                            <div class="tabs-stat__ctr__tab__types__type">
+                                <p>${goalsNotFinished}</p>
+                            </div>
+                            <div class="tabs-stat__ctr__tab__types__type">
+                                <p>${remindersNotFinished}</p>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+        });
+    });
 
     userData.projects.forEach(projectProperties => {
         let totalTGRCompleted = 0;
@@ -145,23 +222,6 @@ function createDashboardMainCtr() {
                 </div>
             </div>
         `);
-    });
-
-    // Random Advice Component
-    $.get("https://api.quotable.io/quotes?tags=inspirational|inspiration?maxLength=25", function (data, statusCode) {
-        if (statusCode == "success") {
-            let quoteNumber = Math.floor(Math.random() * (data.results.length - 1) + 1);
-            let randomQuote = String('"' + data.results[quoteNumber].content + '" -' + data.results[quoteNumber].author);
-            $(".menu-section__random-quote").prepend(`
-                <p>${randomQuote}</p>
-            `);
-        }
-        else if (statusCode != "success") {
-            console.log("Dashboard inspirational quote (error: " + statusCode + ")");
-            $(".menu-section__random-quote").prepend(`
-                <p>Quote error</p>
-            `);
-        }
     });
 }
 
