@@ -32,6 +32,7 @@ function realoadAsidePrjs() {
         if (projectProperties.fav === true) {
             isThereFav = true;
             $("#asideCtr").append(`
+                <!-- ! Project Container (fav) -->
                 <div class="fav-prjs">
                     <div class="fav-prjs__title">
                         <p>Favourites</p>
