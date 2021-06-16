@@ -44,7 +44,7 @@ function buildLoginDOM() {
                         localStorage.setItem("userData", JSON.stringify({
                             "userId": data.userId,
                         }))
-                        window.open("app.html", "_self");
+                        window.open("index.html", "_self");
                     }
                     else if (data == null) {
                         console.log("INVALID USERNAME OR PASSWORD");

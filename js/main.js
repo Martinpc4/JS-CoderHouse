@@ -574,7 +574,12 @@ function createTabDom(tabProperties) {
     // Generate existing Tasks, Goals and Reminders DOM
     $(`#${tabProperties.id}`).ready(function () {
         if (tabProperties.tasks != undefined) {
-            tabProperties.tasks.forEach(taskProperties => {
+            const tasksNotDone = tabProperties.tasks.filter(taskProperties => taskProperties.doneState === true);
+            tasksNotDone.forEach(taskProperties => {
+                taskProperties.generateDOM(false);
+            });
+            const tasksDone = tabProperties.tasks.filter(taskProperties => taskProperties.doneState === false);
+            tasksDone.forEach(taskProperties => {
                 taskProperties.generateDOM(false);
             });
         }
@@ -584,7 +589,12 @@ function createTabDom(tabProperties) {
             });
         }
         if (tabProperties.reminders != undefined) {
-            tabProperties.reminders.forEach(reminderProperties => {
+            const remindersDone = tabProperties.reminders.filter(reminderProperties => reminderProperties.doneState === false);
+            remindersDone.forEach(reminderProperties => {
+                reminderProperties.generateDOM(false);
+            });
+            const remidnersNotDone = tabProperties.reminders.filter(reminderProperties => reminderProperties.doneState === true);
+            remidnersNotDone.forEach(reminderProperties => {
                 reminderProperties.generateDOM(false);
             });
         }

@@ -293,11 +293,11 @@ function randomId(array) {
     let i = 0;
     let state = true;
     if (array.length == 0) {
-        id = Math.floor(Math.random() * (100000 - 1) + 1);
+        id = Math.floor(Math.random() * (10000000000000 - 1) + 1);
     }
     else {
         while (state === true) {
-            id = Math.floor(Math.random() * (100000 - 1) + 1);
+            id = Math.floor(Math.random() * (10000000000000 - 1) + 1);
             for (object of array) {
                 if (object.id == id) {
                     break;
@@ -326,9 +326,8 @@ function parseDate(date) {
     }
     else {
         date = String(date);
-        date = date.replaceAll(" ", "");
-        let dateArray = date.split("/");
-        let newDate = new Date(dateArray[2], (dateArray[1] - 1), dateArray[0])
+        let dateArray = date.split("-");
+        let newDate = new Date(dateArray[0], (dateArray[1] - 1), dateArray[2])
         return newDate;
     }
 }

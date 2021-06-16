@@ -229,7 +229,7 @@ function tasksEventsListeners() {
                         </div>
                         <div class="alertMin__form__input">
                             <label for="dueDate">Due date</label>
-                            <input id="alertMinTaskDueDate" class="input" type="" name="date" placeholder="dd/mm/yyyy">
+                            <input id="alertMinTaskDueDate" class="input" type="date" name="date">
                         </div>
                         <div class="alertMin__form__input--description">
                             <label for="description">Description</label>
@@ -473,7 +473,7 @@ function remindersEventListeners() {
                         </div>
                         <div class="alertMin__form__input">
                             <label for="dueDate">Due date</label>
-                            <input id="reminderDueDate" class="input" type="text" name="dueDate" placeholder="dd/mm/yyyy">
+                            <input id="reminderDueDate" class="input" type="date" name="dueDate">
                         </div>
                         <div class="alertMin__form__buttons">
                             <input class="btn btn--${userData.userLastLocation.projectColor}" type="submit">
