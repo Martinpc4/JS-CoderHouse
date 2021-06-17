@@ -496,6 +496,12 @@ function createOverviewDOM(projectProperties) {
                     }
                 });
             }
+            else if (tabName == "") {
+                // Removes the error class (error) if it already exists
+                $("#alertTabName").removeClass("error");
+                // Adds the error class (error)
+                $("#alertTabName").addClass("error");
+            }
         });
     });
 

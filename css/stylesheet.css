@@ -51,6 +51,11 @@
   border: #E69541 2px solid !important;
 }
 
+.error {
+  border-color: #DD7155 !important;
+  border-width: 2px !important;
+}
+
 .background-done {
   background-color: #cccccc !important;
 }

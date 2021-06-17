@@ -57,6 +57,36 @@ function asideOtherEventListeners() {
             e.preventDefault();
             const userTopicName = $("#alertMaxTopicName").val();
             const userMesasage = $("#alertMaxUserMessage").val();
+
+            if (userTopicName == "") {
+                // Removes the error class (color) if it exists
+                $("#alertMaxTopicName").removeClass("error");
+                // Adds the error class (color)
+                $("#alertMaxTopicName").addClass("error");
+            }
+            else {
+                // Removes the error class (color) if it exists
+                $("#alertMaxTopicName").removeClass("error");
+            }
+            if (userMesasage == "") {
+                // Removes the error class (color) if it exists
+                $("#alertMaxUserMessage").removeClass("error");
+                // Adds the error class (color)
+                $("#alertMaxUserMessage").addClass("error");
+            }
+            else {
+                // Removes the error class (color) if it exists
+                $("#alertMaxUserMessage").removeClass("error");
+            }
+            if ((userMesasage != "") && (userTopicName != "")) {
+                // This will be filled by the Backend developer
+                // $.post("url", data,
+                //     function (data, textStatus, jqXHR) {
+                        
+                //     },
+                //     "dataType"
+                // );
+            }
         });
     });
 
@@ -193,6 +223,12 @@ function asideProjectsEventListeners() {
                 createOverviewDOM(newProject);
                 realoadAsidePrjs();
             }
+            else if (projectName == "") {
+                // Removes the error class (error) if it already exists
+                $("#alertMinProjectName").removeClass("error");
+                // Adds the error class (error)
+                $("#alertMinProjectName").addClass("error");
+            }
         });
     });
 
@@ -290,6 +326,12 @@ function tasksEventsListeners() {
                         });
                     }
                 });
+            }
+            else if (newTask.name == "") {
+                // Removes the error class (error) if it already exists
+                $("#alertMinTaskName").removeClass("error");
+                // Adds the error class (error)
+                $("#alertMinTaskName").addClass("error");
             }
         });
     });
@@ -393,31 +435,38 @@ function goalsEventsListeners() {
                 }),
                 "name": goalName
             };
-            newGoal = new goal(newGoal);
-            console.log(newGoal);
-            // Add the goal
-            userData.projects.forEach(projectProperties => {
-                if (projectProperties.id == userData.userLastLocation.projectId) {
-                    projectProperties.tabs.forEach(tabProperties => {
-                        if (tabProperties.id == userData.userLastLocation.tabId) {
-                            // add the new goal to the tab goal's array
-                            tabProperties.goals.push(newGoal);
-                            // saves the userData in the DB
-                            saveDataToDB();
-                            // removes the alert DOM
-                            $(".alertMin").remove();
-                            // generates the goal's DOM
-                            newGoal.generateDOM(true);
-                            // applies jq animation
-                            $(`#${newGoal.id}`).fadeIn();
-                            // reloads the tab after the jq animation
-                            setTimeout(() => {
-                                reloadTab();
-                            }, 500);
-                        }
-                    });
-                }
-            });
+            if (newGoal.name != "") {
+                newGoal = new goal(newGoal);
+                // Add the goal
+                userData.projects.forEach(projectProperties => {
+                    if (projectProperties.id == userData.userLastLocation.projectId) {
+                        projectProperties.tabs.forEach(tabProperties => {
+                            if (tabProperties.id == userData.userLastLocation.tabId) {
+                                // add the new goal to the tab goal's array
+                                tabProperties.goals.push(newGoal);
+                                // saves the userData in the DB
+                                saveDataToDB();
+                                // removes the alert DOM
+                                $(".alertMin").remove();
+                                // generates the goal's DOM
+                                newGoal.generateDOM(true);
+                                // applies jq animation
+                                $(`#${newGoal.id}`).fadeIn();
+                                // reloads the tab after the jq animation
+                                setTimeout(() => {
+                                    reloadTab();
+                                }, 500);
+                            }
+                        });
+                    }
+                });
+            }
+            else if (newGoal.name == "") {
+                // Removes the error class (error) if it already exists
+                $("#alertMinGoalName").removeClass("error");
+                // Adds the error class (error)
+                $("#alertMinGoalName").addClass("error");
+            }
         });
     });
 
@@ -550,6 +599,12 @@ function remindersEventListeners() {
                         });
                     }
                 });
+            }
+            else if (newReminder.name == "") {
+                // Removes the error class (error) if it already exists
+                $("#reminderName").removeClass("error");
+                // Adds the error class (error)
+                $("#reminderName").addClass("error");
             }
         });
 

@@ -47,7 +47,12 @@ function buildLoginDOM() {
                         window.open("index.html", "_self");
                     }
                     else if (data == null) {
-                        console.log("INVALID USERNAME OR PASSWORD");
+                        // Removes the error class (color) if it exists
+                        $("#loginUserPassword").removeClass("error");
+                        $("#loginUserEmail").removeClass("error");
+                        // Adds the error class (color)
+                        $("#loginUserPassword").addClass("error");
+                        $("#loginUserEmail").addClass("error");
                     }
                     if (textStatus != "success") {
                         console.log(`There has been an error connecting with the database. Current status: ${textStatus}`);

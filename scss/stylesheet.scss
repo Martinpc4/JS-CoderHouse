@@ -44,7 +44,12 @@
 .border-orange {
     border: #{$semantic-quaternary} 2px solid !important;
 }
+.error {
+    border-color: #{$semantic-quintinary} !important;
+    border-width: 2px !important;
+}
 
+// Done colors
 .background-done {
     background-color: #{$color-done} !important;
 }
