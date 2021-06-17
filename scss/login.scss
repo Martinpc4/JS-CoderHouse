@@ -39,7 +39,8 @@ body {
     // grid father
     display: grid;
     grid-template-columns: repeat(2, max-content);
-    grid-template-rows: 1fr;
+    grid-template-rows: max-content;
+    align-content: center;
     align-items: center;
     &__icon {
         // flexbox
@@ -48,9 +49,8 @@ body {
         justify-content: center;
         align-items: center;
         // box modeling
-        margin-left: 30px;
-        height: 100%;
-        padding: 20%;
+        height: 100% !important;
+        padding: 0 6vw;
         svg {
             height: max-content;
             fill: white;
@@ -66,7 +66,7 @@ body {
 
 .register {
     // grid son
-    grid-column: 2 / 3;
+    grid-column: 2 / 4;
     grid-row: 1 / 2;
     // box modeling
     height: 35Vh;
@@ -89,7 +89,7 @@ body {
         // box modeling
         margin-left: 30px;
         height: 100%;
-        padding: 20%;
+        padding: 0 6vw;
         svg {
             height: max-content;
             fill: white;
